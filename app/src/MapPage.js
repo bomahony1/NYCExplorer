@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
+import { MAPS_API_KEY } from 'login.js';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,7 +65,7 @@ function MapPage() {
     // Load Google Maps API and call initMap after it's loaded
     const loadGoogleMapsAPI = () => {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAc2ICkoYP-tFmx4-Uevw8zBtIRz9_ZvoE&callback=initMap`;
+      script.src = "https://maps.googleapis.com/maps/api/js?key="+MAPS_API_KEY +"&callback=initMap";
       script.defer = true;
       script.async = true;
       document.body.appendChild(script);
