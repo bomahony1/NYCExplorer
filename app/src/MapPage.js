@@ -62,25 +62,31 @@ function SearchBar() {
 
 function MapPage() {
   useEffect(() => {
-    // Load Google Maps API and call initMap after it's loaded
     const loadGoogleMapsAPI = () => {
       const script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key="+MAPS_API_KEY +"&callback=initMap";
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=initMap`;
       script.defer = true;
       script.async = true;
+
       document.body.appendChild(script);
     };
 
-    window.initMap = () => {
+    const initMap = () => {
       const nyc = { lat: 40.7128, lng: -74.0060 };
-      // The map, centered at NYC
       new window.google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: nyc,
       });
     };
 
-    loadGoogleMapsAPI();
+    if (!window.google) {
+      // Google Maps script not loaded yet, so load it
+      window.initMap = initMap;
+      loadGoogleMapsAPI();
+    } else {
+      // Google Maps script already loaded, so directly call initMap
+      initMap();
+    }
 
     return () => {
       // Cleanup
