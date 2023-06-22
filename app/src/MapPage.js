@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { MAPS_API_KEY } from 'login.js';
+import { MAPS_API_KEY } from './login.js';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
