@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -67,22 +67,19 @@ function MapPage() {
       script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=initMap`;
       script.defer = true;
       script.async = true;
-      script.onerror = () => {
-        console.error('Failed to load Google Maps API.');
-      };
+
       document.body.appendChild(script);
     };
 
     const initMap = () => {
-      const nyc = { lat: 40.7128, lng: -74.0060 };
+      const nyc = { lat: 40.730610, lng: -74.0060 };
       new window.google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
+        zoom: 13,
         center: nyc,
       });
     };
 
-    // Check if the Google Maps API script is already loaded
-    if (!window.google || !window.google.maps) {
+    if (!window.google) {
       // Google Maps script not loaded yet, so load it
       window.initMap = initMap;
       loadGoogleMapsAPI();
@@ -97,24 +94,6 @@ function MapPage() {
     };
   }, []);
 
-  // Set a flag to track whether the Google Maps API error has occurred
-  const [apiError, setApiError] = useState(false);
-
-  useEffect(() => {
-    // Handle the error by setting the flag
-    const handleError = () => {
-      setApiError(true);
-    };
-
-    // Add an event listener for error events on the Google Maps API script
-    window.addEventListener('error', handleError);
-
-    // Clean up the event listener
-    return () => {
-      window.removeEventListener('error', handleError);
-    };
-  }, []);
-
   return (
     <div>
       <div>
@@ -125,11 +104,7 @@ function MapPage() {
         <SearchBar />
       </div>
       <div style={{ marginTop: '20px', height: '600px' }}>
-        {apiError ? (
-          <div>There was an error loading the map.</div>
-        ) : (
-          <div id="map" style={{ height: '100%' }}></div>
-        )}
+        <div id="map" style={{ height: '100%' }}></div>
       </div>
     </div>
   );
