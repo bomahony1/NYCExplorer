@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -97,6 +97,24 @@ function MapPage() {
     };
   }, []);
 
+  // Set a flag to track whether the Google Maps API error has occurred
+  const [apiError, setApiError] = useState(false);
+
+  useEffect(() => {
+    // Handle the error by setting the flag
+    const handleError = () => {
+      setApiError(true);
+    };
+
+    // Add an event listener for error events on the Google Maps API script
+    window.addEventListener('error', handleError);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener('error', handleError);
+    };
+  }, []);
+
   return (
     <div>
       <div>
@@ -107,7 +125,11 @@ function MapPage() {
         <SearchBar />
       </div>
       <div style={{ marginTop: '20px', height: '600px' }}>
-        <div id="map" style={{ height: '100%' }}></div>
+        {apiError ? (
+          <div>There was an error loading the map.</div>
+        ) : (
+          <div id="map" style={{ height: '100%' }}></div>
+        )}
       </div>
     </div>
   );
