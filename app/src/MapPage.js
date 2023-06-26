@@ -67,7 +67,9 @@ function MapPage() {
       script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=initMap`;
       script.defer = true;
       script.async = true;
-
+      script.onerror = () => {
+        console.error('Failed to load Google Maps API.');
+      };
       document.body.appendChild(script);
     };
 
@@ -79,7 +81,8 @@ function MapPage() {
       });
     };
 
-    if (!window.google) {
+    // Check if the Google Maps API script is already loaded
+    if (!window.google || !window.google.maps) {
       // Google Maps script not loaded yet, so load it
       window.initMap = initMap;
       loadGoogleMapsAPI();
