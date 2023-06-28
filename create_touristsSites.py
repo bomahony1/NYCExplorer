@@ -1,14 +1,16 @@
 import json
 import mysql.connector
 
-with open("././data/tourism.json") as f:
+with open("data/tourism.json") as f:
     data = json.load(f)
 
+# PUT IN YOUR LOCAL DATABASE DETIALS HERE
+
 cnx = mysql.connector.connect(
-    host='127.0.0.1',
-    user='root',
-    password='Sd89Bn34',
-    database='nyc_app_test'
+    host='',
+    user='',
+    password='',
+    database=''
 )
 
 cursor = cnx.cursor()
@@ -16,6 +18,7 @@ cursor = cnx.cursor()
 # Modify the CREATE TABLE statement
 create_table_query = """
 CREATE TABLE IF NOT EXISTS tourism (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     latitude FLOAT,
     longitude FLOAT,

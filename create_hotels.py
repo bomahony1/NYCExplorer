@@ -18,12 +18,13 @@ cursor = cnx.cursor()
 # Modify the CREATE TABLE statement if needed
 create_table_query = """
 CREATE TABLE IF NOT EXISTS hotels (
-    name VARCHAR(255),
-    latitude FLOAT,
-    longitude FLOAT,
-    phone VARCHAR(255),
-    website VARCHAR(255)
-)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NULL,
+    latitude FLOAT NULL,
+    longitude FLOAT NULL,
+    phone VARCHAR(255) NULL,
+    website VARCHAR(255) NULL
+);
 """
 
 cursor.execute(create_table_query)
