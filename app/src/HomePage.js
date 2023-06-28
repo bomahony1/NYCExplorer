@@ -103,7 +103,7 @@ function HomePage() {
     // Make the AJAX request
     $.ajax({
       type: 'GET',
-      url: 'https://app.ticketmaster.com/discovery/v2/events.json?size=1&city=boston&apikey=tpZiyonZeqnI84pouyaLdPeKLuwMQz4b',
+      url: 'https://app.ticketmaster.com/discovery/v2/events.json?size=1&city=bronx&apikey=tpZiyonZeqnI84pouyaLdPeKLuwMQz4b',
       async: true,
       dataType: 'json',
       success: function (json) {
