@@ -6,6 +6,8 @@ with open("././data/hotels.json") as f:
     data = json.load(f)
 
 # MySQL connection
+
+# PUT IN YOUR LOCAL DATABASE DETIALS HERE
 cnx = mysql.connector.connect(
     host='127.0.0.1',
     user='root',
@@ -53,3 +55,12 @@ for hotel in hotels:
 cnx.commit()
 cursor.close()
 cnx.close()
+
+
+# IGNORE
+# cnx = mysql.connector.connect(
+#     host='127.0.0.1',
+#     user='root',
+#     password='Sd89Bn34',
+#    database='nyc_app_test'
+#)
