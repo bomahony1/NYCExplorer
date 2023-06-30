@@ -16,6 +16,15 @@
   <title>React App</title>
 </head>
 <body>
+  <script>
+  const initMap = () => {
+    const nyc = { lat: 40.730610, lng: -74.0060 };
+    new window.google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: nyc,
+    });
+  };</script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfU3jvD_AgUBQV3Y2jSAojRkHlKWmGbv4&callback=initMap"></script>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <!--
