@@ -6,6 +6,8 @@ with open("././data/hotels.json") as f:
     data = json.load(f)
 
 # MySQL connection
+
+# PUT IN YOUR LOCAL DATABASE DETIALS HERE
 cnx = mysql.connector.connect(
     host='127.0.0.1',
     user='root',
@@ -18,12 +20,13 @@ cursor = cnx.cursor()
 # Modify the CREATE TABLE statement if needed
 create_table_query = """
 CREATE TABLE IF NOT EXISTS hotels (
-    name VARCHAR(255),
-    latitude FLOAT,
-    longitude FLOAT,
-    phone VARCHAR(255),
-    website VARCHAR(255)
-)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NULL,
+    latitude FLOAT NULL,
+    longitude FLOAT NULL,
+    phone VARCHAR(255) NULL,
+    website VARCHAR(255) NULL
+);
 """
 
 cursor.execute(create_table_query)
@@ -52,3 +55,12 @@ for hotel in hotels:
 cnx.commit()
 cursor.close()
 cnx.close()
+
+
+# IGNORE
+# cnx = mysql.connector.connect(
+#     host='127.0.0.1',
+#     user='root',
+#     password='Sd89Bn34',
+#    database='nyc_app_test'
+#)

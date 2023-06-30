@@ -1,7 +1,7 @@
 import json
 import mysql.connector
 
-with open("././data/export.json") as f:
+with open("data/restaurants.json") as f:
     data = json.load(f)
 
 cnx = mysql.connector.connect(
@@ -16,6 +16,7 @@ cursor = cnx.cursor()
 # Create the table
 create_table_query = """
 CREATE TABLE IF NOT EXISTS restaurants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     address VARCHAR(255),
     latitude FLOAT,
