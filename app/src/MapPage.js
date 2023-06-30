@@ -1,5 +1,4 @@
-
-import React, { useMemo,useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -79,28 +78,44 @@ function MapPage() {
   useEffect(() => {
     if (isLoaded) {
       // Create markers array
-      const newMarkers = hotelsData.elements.map((hotel) => ({
-        id: hotel.id,
-        position: { lat: hotel.lat, lng: hotel.lon },
-        title: hotel.tags.name,
-        info: {
-          city: hotel.tags['addr:city'],
-          country: hotel.tags['addr:country'],
-          street: hotel.tags['addr:street'],
-          website: hotel.tags.website,
-        },
-      }));
+      const newMarkers = attractionData.elements
+        .filter(attraction => attraction.tags.name && attraction.tags.website) // Filter out attractions with no name or no website
+        .map(attraction => ({
+          id: attraction.id,
+          position: { lat: attraction.lat, lng: attraction.lon },
+          title: attraction.tags.name,
+          info: {
+            city: attraction.tags['addr:city'],
+            country: attraction.tags['addr:country'],
+            street: attraction.tags['addr:street'],
+            website: attraction.tags.website,
+          },
+        }));
       // Update markers state
       setMarkers(newMarkers);
     }
   }, [isLoaded]);
 
   const handleMarkerClick = (marker) => {
+    if (origin === null) {
+      setOrigin(marker.position);
+    } else {
+      setDestination(marker.position);
+    }
     setSelectedMarker(marker);
   };
 
   const handleInfoWindowClose = () => {
     setSelectedMarker(null);
+    setOrigin(null);
+    setDestination(null);
+    setDirections(null);
+  };
+
+  const handleDirectionsResponse = (response) => {
+    if (response !== null) {
+      setDirections(response);
+    }
   };
 
   return (
@@ -116,8 +131,8 @@ function MapPage() {
         <SearchBar />
       </div>
       <div style={{ marginTop: '20px', height: '600px' }}>
-        {apiError ? (
-          <div>There was an error loading the map.</div>
+        {!isLoaded ? (
+          <div>Loading...</div>
         ) : (
             <GoogleMap
               mapContainerStyle={{ height: '100%' }}
