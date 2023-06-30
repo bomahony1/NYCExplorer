@@ -83,6 +83,7 @@ CORS_ALLOWED_ORIGINS = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# //// FILL IN YOUR LOCAL DATABASE DETAILS HERE ////
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
