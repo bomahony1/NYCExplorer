@@ -61,7 +61,6 @@ def get_venues_restaurant():
         response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
         venues = response.json()
-        print(venues)
         return venues
     except requests.exceptions.RequestException as e:
         print("Error in get_venues:", e)
@@ -84,7 +83,6 @@ def get_venues_hotels():
         response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
         venues = response.json()
-        print(venues)
         return venues
     except requests.exceptions.RequestException as e:
         print("Error in get_venues:", e)
@@ -123,6 +121,8 @@ def get_events():
                     event_time = event["dates"]["start"].get("localTime", "Time not available")
                     event_image = event["images"][0]["url"] if event["images"] else None
                     event_url = event["url"]
+                    event_latitude = event["_embedded"]["venues"][0]["location"]["latitude"]
+                    event_longitude = event["_embedded"]["venues"][0]["location"]["longitude"]
 
                     if event.get("classifications"):
                         classification = event["classifications"][0]
@@ -137,7 +137,9 @@ def get_events():
                         "time": event_time,
                         "image": event_image,
                         "url": event_url,
-                        "genres": event_genres
+                        "genres": event_genres,
+                        "latitude": event_latitude,
+                        "longitude": event_longitude
                     })
 
             params["page"] += 1
@@ -154,7 +156,7 @@ def get_events():
 
 # Google Places API
 
-def get_restaurants():
+def get_google_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
@@ -164,20 +166,33 @@ def get_restaurants():
     restaurant_data = []
 
     try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-        results = data["results"]
-        restaurant_data = process_results(results)
-
-        while "next_page_token" in data:
-            time.sleep(2)
-            params["pagetoken"] = data["next_page_token"]
+        while True:
             response = requests.get(url, params=params)
             response.raise_for_status()
             data = response.json()
-            results = data.get("results", [])
-            restaurant_data += process_results(results)
+            results = data["results"]
+
+            for result in results:
+                name = result["name"]
+                address = result["formatted_address"]
+                location = result["geometry"]["location"]
+                lat = location["lat"]
+                lng = location["lng"]
+                rating = result.get("rating")
+
+                restaurant_data.append({
+                    "name": name,
+                    "address": address,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "rating": rating
+                })
+
+            if "next_page_token" not in data:
+                break
+
+            params["pagetoken"] = data["next_page_token"]
+            time.sleep(2)  # Delay between API calls as per Google's guidelines
 
     except requests.exceptions.RequestException as e:
         print("Error in get_restaurants:", e)
@@ -185,27 +200,4 @@ def get_restaurants():
     return restaurant_data
 
 
-def process_results(results):
-    restaurant_data = []
 
-    for result in results:
-        name = result["name"]
-        address = result["formatted_address"]
-        location = result["geometry"]["location"]
-        lat = location["lat"]
-        lng = location["lng"]
-        rating = result.get("rating")
-        website = result.get("website")
-        phone = result.get("formatted_phone_number")
-
-        restaurant_data.append({
-            "name": name,
-            "address": address,
-            "latitude": lat,
-            "longitude": lng,
-            "rating": rating,
-            "website": website,
-            "phone": phone
-        })
-
-    return restaurant_data
