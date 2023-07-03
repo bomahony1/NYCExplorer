@@ -89,11 +89,11 @@ CORS_ALLOWED_ORIGINS = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": 'nyc_app_test',
+        "NAME": 'nyc_app',
         "USER": 'root',
         "HOST": '127.0.0.1',
         "PORT": 3306,
-        "PASSWORD": 'Sd89Bn34',
+        "PASSWORD": 'ruanpx13',
     }
 }
 
