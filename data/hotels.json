@@ -1,0 +1,2617 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.60.6 e2dc3e5b",
+  "osm3s": {
+    "timestamp_osm_base": "2023-06-25T18:36:51Z",
+    "timestamp_areas_base": "2023-06-11T03:07:17Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 368061418,
+      "lat": 40.7824129,
+      "lon": -73.9811518,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "2175",
+        "addr:postcode": "10024",
+        "addr:state": "NY",
+        "addr:street": "Broadway",
+        "ele": "24",
+        "gnis:county_name": "New York",
+        "gnis:feature_id": "2083403",
+        "gnis:reviewed": "no",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Belleclaire",
+        "smoking": "no",
+        "source": "USGS Geonames",
+        "tourism": "hotel",
+        "website": "https://www.hotelbelleclaire.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 368061423,
+      "lat": 40.7819444,
+      "lon": -73.9825,
+      "tags": {
+        "addr:state": "NY",
+        "ele": "25",
+        "gnis:county_name": "New York",
+        "gnis:feature_id": "2083398",
+        "gnis:import_uuid": "57871b70-0100-4405-bb30-88b2e001a944",
+        "gnis:reviewed": "no",
+        "name": "Hotel Churchill",
+        "source": "USGS Geonames",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 688351220,
+      "lat": 40.7528779,
+      "lon": -73.9837787,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "40",
+        "addr:postcode": "10018",
+        "addr:state": "NY",
+        "addr:street": "West 40th Street",
+        "name": "Bryant Park Hotel",
+        "tourism": "hotel",
+        "website": "https://bryantparkhotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 822939198,
+      "lat": 40.7814188,
+      "lon": -73.9799422,
+      "tags": {
+        "name": "Amsterdam Inn",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 889117109,
+      "lat": 40.7149558,
+      "lon": -74.015694,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "102",
+        "addr:postcode": "10282",
+        "addr:street": "North End Avenue",
+        "brand": "Conrad",
+        "brand:wikidata": "Q855525",
+        "brand:wikipedia": "en:Conrad Hotels",
+        "name": "Conrad New York Downtown",
+        "operator": "Hilton",
+        "phone": "+1 212-945-0100",
+        "rooms": "463",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.conradnewyork.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 889473084,
+      "lat": 40.715575,
+      "lon": -74.008857,
+      "tags": {
+        "internet_access": "wlan",
+        "name": "The Frederick Hotel",
+        "old_name": "The Cosmopolitan Hotel - Tribeca",
+        "tourism": "hotel",
+        "wikidata": "Q22674044"
+      }
+    },
+    {
+      "type": "node",
+      "id": 990032612,
+      "lat": 40.7443441,
+      "lon": -73.9867075,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "4",
+        "addr:state": "NY",
+        "addr:street": "East 28th Street",
+        "name": "Latham",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 999526140,
+      "lat": 40.7690103,
+      "lon": -73.982912,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "80",
+        "addr:postcode": "10023",
+        "addr:state": "NY",
+        "addr:street": "Columbus Circle",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "email": "MONYC-RESERVATIONS@MOHG.COM",
+        "name": "Mandarin Oriental",
+        "operator": "Mandarin Oriental",
+        "phone": "+1-212-805-8800",
+        "reservation": "yes",
+        "tourism": "hotel",
+        "wheelchair": "yes",
+        "wikidata": "Q6747858",
+        "wikipedia": "en:Mandarin Oriental, New York"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1061531752,
+      "lat": 40.796654,
+      "lon": -73.9708276,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "244",
+        "addr:postcode": "10025",
+        "addr:state": "NY",
+        "addr:street": "West 99th Street",
+        "email": "info@hotel99.com",
+        "name": "Hotel 99",
+        "stars": "2",
+        "tourism": "hotel",
+        "website": "http://www.hotel99.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1103801857,
+      "lat": 40.727834,
+      "lon": -73.9907398,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "25",
+        "addr:postcode": "10003",
+        "addr:street": "Cooper Square",
+        "name": "The Standard, East Village",
+        "operator": "The Standard",
+        "phone": "(212) 475-5700",
+        "tourism": "hotel",
+        "wikidata": "Q5167816"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1273406878,
+      "lat": 40.7590118,
+      "lon": -73.9844836,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "1568",
+        "addr:postcode": "10036",
+        "addr:state": "NY",
+        "addr:street": "Broadway",
+        "brand": "DoubleTree",
+        "brand:wikidata": "Q2504643",
+        "brand:wikipedia": "en:DoubleTree",
+        "name": "DoubleTree Suites",
+        "name:zh": "纽约时代广场希尔顿逸林套房酒店",
+        "official_name": "DoubleTree by Hilton",
+        "tourism": "hotel",
+        "website": "https://doubletree3.hilton.com/en/hotels/new-york/doubletree-suites-by-hilton-hotel-new-york-city-times-square-LGASFDT/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1297296350,
+      "lat": 40.7441337,
+      "lon": -73.9832129,
+      "tags": {
+        "brand": "Clarion",
+        "brand:wikidata": "Q10454567",
+        "name": "Clarion Hotel Park Avenue",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1383913906,
+      "lat": 40.7456886,
+      "lon": -73.9881558,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "10001",
+        "addr:state": "NY",
+        "addr:street": "20 W 29th Street",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Ace Hotel",
+        "opening_hours": "24/7",
+        "smoking": "no",
+        "stars": "5",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1427273334,
+      "lat": 40.7526594,
+      "lon": -73.9744845,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "141",
+        "addr:postcode": "10017",
+        "addr:street": "East 44th Street",
+        "name": "Fitzpatrick Grand Central Hotel",
+        "tourism": "hotel",
+        "website": "http://www.fitzpatrickhotels.com/fitzpatrick-grand-central.shtml"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1428427563,
+      "lat": 40.7610689,
+      "lon": -73.9739729,
+      "tags": {
+        "name": "adour alan ducasse",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1428427564,
+      "lat": 40.7612458,
+      "lon": -73.9743323,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "2",
+        "addr:postcode": "10022",
+        "addr:state": "NY",
+        "addr:street": "East 55th Street",
+        "alt_name": "Saint Regis",
+        "brand": "St. Regis",
+        "brand:wikidata": "Q30715430",
+        "brand:wikipedia": "en:St. Regis Hotels & Resorts",
+        "internet_access": "yes",
+        "name": "St Regis New York",
+        "operator": "Marriott International",
+        "phone": "+1-212-753-4500",
+        "smoking": "no",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "http://www.stregisnewyork.com/",
+        "wikidata": "Q2322983"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1684014132,
+      "lat": 40.744605,
+      "lon": -73.9816301,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "120",
+        "addr:state": "NY",
+        "addr:street": "East 31st Street",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "internet_access:ssid": "Hotel31",
+        "name": "Hotel 31",
+        "smoking": "no",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1707825821,
+      "lat": 40.7537504,
+      "lon": -73.9945935,
+      "tags": {
+        "brand": "TRYP",
+        "brand:wikidata": "Q6153452",
+        "brand:wikipedia": "en:TRYP by Wyndham",
+        "name": "TRYP",
+        "official_name": "TRYP by Wyndham",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1809517485,
+      "lat": 40.7932576,
+      "lon": -73.9722071,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "215",
+        "addr:postcode": "10025",
+        "addr:state": "NY",
+        "addr:street": "West 94th Street",
+        "name": "Days Hotel",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1821451551,
+      "lat": 40.7590853,
+      "lon": -73.995439,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "570",
+        "addr:postcode": "10036",
+        "addr:state": "NY",
+        "addr:street": "10th Avenue",
+        "branch": "Times Square",
+        "brand": "YOTEL",
+        "brand:wikidata": "Q8046002",
+        "brand:wikipedia": "en:Yotel",
+        "email": "newyork.contact@yotel.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "YOTEL",
+        "phone": "+1 646-449-7700",
+        "tourism": "hotel",
+        "website": "https://www.yotel.com/en/hotels/yotel-new-york"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1873813874,
+      "lat": 40.764515,
+      "lon": -73.9958863,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "653",
+        "addr:postcode": "10036",
+        "addr:state": "NY",
+        "addr:street": "11th Avenue",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "MCR Hotels",
+        "fax": "+1 212 757 2088",
+        "internet_access": "wlan",
+        "name": "Ink 48 Hotel",
+        "phone": "+1 212 757 0088",
+        "rooms": "222",
+        "smoking": "no",
+        "stars": "4.5",
+        "tourism": "hotel",
+        "website": "https://www.ink48.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2033992909,
+      "lat": 40.797937,
+      "lon": -73.9700113,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "230",
+        "addr:postcode": "10025",
+        "addr:state": "NY",
+        "addr:street": "West 101th Street",
+        "name": "Broadway Hotel & Hostel",
+        "tourism": "hotel",
+        "website": "http://www.broadwayhotelnyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2047267696,
+      "lat": 40.7807355,
+      "lon": -73.9810912,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "2130",
+        "addr:postcode": "10023",
+        "addr:state": "NY",
+        "addr:street": "Broadway",
+        "air_conditioning": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Beacon",
+        "phone": "+1-212-787-1100",
+        "tourism": "hotel",
+        "website": "https://www.beaconhotel.com/",
+        "wikidata": "Q30626016",
+        "wikipedia": "en:Hotel Beacon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2165157812,
+      "lat": 40.7559859,
+      "lon": -73.9725033,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "541",
+        "addr:postcode": "10022",
+        "addr:street": "Lexington Avenue",
+        "brand": "W Hotels",
+        "brand:wikidata": "Q7958488",
+        "brand:wikipedia": "en:W Hotels",
+        "name": "W Hotels",
+        "short_name": "W",
+        "tourism": "hotel",
+        "website": "http://www.wnewyork.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2307164617,
+      "lat": 40.7451377,
+      "lon": -73.9900206,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "39",
+        "addr:postcode": "10001",
+        "addr:street": "W 27th",
+        "name": "Senton Hotel",
+        "phone": "2126845800",
+        "source": "survey",
+        "tourism": "hotel",
+        "website": "www.sentonhotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2307164624,
+      "lat": 40.744469,
+      "lon": -73.9891087,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "1155",
+        "addr:postcode": "10001",
+        "addr:street": "Broadway",
+        "name": "Broadway Plaza Hotel",
+        "phone": "+1-212-679-7665",
+        "source": "survey",
+        "tourism": "hotel",
+        "website": "https://www.broadwayplazahotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317577533,
+      "lat": 40.742143,
+      "lon": -73.984716,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "365",
+        "addr:postcode": "10016",
+        "addr:street": "Park Avenue South",
+        "name": "Hotel Giraffe",
+        "tourism": "hotel",
+        "website": "https://www.hotelgiraffe.com/",
+        "wikidata": "Q5911529"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2325990473,
+      "lat": 40.7443742,
+      "lon": -73.9968175,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "222",
+        "addr:postcode": "10011",
+        "addr:street": "West 23rd Street",
+        "name": "Hotel Chelsea",
+        "name:es": "Hotel Chelsea",
+        "tourism": "hotel",
+        "wikidata": "Q240711",
+        "wikipedia": "en:Hotel Chelsea"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2377128188,
+      "lat": 40.7446533,
+      "lon": -73.9993815,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "300",
+        "addr:postcode": "10011",
+        "addr:state": "NY",
+        "addr:street": "West 22nd Street",
+        "email": "info.chelsea@thegemhotel.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "The GEM Hotel Chelsea",
+        "operator": "The GEM Hotel",
+        "tourism": "hotel",
+        "website": "http://www.thegemhotel.com/chelsea/",
+        "wikidata": "Q7735570"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2477507999,
+      "lat": 40.7227218,
+      "lon": -74.0048801,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "27",
+        "addr:postcode": "10013",
+        "addr:state": "NY",
+        "addr:street": "Grand Street",
+        "internet_access": "wlan",
+        "name": "The James New York - SoHo",
+        "operator": "Denihan Hospitality Group",
+        "phone": "+1-212-465-2000",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.jameshotels.com/new-york/soho",
+        "wikidata": "Q62391754"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2494160712,
+      "lat": 40.7292807,
+      "lon": -73.9896315,
+      "tags": {
+        "addr:housenumber": "2",
+        "addr:postcode": "10003",
+        "addr:street": "Saint Marks Place",
+        "fax": "+1-212-420-0854",
+        "name": "St. Mark's Hotel",
+        "phone": "+1-212-674-0100",
+        "tourism": "hotel",
+        "website": "http://stmarkshotel.net/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2535060647,
+      "lat": 40.7549383,
+      "lon": -73.9742339,
+      "tags": {
+        "name": "Roger Smith Hotel",
+        "tourism": "hotel",
+        "wikidata": "Q18156930"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2547247028,
+      "lat": 40.7195332,
+      "lon": -73.9947277,
+      "tags": {
+        "addr:housenumber": "341",
+        "addr:postcode": "10013",
+        "addr:street": "Broome Street",
+        "name": "Sohotel",
+        "phone": "+1-212-226-1482",
+        "tourism": "hotel",
+        "website": "https://www.thesohotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2555099371,
+      "lat": 40.7192831,
+      "lon": -73.9968082,
+      "tags": {
+        "addr:housenumber": "196",
+        "addr:postcode": "10013",
+        "addr:street": "Grand Street",
+        "name": "NobleDen",
+        "phone": "+1-212-390-8988",
+        "tourism": "hotel",
+        "website": "https://nobleden.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2555126668,
+      "lat": 40.7231911,
+      "lon": -73.9902082,
+      "tags": {
+        "addr:housenumber": "135",
+        "addr:postcode": "10002",
+        "addr:street": "East Houston Street",
+        "brand": "The GEM Hotel",
+        "name": "The GEM Hotel Soho",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2563985401,
+      "lat": 40.7179221,
+      "lon": -73.9952665,
+      "tags": {
+        "addr:housenumber": "106",
+        "addr:postcode": "10013",
+        "addr:street": "Bowery",
+        "name": "U.S. Pacific Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2572411292,
+      "lat": 40.7238201,
+      "lon": -74.0052592,
+      "tags": {
+        "alt_name": "Hampton Inn",
+        "brand": "Hampton",
+        "brand:wikidata": "Q5646230",
+        "brand:wikipedia": "en:Hampton by Hilton",
+        "name": "Hampton Inn Manhattan-SoHo",
+        "official_name": "Hampton by Hilton",
+        "tourism": "hotel",
+        "website": "https://hamptoninn3.hilton.com/en/hotels/new-york/hampton-inn-manhattan-soho-NYCMHHX/index.html"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2610440255,
+      "lat": 40.7621727,
+      "lon": -73.9829659,
+      "tags": {
+        "addr:city": "New York",
+        "name": "The Manhattan at Times Square Hotel",
+        "tourism": "hotel",
+        "website": "https://www.manhattanhoteltimessquare.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2629371810,
+      "lat": 40.7602216,
+      "lon": -73.9581709,
+      "tags": {
+        "addr:housenumber": "500",
+        "addr:street": "East 62nd Street",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "name": "The Bentley Hotel",
+        "phone": "+1-212-644-6000",
+        "postal_code": "10065",
+        "rooms": "197",
+        "swimming_pool": "no",
+        "tourism": "hotel",
+        "website": "https://bentleyhotelnyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2629371837,
+      "lat": 40.7573984,
+      "lon": -73.9698932,
+      "tags": {
+        "brand": "Courtyard",
+        "brand:wikidata": "Q1053170",
+        "brand:wikipedia": "en:Courtyard by Marriott",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Courtyard",
+        "official_name": "Courtyard by Marriott",
+        "operator": "Marriott",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/hotels/travel/nycme-courtyard-new-york-manhattan-midtown-east/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639531871,
+      "lat": 40.7597371,
+      "lon": -73.9845837,
+      "tags": {
+        "brand": "Renaissance",
+        "brand:wikidata": "Q2143252",
+        "brand:wikipedia": "en:Renaissance Hotels",
+        "name": "Renaissance New York Times Square Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2702838405,
+      "lat": 40.7422561,
+      "lon": -74.0039856,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "363",
+        "addr:postcode": "10011",
+        "addr:street": "West 16th Street",
+        "name": "Maritime Hotel",
+        "tourism": "hotel",
+        "website": "http://www.themaritimehotel.com/",
+        "wikidata": "Q6765810",
+        "wikipedia": "en:Maritime Hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2704104151,
+      "lat": 40.7401959,
+      "lon": -73.9826682,
+      "tags": {
+        "addr:housenumber": "160",
+        "addr:postcode": "10010",
+        "addr:street": "East 25th Street",
+        "name": "Carlton Arms Hotel",
+        "phone": "+1-212-679-0680",
+        "tourism": "hotel",
+        "website": "http://carltonarms.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2704105139,
+      "lat": 40.7394627,
+      "lon": -73.9822461,
+      "tags": {
+        "addr:housenumber": "201",
+        "addr:postcode": "10010",
+        "addr:street": "East 24th Street",
+        "name": "The Marcel",
+        "phone": "+1-212-696-3800",
+        "tourism": "hotel",
+        "website": "https://themarcelatgramercy.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2706918023,
+      "lat": 40.7427837,
+      "lon": -73.9830954,
+      "tags": {
+        "addr:housenumber": "124",
+        "addr:postcode": "10016",
+        "addr:street": "East 28th Street",
+        "name": "Parksouth Hotel",
+        "tourism": "hotel",
+        "website": "https://www.jdvhotels.com/hotels/new-york/nyc/park-south-hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2708083600,
+      "lat": 40.7646529,
+      "lon": -73.9774764,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "101",
+        "addr:postcode": "10019",
+        "addr:street": "West 57th Street",
+        "brand": "Hilton",
+        "brand:wikidata": "Q598884",
+        "brand:wikipedia": "en:Hilton Hotels & Resorts",
+        "dof": "no",
+        "fitness_centre": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "The Quin",
+        "official_name": "The Quin Central Park by Hilton Club",
+        "operator": "Hilton",
+        "phone": "+1 211-245-7846",
+        "rooms": "208",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "http://www.thequinhotel.com",
+        "wikidata": "Q19878233",
+        "wikipedia": "en:The Quin"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2709335872,
+      "lat": 40.7447966,
+      "lon": -73.9832361,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "444",
+        "addr:postcode": "10016",
+        "addr:state": "NY",
+        "addr:street": "Park Avenue South",
+        "name": "Mondrian Park Avenue",
+        "phone": "2128048880",
+        "tourism": "hotel",
+        "website": "https://www.sbe.com/hotels/mondrian/park-avenue"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2709702498,
+      "lat": 40.7521714,
+      "lon": -73.9853616,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "63",
+        "addr:postcode": "10018",
+        "addr:street": "West 38th Street",
+        "name": "Refinery",
+        "tourism": "hotel",
+        "website": "https://www.refineryhotelnewyork.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2709702525,
+      "lat": 40.7522336,
+      "lon": -73.9855082,
+      "tags": {
+        "addr:housenumber": "69",
+        "addr:postcode": "10018",
+        "addr:street": "West 38th Street",
+        "internet_access": "wlan",
+        "name": "Americana Inn",
+        "stars": "2",
+        "tourism": "hotel",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2711712840,
+      "lat": 40.7495001,
+      "lon": -73.9718919,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "304",
+        "addr:postcode": "10017",
+        "addr:street": "East 42nd Street",
+        "brand": "Westgate Resorts",
+        "internet_access": "yes",
+        "name": "Westgate New York Grand Central Hotel",
+        "official_name": "Hilton Manhattan East",
+        "rooms": "300",
+        "tourism": "hotel",
+        "website": "https://www.westgateresorts.com/hotels/new-york/midtown-manhattan/westgate-new-york-grand-central/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2714855400,
+      "lat": 40.7498595,
+      "lon": -73.9796281,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "70",
+        "addr:postcode": "10016",
+        "addr:state": "NY",
+        "addr:street": "Park Avenue",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "branch": "70 Park Avenue",
+        "brand": "Iberostar Hotels & Resorts",
+        "brand:wikidata": "Q2035939",
+        "description": "Close to the Empire State Building and Grand Central Terminal, the Iberostar 70 Park Avenue is a 4-star city hotel in New York. The hotel has free Wi-Fi, self parking, fitness center, e-concierge, comfort rooms, accommodation for dogs and business center.",
+        "email": "nypdir@iberostar.com",
+        "image": "https://apiimg.iberostar.com/uploads/image/30209/image.jpeg",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Iberostar",
+        "operator": "IBEROSTAR Hotels & Resorts",
+        "payment:american_express": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:visa": "yes",
+        "phone": "+1 212-973-2400",
+        "reservation": "yes",
+        "smoking": "no",
+        "source": "local knowledge;survey;www.iberostar.com",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.iberostar.com/en/hotels/new-york/iberostar-70-park-avenue/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2758752391,
+      "lat": 40.788788,
+      "lon": -73.9752734,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "209",
+        "addr:postcode": "10024",
+        "addr:state": "NY",
+        "addr:street": "West 87th Street",
+        "fax": "+1 212 873 8907",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Belnord",
+        "operator": "Empire Hotel Group",
+        "phone": "+1 212 873 5222",
+        "tourism": "hotel",
+        "website": "https://www.belnord.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2759308679,
+      "lat": 40.7935439,
+      "lon": -73.9722622,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "2528",
+        "addr:postcode": "10025",
+        "addr:state": "NY",
+        "addr:street": "Broadway",
+        "dog": "no",
+        "internet_access": "wlan",
+        "name": "The Hotel Newton",
+        "phone": "+1 212 678 6500",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "https://www.thehotelnewton.com/",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2777135780,
+      "lat": 40.7573258,
+      "lon": -73.9982956,
+      "tags": {
+        "addr:housenumber": "522",
+        "addr:street": "West 38th Street",
+        "brand": "Best Western",
+        "brand:wikidata": "Q830334",
+        "brand:wikipedia": "en:Best Western",
+        "name": "Best Western Convention Center",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2808241057,
+      "lat": 40.705449,
+      "lon": -74.0172945,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "10",
+        "addr:postcode": "10004",
+        "addr:state": "NY",
+        "addr:street": "Little West Street",
+        "name": "Wagner Hotel",
+        "phone": "+1-212-344-0800",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "http://www.ritzcarlton.com/en/hotels/new-york/battery-park",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2825051771,
+      "lat": 40.7052048,
+      "lon": -74.0077459,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "75",
+        "addr:postcode": "10005",
+        "addr:state": "NY",
+        "addr:street": "Wall Street",
+        "brand": "Hyatt Centric",
+        "brand:wikidata": "Q109277705",
+        "brand:wikipedia": "en:Andaz (hotel)",
+        "building:levels": "36",
+        "height": "143",
+        "name": "Hyatt Centric",
+        "phone": "+12125901234",
+        "start_date": "1987",
+        "tourism": "hotel",
+        "website": "https://newyork.wallstreet.andaz.hyatt.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2825051790,
+      "lat": 40.7051879,
+      "lon": -74.0061997,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "129",
+        "addr:postcode": "10005",
+        "addr:street": "Front Street",
+        "name": "Eurostars Wall Street Hotel",
+        "tourism": "hotel",
+        "website": "http://www.hoteleurostarswallstreet.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2825052305,
+      "lat": 40.70598,
+      "lon": -74.0050486,
+      "tags": {
+        "addr:housenumber": "161",
+        "addr:postcode": "10038",
+        "addr:street": "Front Street",
+        "air_conditioning": "yes",
+        "alt_name": "Fairfield by Marriott",
+        "branch": "Financial District",
+        "brand": "Fairfield Inn",
+        "brand:wikidata": "Q5430314",
+        "brand:wikipedia": "en:Fairfield by Marriott",
+        "breakfast": "yes",
+        "fax": "+1 212-826-0002",
+        "fitness_centre": "yes",
+        "internet_access": "wlan",
+        "name": "Fairfield Inn",
+        "official_name": "Fairfield by Marriott",
+        "phone": "+1 212-826-0001",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/hotels/travel/nyclm-fairfield-inn-new-york-manhattan-financial-district/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2825125240,
+      "lat": 40.7080083,
+      "lon": -74.0014177,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "33",
+        "addr:postcode": "10038",
+        "addr:state": "NY",
+        "addr:street": "Peck Slip",
+        "bar": "yes",
+        "email": "info@33seaportnyc.com",
+        "internet_access": "wlan",
+        "name": "33 Seaport Hotel",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+1 212 766 6600",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.33seaporthotelnyc.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2826494992,
+      "lat": 40.713636,
+      "lon": -73.9936267,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "91",
+        "addr:postcode": "10002",
+        "addr:state": "NY",
+        "addr:street": "East Broadway",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel91",
+        "rooms": "70",
+        "smoking": "no",
+        "stars": "3",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2945458607,
+      "lat": 40.7528315,
+      "lon": -73.9810928,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "485",
+        "addr:postcode": "10017",
+        "addr:state": "NY",
+        "addr:street": "5th Avenue",
+        "brand": "ANdAZ",
+        "brand:wikidata": "Q48836304",
+        "brand:wikipedia": "en:Andaz (hotel)",
+        "name": "Andaz",
+        "tourism": "hotel",
+        "website": "https://newyork.5thavenue.andaz.hyatt.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3008612563,
+      "lat": 40.745587,
+      "lon": -73.9936036,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "150",
+        "addr:postcode": "10001",
+        "addr:state": "NY",
+        "addr:street": "West 26th Street",
+        "brand": "Hilton",
+        "brand:wikidata": "Q598884",
+        "brand:wikipedia": "en:Hilton Hotels & Resorts",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "name": "Hilton New York Fashion District",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3116191043,
+      "lat": 40.7654216,
+      "lon": -73.9793143,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "153",
+        "addr:postcode": "10019",
+        "addr:state": "NY",
+        "addr:street": "West 57th Street",
+        "brand": "Park Hyatt",
+        "brand:wikidata": "Q1425063",
+        "brand:wikipedia": "en:Hyatt",
+        "name": "Park Hyatt New York",
+        "phone": "6467741234",
+        "tourism": "hotel",
+        "website": "https://newyork.park.hyatt.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3507260981,
+      "lat": 40.7460969,
+      "lon": -73.9891468,
+      "tags": {
+        "contact:email": "info@thepaulnyc.com",
+        "name": "The Paul",
+        "phone": "(212) 204 5750",
+        "source": "survey",
+        "tourism": "hotel",
+        "website": "http://www.thepaulnyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3576702127,
+      "lat": 40.7537603,
+      "lon": -73.97413,
+      "tags": {
+        "name": "Hotel Boutique",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3576702128,
+      "lat": 40.753146,
+      "lon": -73.9744245,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "128",
+        "addr:postcode": "10017",
+        "addr:street": "East 45th Street",
+        "branch": "Grand Central",
+        "dog": "no",
+        "fitness_centre": "yes",
+        "internet_access": "wlan",
+        "name": "Club Quarters Hotel",
+        "phone": "+1 212-986-6400",
+        "smoking": "no",
+        "toilets:wheelchair": "yes",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3676888125,
+      "lat": 40.7331057,
+      "lon": -73.9863256,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "209",
+        "addr:postcode": "10003",
+        "addr:state": "NY",
+        "addr:street": "East 14th Street",
+        "name": "Union Square Inn",
+        "phone": "(212) 614-0500",
+        "tourism": "hotel",
+        "website": "http://unionsquareinn.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3683156293,
+      "lat": 40.7224954,
+      "lon": -73.9928637,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "241",
+        "addr:postcode": "10002",
+        "addr:state": "NY",
+        "addr:street": "Bowery",
+        "contact:website": "http://www.sunshine-hotel.com",
+        "contact:yelp": "http://www.yelp.com/biz/sunshine-hotel-new-york",
+        "tourism": "hotel",
+        "wheelchair": "no",
+        "wikidata": "Q24675804"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3799397613,
+      "lat": 40.7386731,
+      "lon": -73.9945722,
+      "tags": {
+        "addr:housenumber": "46",
+        "addr:postcode": "10011",
+        "addr:street": "West 17th Street",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Chelsa Inn Hotel",
+        "phone": "+1-212-645-8989",
+        "tourism": "hotel",
+        "website": "https://www.chelseainn.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3829129593,
+      "lat": 40.7505535,
+      "lon": -73.9694314,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "1",
+        "addr:postcode": "10017",
+        "addr:street": "United Nations Plaza",
+        "brand": "Millennium",
+        "brand:wikidata": "Q6858774",
+        "brand:wikipedia": "en:Hilton Hotels & Resorts",
+        "name": "Millennium Hilton One UN Plaza",
+        "official_name": "Millennium Hotels & Resorts",
+        "operator": "Hilton",
+        "tourism": "hotel",
+        "website": "https://www3.hilton.com/en/hotels/new-york/millennium-hilton-new-york-one-un-plaza-NYCUPHH/index.html",
+        "wheelchair": "yes",
+        "wikidata": "Q6858964",
+        "wikipedia": "en:Millennium Hilton New York One UN Plaza"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3876344857,
+      "lat": 40.7435189,
+      "lon": -73.993848,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "131",
+        "addr:postcode": "10011",
+        "addr:street": "West 23rd Street",
+        "name": "The Townhouse Inn of Chelsea",
+        "toilets:wheelchair": "yes",
+        "tourism": "hotel",
+        "website": "http://townhouseinnchelsea.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3902065229,
+      "lat": 40.7174701,
+      "lon": -73.9949761,
+      "tags": {
+        "addr:housenumber": "101",
+        "addr:street": "Bowery",
+        "alt_name": "New World Hotel",
+        "email": "info@worldhotelnyc.com",
+        "name": "World Hotel",
+        "phone": "+1 212-226-5522",
+        "tourism": "hotel",
+        "website": "http://worldhotelnyc.com",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3953222220,
+      "lat": 40.7501799,
+      "lon": -73.9776212,
+      "tags": {
+        "addr:city": "New York",
+        "addr:country": "US",
+        "addr:housenumber": "118",
+        "addr:postcode": "10016",
+        "addr:state": "NY",
+        "addr:street": "East 40th Street",
+        "name": "The Renwick Hotel",
+        "phone": "(212) 687-4875",
+        "tourism": "hotel",
+        "website": "http://www.therenwickhotelnewyork.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3966939350,
+      "lat": 40.7445115,
+      "lon": -73.9855322,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "22",
+        "addr:postcode": "10016",
+        "addr:state": "NY",
+        "addr:street": "East 29th Street",
+        "brand": "The James Hotels",
+        "email": "reservationsjny@jameshotels.com",
+        "fax": "+1 212 532-4100",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "The James New York - NoMad",
+        "operator": "Denihan Hospitality Group",
+        "phone": "+1 212-532-4100",
+        "rooms": "337",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.jameshotels.com/new-york/nomad",
+        "wheelchair": "yes",
+        "wikidata": "Q9076588"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3973268195,
+      "lat": 40.7629278,
+      "lon": -73.9753651,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "15",
+        "addr:postcode": "10019",
+        "addr:state": "NY",
+        "addr:street": "West 56th Street",
+        "breakfast": "yes",
+        "contact:facebook": "https://www.facebook.com/ChambersHotelNYC",
+        "contact:instagram": "https://www.instagram.com/chambershotelny/",
+        "contact:pinterest": "https://www.pinterest.com/chambersnewyork/",
+        "contact:twitter": "https://twitter.com/ChambersHotelNY",
+        "dog": "yes",
+        "email": "info@chambershotel.com",
+        "fax": "+1 212-974-5657",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Chambers Hotel",
+        "operator": "Lifestyle Preferred Hotels & Resorts",
+        "phone": "+1 212-974-5656",
+        "rooms": "72",
+        "tourism": "hotel",
+        "website": "http://www.chambershotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4061847835,
+      "lat": 40.7432132,
+      "lon": -73.9908672,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "37",
+        "addr:postcode": "10010",
+        "addr:state": "NY",
+        "addr:street": "West 24th Street",
+        "brand": "Wyndham Garden",
+        "brand:wikidata": "Q112144847",
+        "name": "Wyndham Garden Manhattan Chelsea West",
+        "operator": "Wyndham",
+        "phone": "212-243-0800",
+        "tourism": "hotel",
+        "website": "http://www.wyndhamnyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4114487389,
+      "lat": 40.7443588,
+      "lon": -73.9813734,
+      "tags": {
+        "addr:housenumber": "161",
+        "addr:street": "Lexington Avenue",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4140516089,
+      "lat": 40.706479,
+      "lon": -74.007718,
+      "tags": {
+        "addr:housenumber": "70",
+        "addr:street": "Pine Street",
+        "email": "info@QandAhotel.com",
+        "internet_access": "wlan",
+        "name": "Q&A Residential Hotel",
+        "phone": "1 (646) 598-0100",
+        "tourism": "hotel",
+        "website": "https://qandahotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4143572191,
+      "lat": 40.7615295,
+      "lon": -73.9849798,
+      "tags": {
+        "addr:housenumber": "218",
+        "addr:street": "West 50th Street",
+        "brand": "citizenM",
+        "brand:wikidata": "Q5122531",
+        "brand:wikipedia": "en:CitizenM",
+        "name": "citizenM",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4157970366,
+      "lat": 40.7818628,
+      "lon": -73.9818912,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "242",
+        "addr:postcode": "10023",
+        "addr:state": "NY",
+        "addr:street": "West 76th Street",
+        "bar": "yes",
+        "email": "info@thewallace.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "The Wallace",
+        "tourism": "hotel",
+        "website": "https://www.thewallace.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4213565912,
+      "lat": 40.8047139,
+      "lon": -73.9485671,
+      "tags": {
+        "name": "Efuru Guest House",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4243439484,
+      "lat": 40.7584738,
+      "lon": -73.9832127,
+      "tags": {
+        "addr:housenumber": "132",
+        "addr:postcode": "10036",
+        "addr:street": "West 47th Street",
+        "breakfast": "yes",
+        "contact:facebook": "https://www.facebook.com/SanctuaryHotelNewYork",
+        "contact:instagram": "https://www.instagram.com/sanctuaryhotel/",
+        "contact:twitter": "https://twitter.com/sanctuaryhotel_",
+        "email": "info@sanctuaryhotelnyc.com",
+        "internet_access": "wlan",
+        "name": "Sanctuary Hotel",
+        "operator": "Impulsive Group",
+        "phone": "+1 212-234-7000",
+        "rooms": "113",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "http://www.sanctuaryhotelnyc.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4252963690,
+      "lat": 40.7438908,
+      "lon": -73.9838903,
+      "tags": {
+        "addr:housenumber": "420",
+        "addr:postcode": "10016",
+        "addr:street": "Park Avenue South",
+        "internet_access": "wlan",
+        "name": "Royalton Park Avenue",
+        "phone": "+12123172900",
+        "tourism": "hotel",
+        "website": "https://www.royaltonparkavenue.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4257985392,
+      "lat": 40.7600158,
+      "lon": -73.9829482,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "142",
+        "addr:postcode": "10019",
+        "addr:street": "West 49th Street",
+        "name": "Radio City Apartment",
+        "phone": "(212) 730-0728",
+        "tourism": "hotel",
+        "website": "radiocityapartments.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4294989329,
+      "lat": 40.7802422,
+      "lon": -73.946123,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "410",
+        "addr:postcode": "10128",
+        "addr:state": "NY",
+        "addr:street": "East 92nd Street",
+        "branch": "Manhattan Upper East Side",
+        "brand": "Courtyard",
+        "brand:wikidata": "Q1053170",
+        "brand:wikipedia": "en:Courtyard by Marriott",
+        "breakfast": "no",
+        "internet_access": "wlan",
+        "name": "Courtyard by Marriott",
+        "official_name": "Courtyard by Marriott",
+        "phone": "+1 212-410-6777",
+        "rooms": "210",
+        "smoking": "no",
+        "swimming_pool": "no",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/hotels/travel/nycmh-courtyard-new-york-manhattan-upper-east-side/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316033908,
+      "lat": 40.7360205,
+      "lon": -73.9870276,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "56",
+        "addr:postcode": "10003",
+        "addr:state": "NY",
+        "addr:street": "Irving Place",
+        "email": "innatirving@aol.com",
+        "internet_access": "wlan",
+        "name": "The Inn at Irving Place",
+        "phone": "+1-212-533-4600",
+        "rooms": "12",
+        "tourism": "hotel",
+        "website": "http://www.innatirving.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4320917144,
+      "lat": 40.7643419,
+      "lon": -73.9826989,
+      "tags": {
+        "brand": "Residence Inn",
+        "brand:wikidata": "Q7315394",
+        "brand:wikipedia": "en:Residence Inn by Marriott",
+        "internet_access": "wlan",
+        "name": "Residence Inn New York Manhattan / Central Park",
+        "official_name": "Residence Inn by Marriott",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4402339491,
+      "lat": 40.7440882,
+      "lon": -73.9960078,
+      "tags": {
+        "addr:housenumber": "204",
+        "addr:street": "West 23rd Street",
+        "name": "Chelsea Savoy Hotel",
+        "name:en": "Chelsea Savoy Hotel",
+        "tourism": "hotel",
+        "website": "https://www.chelseasavoynyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4416981290,
+      "lat": 40.7064129,
+      "lon": -74.0088962,
+      "tags": {
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4434875689,
+      "lat": 40.7640637,
+      "lon": -73.9828113,
+      "tags": {
+        "addr:housenumber": "230",
+        "addr:postcode": "10019",
+        "addr:street": "West 54th Street",
+        "name": "Ameritania at Times Square",
+        "name:zh": "时代广场阿美利坦尼亚酒店",
+        "tourism": "hotel",
+        "website": "https://www.ameritanianyc.com/",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4460449816,
+      "lat": 40.7221806,
+      "lon": -73.9982475,
+      "tags": {
+        "addr:housenumber": "49",
+        "name": "49 Crosby",
+        "name:en": "49 Crosby",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4496779320,
+      "lat": 40.7187827,
+      "lon": -74.0004138,
+      "tags": {
+        "addr:housenumber": "120",
+        "addr:postcode": "10013",
+        "addr:street": "Lafayette Street",
+        "name": "City Rooms NYC Soho",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4619360051,
+      "lat": 40.7822399,
+      "lon": -73.9804215,
+      "tags": {
+        "name": "NYLO New York City",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4654873356,
+      "lat": 40.7220039,
+      "lon": -74.0043561,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "310",
+        "addr:postcode": "10013",
+        "addr:street": "West Broadway",
+        "dog": "yes",
+        "name": "Soho Grand Hotel",
+        "name:en": "SoHo Grand Hotel",
+        "phone": "+1 (212) 965-3000",
+        "tourism": "hotel",
+        "website": "https://www.sohogrand.com/",
+        "wheelchair": "yes",
+        "wikidata": "Q7554755"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4742095663,
+      "lat": 40.7643557,
+      "lon": -73.9817987,
+      "tags": {
+        "addr:housenumber": "210",
+        "addr:postcode": "10019",
+        "addr:street": "West 55th Street",
+        "name": "Dream Midtown",
+        "name:en": "Dream Midtown",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5098756521,
+      "lat": 40.7206039,
+      "lon": -73.9953147,
+      "tags": {
+        "addr:housenumber": "30",
+        "addr:postcode": "10012",
+        "addr:street": "Kenmare Street",
+        "name": "Nolitan hotel",
+        "phone": "+1-212-925-2555",
+        "tourism": "hotel",
+        "website": "https://www.nolitanhotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5122652629,
+      "lat": 40.7412798,
+      "lon": -73.9873848,
+      "tags": {
+        "name": "New York EDITION",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5124295521,
+      "lat": 40.7491347,
+      "lon": -73.9838247,
+      "tags": {
+        "addr:housenumber": "373",
+        "addr:street": "5th Avenue",
+        "internet_access": "wlan",
+        "name": "U Hotel Fifth Avenue",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5187017438,
+      "lat": 40.8065824,
+      "lon": -73.9497363,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "2027",
+        "addr:postcode": "10027",
+        "addr:state": "NY",
+        "addr:street": "Adam Clayton Powell Jr. Boulevard",
+        "name": "Apollo Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5228777783,
+      "lat": 40.7528306,
+      "lon": -73.9858447,
+      "tags": {
+        "brand": "Residence Inn",
+        "brand:wikidata": "Q7315394",
+        "brand:wikipedia": "en:Residence Inn by Marriott",
+        "name": "Residence Inn Manhattan/Times Square",
+        "official_name": "Residence Inn by Marriott",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5265708147,
+      "lat": 40.7448844,
+      "lon": -73.9999695,
+      "tags": {
+        "addr:housenumber": "318",
+        "addr:street": "West 22nd Street",
+        "name": "Colonial House",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5281947323,
+      "lat": 40.7453075,
+      "lon": -73.9815115,
+      "tags": {
+        "addr:housenumber": "112",
+        "addr:street": "East 32nd Street",
+        "name": "The Marmara",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5281963249,
+      "lat": 40.7432835,
+      "lon": -73.9900361,
+      "tags": {
+        "addr:housenumber": "18",
+        "addr:street": "West 25th Street",
+        "name": "Heritage Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5296021049,
+      "lat": 40.8306967,
+      "lon": -73.9416361,
+      "tags": {
+        "addr:housenumber": "889",
+        "addr:street": "Saint Nicholas Avenue",
+        "name": "St Nicholas Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5341573917,
+      "lat": 40.760432,
+      "lon": -73.9897411,
+      "tags": {
+        "addr:housenumber": "346",
+        "addr:street": "West 46th Street",
+        "email": "contact@frenchquartersny.com",
+        "name": "The French Quarters Guest Apartments",
+        "phone": "+1-212-359-6652",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5346070477,
+      "lat": 40.7362114,
+      "lon": -73.9966243,
+      "tags": {
+        "addr:housenumber": "52",
+        "addr:street": "West 13th Street",
+        "name": "Walker Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5356822882,
+      "lat": 40.7753172,
+      "lon": -73.9632598,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "25",
+        "addr:postcode": "10075",
+        "addr:state": "NY",
+        "addr:street": "East 77th Street",
+        "facebook": "https://www.facebook.com/TheMarkHotelNY/",
+        "name": "The Mark",
+        "phone": "+1 (212) 744-4300",
+        "tourism": "hotel",
+        "website": "https://www.themarkhotel.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5399493721,
+      "lat": 40.7219358,
+      "lon": -73.9871922,
+      "tags": {
+        "addr:postcode": "10002",
+        "name": "The Ludlow Hotel",
+        "phone": "+1 212-432-1818",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5415641574,
+      "lat": 40.7211823,
+      "lon": -73.9889471,
+      "tags": {
+        "addr:housenumber": "163",
+        "addr:postcode": "10002",
+        "addr:street": "Orchard Street",
+        "contact:instagram": "orchardstreet.nyc",
+        "email": "reservations@orchardstreethotel.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Orchard Street Hotel",
+        "phone": "+1 212-804-8088",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "https://www.orchardstreethotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5474022221,
+      "lat": 40.7602133,
+      "lon": -73.9881913,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "305",
+        "addr:postcode": "10036",
+        "addr:state": "NY",
+        "addr:street": "West 46th Street",
+        "brand": "RIU",
+        "internet_access": "wlan",
+        "name": "Hotel Riu Plaza New York Times Square",
+        "phone": "+1 646-864-1100",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/USA/new-york/hotel-riu-plaza-new-york/times/square/index.jsp"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5749566253,
+      "lat": 40.7249122,
+      "lon": -73.9986434,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "147",
+        "addr:postcode": "10012",
+        "addr:state": "NY",
+        "addr:street": "Mercer Street",
+        "internet_access": "wlan",
+        "name": "Mercer Hotel",
+        "phone": "+1-212-966-6060",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.mercerhotel.com/",
+        "wheelchair": "yes",
+        "wikidata": "Q7751035"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5758246021,
+      "lat": 40.7468751,
+      "lon": -73.9921509,
+      "tags": {
+        "name": "Hotel Hayden",
+        "phone": "+1 844-423-6004",
+        "tourism": "hotel",
+        "website": "https://www.hotelhaydennyc.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5798643423,
+      "lat": 40.825813,
+      "lon": -73.9485289,
+      "tags": {
+        "addr:housenumber": "515",
+        "addr:street": "West 145th Street",
+        "name": "Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5801872753,
+      "lat": 40.7074576,
+      "lon": -74.0064548,
+      "tags": {
+        "addr:housenumber": "6",
+        "addr:street": "Platt Street",
+        "brand": "Four Points by Sheraton",
+        "brand:wikidata": "Q1439966",
+        "brand:wikipedia": "en:Four Points by Sheraton",
+        "name": "Four Points by Sheraton",
+        "short_name": "Four Points",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5804901025,
+      "lat": 40.7159879,
+      "lon": -74.0073387,
+      "tags": {
+        "addr:housenumber": "182",
+        "addr:street": "Duane Street",
+        "name": "Duane Street Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5975838419,
+      "lat": 40.7057586,
+      "lon": -74.0051334,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "151",
+        "addr:postcode": "10038",
+        "addr:state": "NY",
+        "addr:street": "Maiden Lane",
+        "brand": "AC Hotel",
+        "brand:wikidata": "Q5653536",
+        "brand:wikipedia": "en:AC Hotels",
+        "description": "Europen-style hotel in downtown NYC",
+        "fax": "+1-212-742-1900",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "AC Hotel NYC Downtown",
+        "operator": "Concord Hospitality",
+        "phone": "+1-212-742-1900",
+        "rooms": "274",
+        "smoking": "no",
+        "stars": "3",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/NYCLF",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6013503382,
+      "lat": 40.7466304,
+      "lon": -73.984595,
+      "tags": {
+        "name": "Avalon Hotel",
+        "phone": "+1-212-299-7000",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6030762121,
+      "lat": 40.7208594,
+      "lon": -74.0042677,
+      "tags": {
+        "brand": "Sheraton",
+        "brand:wikidata": "Q634831",
+        "brand:wikipedia": "en:Sheraton Hotels and Resorts",
+        "name": "Sheraton",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6150552527,
+      "lat": 40.7643867,
+      "lon": -73.9631097,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "215",
+        "addr:postcode": "10065",
+        "addr:state": "NY",
+        "addr:street": "East 64th Street",
+        "air_conditioning": "yes",
+        "brand": "Affinia Hotels",
+        "email": "AffiniaGardensReservations@affinia.com",
+        "fax": "+1 212-758-7858",
+        "internet_access": "wlan",
+        "name": "Gardens Suites Hotel by Affinia",
+        "operator": "Denihan Hospitality Group",
+        "payment:american_express": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:diners_club": "yes",
+        "payment:discover_card": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+1-212-355-1230",
+        "rooms": "132",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.affinia.com/gardens-suites-hotel/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6150564513,
+      "lat": 40.7561485,
+      "lon": -73.9708905,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "155",
+        "addr:postcode": "10022",
+        "addr:state": "NY",
+        "addr:street": "East 50th Street",
+        "brand": "Sonesta Select",
+        "brand:wikidata": "Q109272530",
+        "fax": "+1-212-753-1468",
+        "internet_access": "wlan",
+        "name": "The Fifty Sonesta Select New York",
+        "operator": "Denihan Hospitality Group",
+        "payment:american_express": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:diners_club": "yes",
+        "payment:discover_card": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+1-212-751-5710",
+        "rooms": "252",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.sonesta.com/sonesta-select/ny/new-york/fifty-sonesta-select-new-york",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6150575536,
+      "lat": 40.7484239,
+      "lon": -73.9780254,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "303",
+        "addr:postcode": "10016",
+        "addr:state": "NY",
+        "addr:street": "Lexington Avenue",
+        "alt_name": "Shelburne Hotel & Suites by Affinia",
+        "brand": "Sonesta Hotels And Resorts",
+        "description": "Located in New York's Murray Hill neighborhood, this hotel is 3 blocks from the Morgan Library & Museum and 5 blocks from the Grand Central Terminal.",
+        "email": "reservations@sonesta.com",
+        "fax": "+1 212-779-7068",
+        "internet_access": "wlan",
+        "name": "The Shelburne Sonesta New York",
+        "operator": "Denihan Hospitality Group",
+        "payment:american_express": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:diners_club": "yes",
+        "payment:discover_card": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+1-212-689-5200",
+        "rooms": "325",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.sonesta.com/sonesta-hotels-resorts/ny/new-york/shelburne-sonesta-new-york",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6236928048,
+      "lat": 40.7194926,
+      "lon": -73.9899366,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "120",
+        "addr:postcode": "10002",
+        "addr:state": "NY",
+        "addr:street": "Allen Street",
+        "name": "Sago Hotel",
+        "phone": "(212) 951-1112",
+        "tourism": "hotel",
+        "website": "https://sagohotel.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6262714386,
+      "lat": 40.7565163,
+      "lon": -73.984341,
+      "tags": {
+        "internet_access": "wlan",
+        "name": "hotel mela",
+        "phone": "+1-212-710-7000",
+        "tourism": "hotel",
+        "website": "http://www.hotelmela.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6288548793,
+      "lat": 40.7190209,
+      "lon": -74.0016678,
+      "tags": {
+        "addr:housenumber": "276",
+        "addr:street": "Canal Street",
+        "name": "Soho Garden Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6309444106,
+      "lat": 40.7082719,
+      "lon": -74.0136192,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "100",
+        "addr:postcode": "10006",
+        "addr:state": "NY",
+        "addr:street": "Greenwich Street",
+        "brand": "Courtyard",
+        "brand:wikidata": "Q5430314",
+        "brand:wikipedia": "en:Fairfield by Marriott",
+        "check_date": "2023-02-23",
+        "name": "Courtyard by Marriott New York Downtown Manhattan/World Trade Center Area",
+        "official_name": "Fairfield Inn & Suites by Marriott",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6479506185,
+      "lat": 40.7100733,
+      "lon": -74.0139564,
+      "tags": {
+        "addr:housenumber": "120",
+        "addr:postcode": "10006",
+        "name": "Club Quarters World Trade",
+        "name:en": "Club Quarters Hotel,  World Trade Center",
+        "phone": "2125771133",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6564006743,
+      "lat": 40.7584274,
+      "lon": -73.9930847,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "400",
+        "addr:postcode": "10036",
+        "addr:street": "West 42nd Street",
+        "fitness_centre": "no",
+        "internet_access": "wlan",
+        "name": "The Pod Times Square",
+        "swimming_pool": "no",
+        "tourism": "hotel",
+        "website": "https://www.thepodhotel.com/pod-times-square/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6611254406,
+      "lat": 40.7559916,
+      "lon": -73.9812639,
+      "tags": {
+        "name": "Club Quarter Hôtel",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6615272826,
+      "lat": 40.7571989,
+      "lon": -73.9814542,
+      "tags": {
+        "name": "The Hotel @ Times Square",
+        "toilets:wheelchair": "yes",
+        "tourism": "hotel",
+        "website": "https://www.hoteltsq.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6702620776,
+      "lat": 40.7524506,
+      "lon": -73.9829743,
+      "tags": {
+        "name": "Park Terrace Hotel",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7078649959,
+      "lat": 40.7284266,
+      "lon": -73.9851732,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "147",
+        "addr:postcode": "10003",
+        "addr:state": "NY",
+        "addr:street": "1st Avenue",
+        "name": "East Village Hotel",
+        "phone": "+1-212-929-1023",
+        "tourism": "hotel",
+        "website": "https://www.eastvillagehotelnyc.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7079516085,
+      "lat": 40.76568,
+      "lon": -73.9701137,
+      "tags": {
+        "addr:housenumber": "692",
+        "addr:street": "Madison Avenue",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7329757414,
+      "lat": 40.7703488,
+      "lon": -73.9897271,
+      "tags": {
+        "brand": "Fairfield Inn & Suites",
+        "brand:wikidata": "Q5430314",
+        "brand:wikipedia": "en:Fairfield by Marriott",
+        "name": "Fairfield Inn & Suites by Marriott New York Manhattan/Central Park",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/hotels/travel/nycft-fairfield-inn-and-suites-new-york-manhattan-central-park"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7415479526,
+      "lat": 40.7468137,
+      "lon": -73.982336,
+      "tags": {
+        "brand": "Hilton Garden Inn",
+        "brand:wikidata": "Q1162859",
+        "brand:wikipedia": "en:Hilton Garden Inn",
+        "name": "Hilton Garden Inn Midtown Park Avenue",
+        "rooms": "232",
+        "tourism": "hotel",
+        "website": "https://www.hilton.com/en/hotels/nycetgi-hilton-garden-inn-new-york-midtown-park-ave/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7747395789,
+      "lat": 40.7592445,
+      "lon": -73.9869234,
+      "tags": {
+        "name": "Paramount Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7868765654,
+      "lat": 40.7795881,
+      "lon": -73.9539993,
+      "tags": {
+        "addr:housenumber": "164",
+        "addr:postcode": "10128",
+        "addr:street": "East 87th Street",
+        "email": "reservations@franklinhotel.com",
+        "fitness_centre": "no",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "The Franklin",
+        "phone": "+1 212-710-2569",
+        "rooms": "50",
+        "smoking": "no",
+        "swimming_pool": "no",
+        "tourism": "hotel",
+        "website": "https://www.franklinhotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8562244620,
+      "lat": 40.756205,
+      "lon": -73.9555038,
+      "tags": {
+        "addr:housenumber": "22",
+        "addr:street": "North Loop Road",
+        "brand": "Graduate",
+        "brand:wikidata": "Q85846030",
+        "brand:wikipedia": "en:Graduate Hotels",
+        "name": "Graduate Roosevelt Island",
+        "official_name": "Graduate Hotels",
+        "tourism": "hotel",
+        "website": "https://www.graduatehotels.com/roosevelt-island/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8622609142,
+      "lat": 40.7198267,
+      "lon": -73.9989361,
+      "tags": {
+        "addr:housenumber": "159",
+        "addr:postcode": "10013",
+        "addr:street": "Grand Street",
+        "facebook": "https://www.facebook.com/thesolitahotel/",
+        "fax": "+1 212-925-3385",
+        "instagram": "https://www.instagram.com/SolitaSohoHotel/",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "The SoLita SoHo Hotel",
+        "phone": "+1 212-925-3600",
+        "tourism": "hotel",
+        "twitter": "https://twitter.com/solitasohohotel",
+        "website": "https://www.solitasohohotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8808753151,
+      "lat": 40.718348,
+      "lon": -74.00214,
+      "tags": {
+        "addr:housenumber": "77",
+        "addr:postcode": "10013",
+        "addr:street": "Walker Street",
+        "name": "Walker Hotel Tribeca",
+        "operator": "Walker Hotels",
+        "phone": "+1-212-735-8000",
+        "rooms": "171",
+        "tourism": "hotel",
+        "website": "https://www.walkerhotels.com/walker-hotel-tribeca"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9018305569,
+      "lat": 40.7160404,
+      "lon": -73.9952223,
+      "tags": {
+        "addr:housenumber": "125",
+        "addr:postcode": "10002",
+        "addr:street": "Canal Street",
+        "email": "info@leonhotelnyc.com",
+        "fax": "+1 212-219-1665",
+        "fitness_centre": "no",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Leon Hotel",
+        "phone": "+1 212-390-8833",
+        "smoking": "no",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9095733851,
+      "lat": 40.7110329,
+      "lon": -74.0069365,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "123",
+        "addr:postcode": "10038",
+        "addr:state": "NY",
+        "addr:street": "Nassau Street",
+        "brand": "Thompson Hotels",
+        "internet_access": "wlan",
+        "name": "The Beekman, A Thompson Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9105695788,
+      "lat": 40.7123546,
+      "lon": -73.9926814,
+      "tags": {
+        "addr:housenumber": "154",
+        "addr:street": "Madison Street",
+        "name": "Madison Les Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9325661454,
+      "lat": 40.756878,
+      "lon": -73.9932298,
+      "tags": {
+        "addr:housenumber": "340",
+        "addr:street": "West 40th Street",
+        "name": "tba",
+        "tourism": "hotel",
+        "website": "https://www.staytba.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9423683677,
+      "lat": 40.7544707,
+      "lon": -74.0024161,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "32",
+        "addr:postcode": "10001",
+        "addr:state": "NY",
+        "addr:street": "Hudson Yards",
+        "name": "Equinox",
+        "tourism": "hotel",
+        "website": "https://www.equinox.com/clubs/new-york/midtown/hudsonyards",
+        "wikidata": "Q111394932"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9644619617,
+      "lat": 40.7449756,
+      "lon": -73.9942187,
+      "tags": {
+        "brand": "Four Points by Sheraton",
+        "brand:wikidata": "Q1439966",
+        "brand:wikipedia": "en:Four Points by Sheraton",
+        "name": "Four Points by Sheraton Manhattan Chelsea",
+        "short_name": "Four Points",
+        "survey:date": "2022-04-05",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9652327519,
+      "lat": 40.7054827,
+      "lon": -74.0075737,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "88",
+        "addr:postcode": "10005",
+        "addr:state": "NY",
+        "addr:street": "Wall Street",
+        "name": "The Wall Street Hotel",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9923066116,
+      "lat": 40.7565827,
+      "lon": -73.9944985,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "515",
+        "addr:postcode": "10018",
+        "addr:state": "NY",
+        "addr:street": "9th Avenue",
+        "brand": "Independent",
+        "email": "reservations@trusshotel.com",
+        "fax": "+1 212-920-2021",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Truss Hotel Times Square",
+        "phone": "+1 212-920-2020",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.trusshotel.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10699464134,
+      "lat": 40.7645205,
+      "lon": -73.9691102,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "540",
+        "addr:street": "Park Avenue",
+        "name": "Loews Regency New York",
+        "stars": "5",
+        "tourism": "hotel",
+        "wikidata": "Q7308005",
+        "wikipedia": "en:Regency Hotel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10916743205,
+      "lat": 40.7556434,
+      "lon": -73.9903003,
+      "tags": {
+        "addr:city": "New York",
+        "addr:housenumber": "260",
+        "addr:postcode": "10018",
+        "addr:state": "NY",
+        "addr:street": "West 40th Street",
+        "air_conditioning": "yes",
+        "branch": "Times Square",
+        "brand": "AC Hotel",
+        "brand:wikidata": "Q5653536",
+        "name": "AC Hotel",
+        "payment:cash": "yes",
+        "payment:contactless": "yes",
+        "payment:credit_cards": "yes",
+        "pets": "no",
+        "phone": "+1 212-398-2700",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/en-us/hotels/nycma-ac-hotel-new-york-times-square/overview/",
+        "wheelchair": "yes"
+      }
+    }
+  ]
+}
