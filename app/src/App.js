@@ -1,4 +1,6 @@
 import React from 'react';
+import './App.css';
+import MainMenu from './MainMenu';
 
 class connectionExample extends React.Component {
   componentDidMount() {
@@ -9,15 +11,19 @@ class connectionExample extends React.Component {
       .then((data) => console.log(data));
   }
   render() {
-    return <div>Example Connection</div>
+    
+    return (
+    <div className="App">
+      <MainMenu></MainMenu>
+    </div>
+  );
+    
   }
 }
 export default connectionExample;
 
 
 
-// import './App.css';
-// import MainMenu from './MainMenu';
 
 
 // function App() {
