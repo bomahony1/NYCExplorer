@@ -15,5 +15,5 @@ urlpatterns = [
     path('venues/', VenuesAPIView.as_view(), name='venues'),
     path('weather/', WeatherAPIView.as_view(), name='weather'),
     path('events/', EventsAPIView.as_view(), name='event-list'),
-    path('restaurants/', RestaurantAPIView.as_view(), name='restaurant_coordinates'),
+    path('rest/', RestaurantAPIView.as_view(), name='restaurant_coordinates'),
 ]

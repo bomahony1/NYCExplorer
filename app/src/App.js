@@ -1,14 +1,30 @@
+import React from 'react';
 
-import './App.css';
-import MainMenu from './MainMenu';
-
-
-function App() {
-  return (
-    <div className="App">
-      <MainMenu></MainMenu>
-    </div>
-  );
+class connectionExample extends React.Component {
+  componentDidMount() {
+    const apiUrl = 'http://127.0.0.1:8000/api/';
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }
+  render() {
+    return <div>Example Connection</div>
+  }
 }
+export default connectionExample;
 
-export default App;
+
+
+// import './App.css';
+// import MainMenu from './MainMenu';
+
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <MainMenu></MainMenu>
+//     </div>
+//   );
+// }
+
+// export default App;

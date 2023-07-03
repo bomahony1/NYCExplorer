@@ -15,7 +15,7 @@ import requests
 
 from website.models import Hotels, Restaurants, Tourism
 from .serializers import HotelSerializer, RestaurantSerializer, TourismSerializer
-from .services import get_weather, get_venues, get_events_in_next_month, get_restaurant_coordinates
+from .services import get_weather, get_venues, get_events_in_next_month, get_restaurants
 
 
 
@@ -56,11 +56,13 @@ class VenuesAPIView(generics.GenericAPIView):
         venues_data = get_venues(query)
         return Response(venues_data)
     
+
 class RestaurantAPIView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
     def get(self, request, format=None):
-        restaurant_data = get_restaurant_coordinates()
-        return Response(restaurant_data)
+        api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+        restaurant_data = get_restaurants(api_key)
+        return JsonResponse(restaurant_data, safe=False)
+
     
 class EventsAPIView(APIView):
     def get(self, request):
