@@ -1,9 +1,8 @@
 import requests
-import traceback
 import json
 import time
-from datetime import datetime, timedelta
-from collections import Counter
+import datetime
+from datetime import timedelta
 from django.http import JsonResponse
 from django.utils import timezone
 
@@ -26,28 +25,36 @@ def get_weather():
         clouds = weather["clouds"]["all"]
         timestamp = timezone.now().timestamp()
 
-        vals = (main_weather, description, temperature, visibility, wind_speed, wind_deg, clouds, timestamp)
-        print('#found {} Availability {}'.format(len(vals), vals))
+        weather_data = {
+            "main_weather": main_weather,
+            "description": description,
+            "temperature": temperature,
+            "visibility": visibility,
+            "wind_speed": wind_speed,
+            "wind_deg": wind_deg,
+            "clouds": clouds,
+            "timestamp": timestamp
+        }
         
-        return weather
+        return weather_data
     except requests.exceptions.RequestException as e:
         print("Error in get_weather:", e)
         return None
 
-
 # Foursquare API
 
-def get_venues(query):
+def get_venues_restaurant():
     url = "https://api.foursquare.com/v3/places/search"
     headers = {
         "Accept": "application/json",
         "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
     }
     params = {
-        "query": query,
+        "query": "restaurants",
         "ll": "40.7831,-73.9712",  # Manhattan coordinates
         "open_now": "true",
-        "sort": "DISTANCE"
+        "categoryId": "4d4b7105d754a06374d81259",  # Category ID for Food (Restaurants)
+        "limit": 50,  # Number of results to retrieve per request
     }
 
     try:
@@ -60,10 +67,32 @@ def get_venues(query):
         print("Error in get_venues:", e)
         return None
 
+def get_venues_hotels():
+    url = "https://api.foursquare.com/v3/places/search"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+    }
+    params = {
+        "query": "hotels",
+        "ll": "40.7831,-73.9712",  # Manhattan coordinates
+        "open_now": "true",
+        "limit": 50,  # Number of results to retrieve per request
+    }
+
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        venues = response.json()
+        print(venues)
+        return venues
+    except requests.exceptions.RequestException as e:
+        print("Error in get_venues:", e)
+        return None
 
 # Ticketmaster API
 
-def get_events_in_next_month():
+def get_events():
     API_KEY = "q62LGBfQCP3kg9gVyUlveTeq2BayJuLL"
     url = "https://app.ticketmaster.com/discovery/v2/events.json"
     today = datetime.date.today()
@@ -117,7 +146,7 @@ def get_events_in_next_month():
                 break
 
         except requests.exceptions.RequestException as e:
-            print("Error in get_events_in_next_month:", e)
+            print("Error in get_events:", e)
             break
 
     return event_data
@@ -125,8 +154,9 @@ def get_events_in_next_month():
 
 # Google Places API
 
-def get_restaurants(api_key):
+def get_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
         "query": "restaurants in Manhattan, New York",
         "key": api_key

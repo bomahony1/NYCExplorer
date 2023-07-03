@@ -1,49 +1,51 @@
 import requests
-api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
 
-def get_restaurant_coordinates(api_key):
-    # Set the API endpoint URL
-    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-
-    # Set the query parameters
+def get_venues_restaurant():
+    url = "https://api.foursquare.com/v3/places/search"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+    }
     params = {
-        "query": "hotels in Manhattan, New York",
-        "key": api_key
+        "query": "restaurants",
+        "ll": "40.7831,-73.9712",  # Manhattan coordinates
+        "open_now": "true",
+        "categoryId": "4d4b7105d754a06374d81259",  # Category ID for Food (Restaurants)
+        "limit": 50,  # Number of results to retrieve per request
     }
 
-    # Send the API request
-    response = requests.get(url, params=params)
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        venues = response.json()
+        print(venues)
+        return venues
+    except requests.exceptions.RequestException as e:
+        print("Error in get_venues:", e)
+        return None
 
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        # Parse the response JSON
-        data = response.json()
+def get_venues_hotels():
+    url = "https://api.foursquare.com/v3/places/search"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+    }
+    params = {
+        "query": "hotels",
+        "ll": "40.7831,-73.9712",  # Manhattan coordinates
+        "open_now": "true",
+        "limit": 50,  # Number of results to retrieve per request
+    }
 
-        # Extract the restaurant results
-        results = data["results"]
 
-        # Process each restaurant result
-        restaurant_coordinates = []
-
-        for result in results:
-            name = result["name"]
-            address = result["formatted_address"]
-            location = result["geometry"]["location"]
-            lat = location["lat"]
-            lng = location["lng"]
-
-            restaurant_coordinates.append({
-                "name": name,
-                "address": address,
-                "latitude": lat,
-                "longitude": lng
-            })
-
-        print(restaurant_coordinates)
-        return restaurant_coordinates
-
-    else:
-        print("Fail")
-        return []  # Return an empty list if the API request fails
-
-get_restaurant_coordinates(api_key)
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        venues = response.json()
+        print(venues)
+        return venues
+    except requests.exceptions.RequestException as e:
+        print("Error in get_venues:", e)
+        return None
+    
+get_venues_attractions()
