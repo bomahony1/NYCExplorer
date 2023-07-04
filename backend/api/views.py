@@ -11,8 +11,9 @@ class WeatherAPIView(generics.GenericAPIView):
     def get(self, request, format=None):
         weather_data = get_weather()
         return Response(weather_data)
-
+    
 class RestaurantAPIView(generics.GenericAPIView):
+    @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
     def get(self, request, format=None):
         restaurant_data = get_venues_restaurant()
         return Response(restaurant_data)
