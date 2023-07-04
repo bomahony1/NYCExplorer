@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
 import { GoogleMap, Marker, useLoadScript, InfoWindow } from "@react-google-maps/api";
-import attractionData from "./tourism.json";
+
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
@@ -98,24 +98,32 @@ function MapPage() {
 
   useEffect(() => {
     if (isLoaded) {
-      // Create markers array
-      const newMarkers = attractionData.elements
-        .filter(attraction => attraction.tags.name && attraction.tags.website) // Filter out attractions with no name or no website
-        .map(attraction => ({
-          id: attraction.id,
-          position: { lat: attraction.lat, lng: attraction.lon },
-          title: attraction.tags.name,
-          info: {
-            city: attraction.tags['addr:city'],
-            country: attraction.tags['addr:country'],
-            street: attraction.tags['addr:street'],
-            website: attraction.tags.website,
-          },
-        }));
-      // Update markers state
-      setMarkers(newMarkers);
+      fetch('http://127.0.0.1:8000/api/restaurants/') // Fetch data from the backend server
+        .then(response => response.json())
+        .then(data => {
+          const newMarkers = data.results.map(restaurant => ({
+            id: restaurant.fsq_id,
+            position: {
+              lat: restaurant.geocodes.main.latitude,
+              lng: restaurant.geocodes.main.longitude,
+            },
+            title: restaurant.name,
+            info: {
+              categories: restaurant.categories,
+              address: restaurant.location.address,
+              link: restaurant.link,
+            },
+          }));
+          setMarkers(newMarkers);
+        })
+        .catch(error => {
+          console.error(error);
+          setMarkers([]); // Clear markers if there's an error
+        });
     }
   }, [isLoaded]);
+  
+  
 
   useEffect(() => {
     if (originInput) {
@@ -255,12 +263,11 @@ function MapPage() {
                     >
                       <div>
                         <h3>{selectedMarker.title}</h3>
-                        <p>City: {selectedMarker.info.city}</p>
-                        <p>Country: {selectedMarker.info.country}</p>
-                        <p>Street: {selectedMarker.info.street}</p>
+                        <p>Categories: {selectedMarker.info.categories.map(category => category.name).join(', ')}</p>
+                        <p>Address: {selectedMarker.info.address}</p>
                         <p>
-                          Website: <a href={selectedMarker.info.website}>{selectedMarker.info.website}</a>
-                        </p>
+                        Link: <a href={selectedMarker.info.link}>{selectedMarker.info.link}</a>
+                       </p>
                       </div>
                     </InfoWindow>
                   )}
