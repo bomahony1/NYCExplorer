@@ -85,15 +85,18 @@ CORS_ALLOWED_ORIGINS = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# //// FILL IN YOUR LOCAL DATABASE DETAILS HERE ////
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3', # This is where you put the name of the db file. 
+                 # If one doesn't exist, it will be created at migration time.
+    }
+}
+
+CACHES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'nyc_app',
-        "USER": 'root',
-        "HOST": '127.0.0.1',
-        "PORT": 3306,
-        "PASSWORD": 'ruanpx13',
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
     }
 }
 
