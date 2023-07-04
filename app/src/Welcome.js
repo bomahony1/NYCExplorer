@@ -135,7 +135,7 @@ timeline.add(
   line2
 );
 
-const Begin = () => {
+const Welcome = () => {
     const [animationFinished, setAnimationFinished] = useState(false);
     const animationRef = useRef(null);
   
@@ -164,4 +164,4 @@ const Begin = () => {
   };
   
 
-export default Begin;
+export default Welcome;

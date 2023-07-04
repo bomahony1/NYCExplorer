@@ -1,6 +1,43 @@
-import React from 'react';
+
 import './App.css';
 import MainMenu from './MainMenu';
+import React, { useState, useEffect } from 'react';
+import Welcome from '../Welcome';
+
+
+function App() {
+
+  const [showAnimation, setShowAnimation] = useState(true);
+
+  useEffect(() => {
+   
+    const animationDuration = 3000; //
+    const timeout = setTimeout(() => {
+      setShowAnimation(false);
+    }, animationDuration);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return (
+    <div className="App">
+      {showAnimation ? (
+        <div className="animation">
+          {/* 在此处插入您的动画组件 */}
+          < Welcome />
+        </div>
+      ) : (
+        // return to mainmenu
+        <MainMenu />
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+// test for  backend connect
 
 // class connectionExample extends React.Component {
 //   componentDidMount() {
@@ -22,15 +59,3 @@ import MainMenu from './MainMenu';
 // }
 // export default connectionExample;
 
-
-
-
-function App() {
-  return (
-    <div className="App">
-      <MainMenu></MainMenu>
-    </div>
-  );
-}
-
-export default App;
