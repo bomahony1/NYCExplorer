@@ -135,33 +135,54 @@ timeline.add(
   line2
 );
 
-const Welcome = () => {
+const Welcome = ({ onAnimationComplete }) => {
     const [animationFinished, setAnimationFinished] = useState(false);
     const animationRef = useRef(null);
   
     useEffect(() => {
+      circle1.then(circle2).then(circle3).then(smallCircle).then(triangle1).then(triangle2).then(line1).then(line2);
+      timeline.add(circle1, circle2, circle3, smallCircle, triangle1, triangle2, line1, line2);
+
+      circle1.then(/* other shapes */).then(() => {
+        setAnimationFinished(true);
+        onAnimationComplete(); // Call the function when the animation is finished
+      });
+
       timeline.replay();
-  
+    
       animationRef.current = timeline;
-  
+    
+      // Calculate total duration and delay
+      let totalDuration = 0;
+      let totalDelay = 0;
+    
+      timeline._timelines.forEach(tl => {
+        const props = tl._props; // Access the props object directly
+        totalDuration += props.duration || 0;
+        totalDelay += props.delay || 0;
+      });
+    
       // set update status
       setTimeout(() => {
         setAnimationFinished(true);
-      }, timeline._timelines.slice(-1)[0].props.duration + timeline._timelines.slice(-1)[0].props.delay);
-  
+      }, totalDuration + totalDelay);
+    
       return () => {
         timeline.reset();
         animationRef.current = null;
       };
     }, []);
-  
-    //  if animation finished return null
-    if (animationFinished) {
-      return null;
+    
+    
+
+    return (
+      <>
+      {
+      animationFinished ? (null) : (<div id="animation-container"></div>)
     }
+    </>
+    )
   
-    return <div id="animation-container"></div>;
   };
   
-
-export default Welcome;
+  export default Welcome;

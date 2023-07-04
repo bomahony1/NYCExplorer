@@ -1,61 +1,43 @@
 
-import './App.css';
-import MainMenu from './MainMenu';
 import React, { useState, useEffect } from 'react';
-import Welcome from '../Welcome';
+import Welcome from './Welcome';
+import MainMenu from './MainMenu';
+import './App.css';
 
-
-function App() {
-
+const App = () => {
   const [showAnimation, setShowAnimation] = useState(true);
 
   useEffect(() => {
-   
-    const animationDuration = 3000; //
+    const animationDuration = 2000;
     const timeout = setTimeout(() => {
       setShowAnimation(false);
+      handleAnimationComplete(); // Call the function when the animation is completed
     }, animationDuration);
 
     return () => clearTimeout(timeout);
   }, []);
 
+  const handleAnimationComplete = () => {
+    const elements = document.querySelectorAll('[data-name="mojs-shape"]');
+    elements.forEach((element) => {
+      element.style.display = 'none';
+    });
+  };
+
   return (
     <div className="App">
       {showAnimation ? (
         <div className="animation">
-          {/* 在此处插入您的动画组件 */}
-          < Welcome />
+          {/* <Welcome /> will handle animationFinished internally */}
+          <Welcome onAnimationComplete={handleAnimationComplete} />
         </div>
       ) : (
-        // return to mainmenu
+        // Show the MainMenu component after the animation has finished
         <MainMenu />
       )}
     </div>
   );
-}
+};
 
 export default App;
-
-
-// test for  backend connect
-
-// class connectionExample extends React.Component {
-//   componentDidMount() {
-//     // Complete the end point here e.g. api/hotels, api/events
-//     const apiUrl = 'http://127.0.0.1:8000/api/restaurants';
-//     fetch(apiUrl)
-//       .then((response) => response.json())
-//       .then((data) => console.log(data));
-//   }
-//   render() {
-    
-//     return (
-//     <div className="App">
-//       <MainMenu></MainMenu>
-//     </div>
-//   );
-    
-//   }
-// }
-// export default connectionExample;
 
