@@ -11,13 +11,14 @@
   --purple: #9900ff;
   --pink: #ff0066;
   --lightGrey: #1C2541;
+  
   --red: #fe0222;
   --orange: #fd7702;
   --yellow: #ffbb00;
   
 
   --background: var(--white);
-  --accent: var(--blue);
+  --accent: var(--lightGrey);
 
   margin: 0;
   padding: 0;
