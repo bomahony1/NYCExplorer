@@ -61,7 +61,7 @@ function NestedList() {
 
   return (
     <List
-      sx={{ width: '100%', maxWidth: 1888, bgcolor: 'background.paper' }}
+    sx={{ border: '1px solid #e0e0e0', borderRadius: '4px', padding: '10px' }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={<ListSubheader component="div" id="nested-list-subheader"></ListSubheader>}
@@ -142,20 +142,20 @@ function HomePage() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', margin: '0 50px', color: '#1C2541', fontWeight: 'bold'  }}>
+    <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold'  }}>
       <div>
-        <div style={{ textAlign: 'center'}}>
+        <div style={{ textAlign: 'center',marginTop:'6px'}}>
           <Carousel selectedItem={activeSlide} onChange={setActiveSlide}>
             {events.map((event, index) => (
                <div key={index} onMouseEnter={() => setActiveSlide(index)}>
                 <CardActionArea>
-                  <CardMedia component="img" height="200" width="699" image={event.image} alt="" padding="10px" />
+                  <CardMedia component="img" height="560" width="699" image={event.image} alt="" padding="10px" />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {event.name}
+                      <strong>{event.name}</strong>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Throw in at {event.date} ,{event.time}
+                      <strong>Throw in at {event.date}  {event.time}</strong>
                     </Typography>
                   </CardContent>
                 </CardActionArea>
