@@ -224,7 +224,7 @@ function HomePage() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', margin: '0 50px', color: '#1C2541', fontWeight: 'bold'  }}>
       <div>
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
           <Carousel selectedItem={activeSlide} onChange={setActiveSlide}>
@@ -237,13 +237,12 @@ function HomePage() {
                       {event.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Throw in at {event.date}<br />
-                      Start Time: {event.time}
+                      Throw in at {event.date} ,{event.time}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary" onClick={() => handleBringMeThere(event.url)}>
+                  <Button size="media" color="primary" onClick={() => handleBringMeThere(event.url)}>
                     Bring me there
                   </Button>
                 </CardActions>

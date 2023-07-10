@@ -198,8 +198,8 @@ function MapPage() {
   };
 
   return (
-    <div>
-      <div>
+    <div  style={{  margin: '0 50px'}}>
+      <div style={{  color: '#1C2541', fontWeight: 'bold'  }}>
         <h1>New York Map</h1>
         <p>
           By searching in the search bar below or clicking on the map, you can
