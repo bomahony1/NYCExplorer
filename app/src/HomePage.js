@@ -7,84 +7,33 @@ import Typography from '@mui/material/Typography';
 import { Button,Card, CardActionArea, CardActions, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { motion, AnimatePresence } from 'framer-motion';
 
-const itemVariants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 24 }
-  },
-  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
-};
 
-// function cards(imageUrl, title, time, description) {
-//   return (
-//     <Card>
-//       <CardActionArea>
-//         <CardMedia component="img" height="100" image={imageUrl} alt="" padding="10px" />
-//         <CardContent>
-//           <Typography gutterBottom variant="h6" component="div">
-//             {title}
-//           </Typography>
-//           <Typography gutterBottom variant="h7" component="div">
-//             {time}
-//           </Typography>
-//           <Typography variant="body2" color="text.secondary">
-//             {description}
-//           </Typography>
-//         </CardContent>
-//       </CardActionArea>
-//       <CardActions>
-//         <Button size="small" color="primary">
-//           Bring me there
-//         </Button>
-//       </CardActions>
-//     </Card>
-//   );
-// }
-
-function cards(imageUrl, title, time, description) {
+function cards(imageUrl, title, time, description,index) {
   return (
-    <motion.div
-    variants={itemVariants}
-    initial="closed"
-    animate="open"
-    exit="closed"
-    style={{
-      overflow: 'hidden',
-      backgroundColor: 'var(--accent)',
-      color: 'var(--background)',
-      borderRadius: '10px',
-      padding: '10px',
-      marginBottom: '10px',
-    }}
-    >
-      <Card>
-        <CardActionArea>
-          <CardMedia component="img" height="100" image={imageUrl} alt="" padding="10px" />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              {title}
-            </Typography>
-            <Typography gutterBottom variant="h7" component="div">
-              {time}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Bring me there
-          </Button>
-        </CardActions>
-      </Card>
-    </motion.div>
+    <Card key={index}>
+      <CardActionArea>
+        <CardMedia component="img" height="100" image={imageUrl} alt="" padding="10px" />
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            {title}
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div">
+            {time}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary">
+          Bring me there
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
-
 
 
 function NestedList() {
@@ -124,7 +73,7 @@ function NestedList() {
       <Collapse in={open1} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            {cards('imageUrl1', 'Title 1', 'Time 1', 'Description 1')}
+            {cards('imageUrl1', 'Title 1', 'Time 1', 'Description 1',0)}
           </ListItemButton>
         </List>
       </Collapse>
@@ -136,7 +85,7 @@ function NestedList() {
       <Collapse in={open2} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            {cards('imageUrl2', 'Title 2', 'Time 2', 'Description 2')}
+            {cards('imageUrl2', 'Title 2', 'Time 2', 'Description 2',1)}
           </ListItemButton>
         </List>
       </Collapse>
@@ -148,7 +97,7 @@ function NestedList() {
       <Collapse in={open3} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            {cards('imageUrl3', 'Title 3', 'Time 3', 'Description 3')}
+            {cards('imageUrl3', 'Title 3', 'Time 3', 'Description 3',2)}
           </ListItemButton>
         </List>
       </Collapse>
@@ -160,7 +109,7 @@ function NestedList() {
       <Collapse in={open4} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            {cards('imageUrl4', 'Title 4', 'Time 4', 'Description 4')}
+            {cards('imageUrl4', 'Title 4', 'Time 4', 'Description 4',3)}
           </ListItemButton>
         </List>
       </Collapse>
@@ -195,10 +144,10 @@ function HomePage() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', margin: '0 50px', color: '#1C2541', fontWeight: 'bold'  }}>
       <div>
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+        <div style={{ textAlign: 'center'}}>
           <Carousel selectedItem={activeSlide} onChange={setActiveSlide}>
             {events.map((event, index) => (
-              <div onMouseEnter={() => setActiveSlide(index)}>
+               <div key={index} onMouseEnter={() => setActiveSlide(index)}>
                 <CardActionArea>
                   <CardMedia component="img" height="200" width="699" image={event.image} alt="" padding="10px" />
                   <CardContent>
