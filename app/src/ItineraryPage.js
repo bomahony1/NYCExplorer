@@ -94,9 +94,6 @@ function Window({ content }) {
   );
 }
 
-
-
-
 // function cards(imageUrl, title,time, description) {
 //     return (
 //       <div>
@@ -130,8 +127,6 @@ function Window({ content }) {
 //       </div>
 //     );
 //   }
-
-
 
 function Pop(){
   const count = useRef(0);
@@ -199,11 +194,9 @@ function ItineraryPage() {
                 <Buttons setSelectedTab={setSelectedTab} />
                 <Window content={selectedTab} />
             </div>
-            
             <div className="pop">
             <Pop />
             </div>
-            
             <article>
       <motion.div className="progress" style={{ scaleX }} />
       <motion.div

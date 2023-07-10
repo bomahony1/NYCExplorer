@@ -94,7 +94,7 @@ function PlayButton() {
 export default function MainMenu() {
   const [value, setValue] = useState(0);
   const StyledTabIcon = styled('span')({
-    fontSize: '1.8rem', // Adjust the icon size as needed
+    fontSize: '1.6rem', // Adjust the icon size as needed
   });
   
 
