@@ -16,6 +16,7 @@ import { transition } from './settings';
 import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
+import Footer from './Footer';
 
 function PlayButton() {
   const [ref, bounds] = useMeasure({ scroll: false });
@@ -162,6 +163,9 @@ export default function MainMenu() {
         <PlayButton />
       </div>
       <Box>{content}</Box>
+      <div><Footer /></div>
     </Box>
+    
+
   );
 }
