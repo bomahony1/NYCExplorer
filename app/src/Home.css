@@ -2,3 +2,28 @@
 .carousel .control-dots {
   margin-bottom: -8px !important;
 }
+
+.images-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+ 
+  margin: 100px;
+  width: 500px; /* Adjust the desired width for the images container */
+  height: 360px; /* Adjust the desired height for the images container */
+  overflow: auto; /* Enable scrolling */
+}
+
+.images-container .image-container {
+  width: 500px; /* Adjust the desired width for each image container */
+  height: 500px; /* Adjust the desired height for each image container */
+  background: var(--white);
+  overflow: hidden;
+}
+
+.images-container .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

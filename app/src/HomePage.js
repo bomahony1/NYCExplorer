@@ -4,41 +4,14 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button,Card, CardActionArea, CardActions, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
+import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { motion, AnimatePresence, useScroll, useSpring} from "framer-motion";
+import { motion, useScroll, useSpring} from "framer-motion";
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 
-
-
-// function cards(imageUrl, title, time, description,index) {
-//   return (
-//     <Card key={index}>
-//       <CardActionArea>
-//         <CardMedia component="img" height="100" image={imageUrl} alt="" padding="10px" />
-//         <CardContent>
-//           <Typography gutterBottom variant="h6" component="div">
-//             {title}
-//           </Typography>
-//           <Typography gutterBottom variant="h7" component="div">
-//             {time}
-//           </Typography>
-//           <Typography variant="body2" color="text.secondary">
-//             {description}
-//           </Typography>
-//         </CardContent>
-//       </CardActionArea>
-//       <CardActions>
-//         <Button size="small" color="primary">
-//           Bring me there
-//         </Button>
-//       </CardActions>
-//     </Card>
-//   );
-// }
 
 
 function NestedList() {
@@ -71,8 +44,9 @@ function NestedList() {
       aria-labelledby="nested-list-subheader"
       subheader={<ListSubheader component="div" id="nested-list-subheader"></ListSubheader>}
     >
-      <ListItemButton onClick={handleClick1}>
-        
+      <ListItemButton onClick={handleClick1}
+      sx={{ borderTop: '1px solid white' }} 
+      >
         <ListItemText primary={<span style={{ fontWeight: 'bold',color:'white',fontSize: '1.2rem' }}>Empire State Building</span>} style={{ textAlign: 'left' }} />
         {open1 ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
@@ -80,13 +54,14 @@ function NestedList() {
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
           Visit New York City's most iconic skyscraper and admire the panoramic views over Manhattan
-          <Button size="small">Explore</Button>
+          <Button size="small" style={{  color: '#477696' }}>Explore</Button>
           <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
       </Collapse>
 
-      <ListItemButton onClick={handleClick2}>
+      <ListItemButton onClick={handleClick2}
+      sx={{ borderTop: '1.3px solid white' }} >
       <ListItemText primary={<span style={{ fontWeight: 'bold' ,color:'white',fontSize: '1.2rem'}}>Wall Street</span>} style={{ textAlign: 'left' }} />
         {open2 ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
@@ -94,13 +69,14 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
           Explore the world's financial center with a Wall Street insider
-          <Button size="small">Explore</Button>
+          <Button size="small" style={{  color: '#477696' }}>Explore</Button>
           <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
       </Collapse>
 
-      <ListItemButton onClick={handleClick3}>
+      <ListItemButton onClick={handleClick3}
+      sx={{ borderTop: '1.6px solid white' }} >
         <ListItemText primary={<span style={{ fontWeight: 'bold',color:'white',fontSize: '1.2rem' }}>Time Square</span>} style={{ textAlign: 'left' }} />
         {open3 ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
@@ -108,13 +84,14 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white" ,fontWeight: 'normal'}}>
         Explore central area in NYC that has many shops, restaurants, office buildings and flashing billboards around it.
-        <Button size="small">Explore</Button>
+        <Button size="small" style={{  color: '#477696' }}>Explore</Button>
         <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
       </Collapse>
 
-      <ListItemButton onClick={handleClick4}>
+      <ListItemButton onClick={handleClick4}
+      sx={{ borderTop: '1.8px solid white' }} >
         <ListItemText primary={<span style={{ fontWeight: 'bold',color:'white',fontSize: '1.2rem' }}>Statue of Liberty</span>} style={{ textAlign: 'left' }} />
         {open4 ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
@@ -122,7 +99,7 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
         Donated by the French in 1886, Lady Liberty is a symbol of democracy both in the USA and worldwide
-        <Button size="small" >Explore</Button>
+        <Button size="small"  style={{  color: '#477696' }}>Explore</Button>
         <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
@@ -130,6 +107,38 @@ function NestedList() {
     </List>
   );
 }
+
+// Photos from https://unsplash.com/
+const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
+const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
+
+
+function Image({ id }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+
+  return (
+    <div className="image-container">
+      <motion.div
+        initial={false}
+        animate={
+          isLoaded && isInView
+            ? { WebkitMaskImage: visibleMask, maskImage: visibleMask }
+            : { WebkitMaskImage: hiddenMask, maskImage: hiddenMask }
+        }
+        transition={{ duration: 1, delay: 1 }}
+        viewport={{ once: true }}
+        onViewportEnter={() => setIsInView(true)}
+      >
+        <img src={`/${id}.jpg`} alt="" onLoad={() => setIsLoaded(true)} />
+      </motion.div>
+    </div>
+  );
+}
+
+
+
+
 
 function HomePage() {
   const [events, setEvents] = useState([]);
@@ -215,8 +224,16 @@ function HomePage() {
             <h3>Let Buzzin New York help you create lasting memories</h3>
           </div> 
           <NestedList />
+          </div >
+          <div classname="images" style={{ border:"2px solid white",flex: 2,margin:"100px"}}>
+          <div className="images-container">
+            {[1, 2, 3, 4].map((image) => (
+              <Image key={image} id={image} />
+            ))}
           </div>
-          <div style={{ flex: 2}}>111111</div>
+
+          
+          </div>
         </div>
         
       </div>

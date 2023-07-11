@@ -29,6 +29,38 @@ import { removeItem } from "./array.ts";
 //       );
 // }
 
+
+function Gallery() {
+  const ref = useRef(null);
+  const { scrollXProgress } = useScroll({ container: ref });
+
+  return (
+    <>
+      <svg id="progress" width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="30" pathLength="1" className="bg" />
+        <motion.circle
+          cx="50"
+          cy="50"
+          r="30"
+          pathLength="1"
+          className="indicator"
+          style={{ pathLength: scrollXProgress }}
+        />
+      </svg>
+      <ul ref={ref}>
+        <li></li>
+        <p>Additional text or description for 1-3 Days</p>
+        <li></li>
+        <p>Additional text or description for 1-3 Days</p>
+        <li></li>
+        <p>Additional text or description for 1-3 Days</p>
+       
+      </ul>
+    </>
+  );
+}
+
+
 function Buttons({ setSelectedTab }) {
   const buttons = [
     { label: "1-3 Days", content: "Content for 1-3 Days" },
@@ -64,69 +96,44 @@ function Buttons({ setSelectedTab }) {
   );
 }
 
+
+
 function Window({ content }) {
   return (
     <div className="window">
-       <div className="window-content">
-      {content === "Content for 1-3 Days" && (
-        <div>
-          <h3>Gallery for 1-3 Days</h3>
-          {/* Your gallery component goes here */}
-          <p>Additional text or description for 1-3 Days</p>
-        </div>
-      )}
-      {content === "Content for 4-6 Days" && (
-        <div>
-          <h3>Gallery for 4-6 Days</h3>
-          {/* Your gallery component goes here */}
-          <p>Additional text or description for 4-6 Days</p>
-        </div>
-      )}
-      {content === "Content for 7-10 Days" && (
-        <div>
-          <h3>Gallery for 7-10 Days</h3>
-          {/* Your gallery component goes here */}
-          <p>Additional text or description for 7-10 Days</p>
-        </div>
-      )}
+      <div className="window-content">
+        {content === "Content for 1-3 Days" && (
+          <div>
+            <h3>Gallery for 1-3 Days</h3>
+            <div className="gallery">
+              <Gallery />
+            </div>
+
+          </div>
+        )}
+        {content === "Content for 4-6 Days" && (
+          <div>
+            <h3>Gallery for 4-6 Days</h3>
+            <div className="gallery">
+            <Gallery />
+            </div>
+            <p>Additional text or description for 4-6 Days</p>
+          </div>
+        )}
+        {content === "Content for 7-10 Days" && (
+          <div>
+            <h3>Gallery for 7-10 Days</h3>
+            <div className="gallery">
+            <Gallery />
+            </div>
+            <p>Additional text or description for 7-10 Days</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-// function cards(imageUrl, title,time, description) {
-//     return (
-//       <div>
-//         <Card>
-//           <CardActionArea>
-//             <CardMedia
-//               component="img"
-//               height="100"
-//               image={imageUrl}
-//               alt=""
-//               padding="10px"
-//             />
-//             <CardContent>
-//               <Typography gutterBottom variant="h6" component="div">
-//                 {title}
-//               </Typography>
-//               <Typography gutterBottom variant="h7" component="div">
-//                 {time}
-//               </Typography>
-//               <Typography variant="body2" color="text.secondary">
-//                 {description}
-//               </Typography>
-//             </CardContent>
-//           </CardActionArea>
-//           <CardActions>
-//             <Button size="small" color="primary">
-//               Bring me there
-//             </Button>
-//           </CardActions>
-//         </Card>
-//       </div>
-//     );
-//   }
 
 function Pop(){
   const count = useRef(0);
@@ -137,7 +144,7 @@ function Pop(){
     <div className="example">
       <div className="controls">
         <label className="enable">
-          <code>POP YOUR Itinerary </code>
+          <code>POP YOUR Itinerary Plan </code>
           <input
             type="checkbox"
             checked={popLayout}
@@ -151,7 +158,7 @@ function Pop(){
             setItems([...items, count.current]);
           }}
         >
-          Add item
+          Add Plan
         </motion.button>
       </div>
       <ul>

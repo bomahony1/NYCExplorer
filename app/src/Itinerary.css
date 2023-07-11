@@ -1,20 +1,9 @@
 /* Rest of your existing styles */
 
 .itinerary-page {
-  --black: #000000;
-  --ash-black: #222;
+ 
   --white: #fafafa;
-  --sky: #00ccff;
-  --green: #22dddd;
-  --blue: #64B6AC;
-  --dusk: #6600ff;
-  --purple: #9900ff;
-  --pink: #ff0066;
   --lightBlue: #1C2541;
-  
-  --red: #fe0222;
-  --orange: #fd7702;
-  --yellow: #ffbb00;
   
 
   --background: var(--white);
@@ -26,8 +15,7 @@
   padding-bottom: 100px;
   overflow: hidden;
   font-family: sofia-pro, sans-serif;
-  font-weight: 400;
-  font-style: normal;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -204,14 +192,82 @@
   .window {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     background-color: white;
     border: 2px solid white;
     border-radius: 4px;
     margin-top: 6px;
+    
+    
   }
   
   .window-content {
     text-align: center;
+    
   }
+  
+  .gallery {
+    display: flex;
+    position: relative;
+    list-style: none;
+    width: 600px;
+    height: 300px;
+    overflow-x: scroll;
+    padding: 20px 0;
+    flex: 0 0 600px;
+    margin: 0 auto;
+  }
+  
+  .gallery::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    background: #fff3;
+    -webkit-border-radius: 1ex;
+  }
+  
+  .gallery::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    -webkit-border-radius: 1ex;
+  }
+
+  
+  .gallery::-webkit-scrollbar-corner {
+    background: #fff3;
+  }
+  
+  .gallery li {
+    flex: 0 0 200px;
+    background: var(--accent);
+    margin: 0 20px 0 0;
+  }
+  
+  .gallery li:last-of-type {
+    margin: 0;
+  }
+  .gallery circle {
+    stroke-dashoffset: 0;
+    stroke-width: 15%;
+    fill: none;
+  }
+
+  .gallery #progress .indicator {
+    stroke: var(--accent);
+  }
+  .gallery ul {
+    display: flex;
+    list-style: none;
+    height: 600px;
+    overflow-x: scroll;
+    padding: 20px 0;
+    flex: 0 0 600px;
+    margin: 0 auto;
+  }
+  .gallery #progress {
+    position: absolute;
+    top: -30px; /* Adjust the top position as needed */
+  left: -30px;
+    transform: rotate(-90deg);
+  }
+
+
   
