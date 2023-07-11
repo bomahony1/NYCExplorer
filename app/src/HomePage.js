@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { motion, useScroll, useSpring} from "framer-motion";
+import { motion} from "framer-motion";
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
@@ -143,13 +143,9 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
-  const { scrollYProgress } = useScroll();
+ 
 
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 30,
-    restDelta: 0.001
-  });
+ 
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/events/')
