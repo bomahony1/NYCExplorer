@@ -227,7 +227,7 @@ function MapPage() {
           onChange={setDestinationInput}
         />
 
-        <Button variant="outlined" size="medium" onClick={handleSearch} disabled={!origin || !destination}>
+        <Button variant="outlined" size="medium" onClick={handleSearch} disabled={!origin || !destination} style={{ marginTop: '20px' }}>
           Toggle Markers
         </Button>
       </div>
