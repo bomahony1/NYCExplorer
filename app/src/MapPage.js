@@ -4,16 +4,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
 import { GoogleMap, Marker, useLoadScript, InfoWindow } from "@react-google-maps/api";
-
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import Button from '@mui/material/Button';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha('#3f5a68', 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha('#3f5a68', 0.25),
   },
   marginLeft: 0,
   width: '100%',
@@ -34,16 +34,16 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: '#477b96',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    padding: theme.spacing(1, 2),
+    paddingLeft: theme.spacing(6),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
+      width: '30ch',
       '&:focus': {
-        width: '20ch',
+        width: '30ch',
       },
     },
   },
@@ -66,9 +66,9 @@ function LocationSearchInput({ placeholder, value, onChange }) {
           />
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
-            {suggestions.map(suggestion => {
+            {suggestions.map((suggestion, index) => {
               return (
-                <div {...getSuggestionItemProps(suggestion)}>
+                <div key={index} {...getSuggestionItemProps(suggestion)}>
                   <span>{suggestion.description}</span>
                 </div>
               );
@@ -92,16 +92,18 @@ function MapPage() {
   const [directions, setDirections] = useState(null);
   const [origin, setOrigin] = useState(null);
   const [destination, setDestination] = useState(null);
-  const [originInput, setOriginInput] = useState("");
-  const [destinationInput, setDestinationInput] = useState("");
+  const [originInput, setOriginInput] = useState('');
+  const [destinationInput, setDestinationInput] = useState('');
   const [showMarkers, setShowMarkers] = useState(true);
+  const [distance, setDistance] = useState('');
+  const [duration, setDuration] = useState('');
 
   useEffect(() => {
     if (isLoaded) {
       fetch('http://127.0.0.1:8000/api/restaurants/') // Fetch data from the backend server
-        .then(response => response.json())
-        .then(data => {
-          const newMarkers = data.results.map(restaurant => ({
+        .then((response) => response.json())
+        .then((data) => {
+          const newMarkers = data.results.map((restaurant) => ({
             id: restaurant.fsq_id,
             position: {
               lat: restaurant.geocodes.main.latitude,
@@ -116,18 +118,16 @@ function MapPage() {
           }));
           setMarkers(newMarkers);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
           setMarkers([]); // Clear markers if there's an error
         });
     }
   }, [isLoaded]);
-  
-  
 
   useEffect(() => {
     if (originInput) {
-      const handleSelect = async value => {
+      const handleSelect = async (value) => {
         try {
           const results = await geocodeByAddress(value, {
             circle: {
@@ -142,14 +142,14 @@ function MapPage() {
           console.log(error);
         }
       };
-  
+
       handleSelect(originInput);
     }
   }, [originInput]);
-  
+
   useEffect(() => {
     if (destinationInput) {
-      const handleSelect = async value => {
+      const handleSelect = async (value) => {
         try {
           const results = await geocodeByAddress(value, {
             circle: {
@@ -164,7 +164,7 @@ function MapPage() {
           console.log(error);
         }
       };
-  
+
       handleSelect(destinationInput);
     }
   }, [destinationInput]);
@@ -188,6 +188,15 @@ function MapPage() {
   const handleDirectionsResponse = (response) => {
     if (response !== null) {
       setDirections(response);
+  
+      const leg = response.routes[0]?.legs[0];
+      if (leg) {
+        setDistance(leg.distance?.text || '');
+        setDuration(leg.duration?.text || '');
+      } else {
+        setDistance('');
+        setDuration('');
+      }
     }
   };
 
@@ -198,9 +207,9 @@ function MapPage() {
   };
 
   return (
-    <div  style={{  margin: '0 50px'}}>
-      <div style={{  color: '#1C2541', fontWeight: 'bold'  }}>
-        <h1>New York Map</h1>
+    <div style={{ margin: '0 50px', color: '#4f9cc4' }}>
+      <div style={{ fontWeight: 'bold' }}>
+        <h1 style={{ color: '#477b96' }}>New York Map</h1>
         <p>
           By searching in the search bar below or clicking on the map, you can
           access a detailed legend.
@@ -217,10 +226,17 @@ function MapPage() {
           value={destinationInput}
           onChange={setDestinationInput}
         />
-        <button onClick={handleSearch} disabled={!origin || !destination}>
+
+        <Button variant="outlined" size="medium" onClick={handleSearch} disabled={!origin || !destination}>
           Toggle Markers
-        </button>
+        </Button>
       </div>
+      {origin && destination && (
+        <div style={{ marginTop: '20px' }}>
+          <p>Distance: {distance}</p>
+          <p>Time to walk: {duration}</p>
+        </div>
+      )}
       <div style={{ marginTop: '20px', height: '600px' }}>
         {!isLoaded ? (
           <div>Loading...</div>
