@@ -10,7 +10,7 @@
   --dusk: #6600ff;
   --purple: #9900ff;
   --pink: #ff0066;
-  --lightGrey: #1C2541;
+  --lightBlue: #1C2541;
   
   --red: #fe0222;
   --orange: #fd7702;
@@ -18,7 +18,7 @@
   
 
   --background: var(--white);
-  --accent: var(--lightGrey);
+  --accent: var(--lightBlue);
 
   margin: 0;
   padding: 0;

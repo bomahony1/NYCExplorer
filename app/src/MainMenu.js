@@ -1,4 +1,5 @@
-import React, { useState,Suspense } from 'react';
+
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -9,14 +10,12 @@ import HomePage from './HomePage';
 import MapPage from './MapPage';
 import ItineraryPage from './ItineraryPage';
 import sloganImage from './images/slogan.jpg';
-import { motion, MotionConfig, useMotionValue } from "framer-motion";
-import { Shapes } from "./Shapes";
-import { transition } from "./settings";
-import useMeasure from "react-use-measure";
+import { motion, MotionConfig, useMotionValue } from 'framer-motion';
+import { Shapes } from './Shapes';
+import { transition } from './settings';
+import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
-
-
 
 function PlayButton() {
   const [ref, bounds] = useMeasure({ scroll: false });
@@ -32,15 +31,16 @@ function PlayButton() {
 
   return (
     <MotionConfig transition={transition}>
-      <motion.button className='PlayButton'
+      <motion.button
+        className="PlayButton"
         ref={ref}
         initial={false}
-        animate={isHover ? "hover" : "rest"}
+        animate={isHover ? 'hover' : 'rest'}
         whileTap="press"
         variants={{
-          rest: { scale: 0.5 },
+          rest: { scale: 0.4 },
           hover: { scale: 0.8 },
-          press: { scale: 0.8 }
+          press: { scale: 0.8 },
         }}
         onHoverStart={() => {
           resetMousePosition();
@@ -62,45 +62,50 @@ function PlayButton() {
           className="shapes"
           variants={{
             rest: { opacity: 0 },
-            hover: { opacity: 1 }
+            hover: { opacity: 1 },
           }}
         >
           <div className="pink blush" />
           <div className="blue blush" />
           <div className="container">
             <Suspense fallback={null}>
-              <Shapes
-                isHover={isHover}
-                isPress={isPress}
-                mouseX={mouseX}
-                mouseY={mouseY}
-              />
+              <Shapes isHover={isHover} isPress={isPress} mouseX={mouseX} mouseY={mouseY} />
             </Suspense>
           </div>
         </motion.div>
-        <motion.div
-          variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }}
-          className="label"
-        >
-          Contact
+        <motion.div variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }} className="label">
+          Contact 
         </motion.div>
       </motion.button>
     </MotionConfig>
   );
 }
 
-
-
 export default function MainMenu() {
   const [value, setValue] = useState(0);
   const StyledTabIcon = styled('span')({
     fontSize: '1.6rem', // Adjust the icon size as needed
   });
-  
+  const navRef = useRef(null); // Reference to the navigation bar element
+  const [isSticky, setIsSticky] = useState(false); // State to track if navigation bar should be sticky
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        // Check if the page has scrolled past the navigation bar position
+        setIsSticky(window.scrollY > navRef.current.offsetTop);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   let content;
   if (value === 0) {
@@ -113,8 +118,21 @@ export default function MainMenu() {
 
   return (
     <Box>
-      <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#fff', boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)' }}>
-        <img src={sloganImage} alt="Slogan" style={{ width: '20%' }} />
+      <div
+        ref={navRef} // Set the reference to the navigation bar element
+        style={{
+          position: isSticky ? 'fixed' : 'relative', // Apply 'fixed' position if sticky, 'relative' otherwise
+          top: 0, // Stick to the top of the viewport
+          zIndex: 999, // Set a higher z-index to ensure it's displayed on top of other content
+          width: '100%',
+          height:'80px',
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
+        }}
+      >
+        <img src={sloganImage} alt="Slogan" style={{ width: '13%' }} />
         <Tabs
           value={value}
           onChange={handleChange}
@@ -122,28 +140,28 @@ export default function MainMenu() {
           textColor="primary"
           centered
           sx={{
-            marginLeft: '300px' 
+            marginLeft: '400px',
           }}
         >
           <Tab
             label="Home"
             icon={<StyledTabIcon><HomeOutlinedIcon /></StyledTabIcon>}
-            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem', '&.Mui-selected': { color: '#477696' } }}
+            sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />
           <Tab
             label="Map"
             icon={<StyledTabIcon><SearchIcon /></StyledTabIcon>}
-            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem', '&.Mui-selected': { color: '#477696' }}}
+            sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />
           <Tab
             label="Itinerary"
             icon={<StyledTabIcon><PersonPinIcon /></StyledTabIcon>}
-            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem','&.Mui-selected': { color: '#477696' } }}
+            sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />
         </Tabs>
-        <PlayButton/>
+        <PlayButton />
       </div>
-      <Box >{content}</Box>
+      <Box>{content}</Box>
     </Box>
   );
 }
