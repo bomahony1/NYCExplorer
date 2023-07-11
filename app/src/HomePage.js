@@ -10,6 +10,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion} from "framer-motion";
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import ThreeD from "./ThreeD.js";
 
 
 
@@ -226,12 +227,12 @@ function HomePage() {
             {[1, 2, 3, 4].map((image) => (
               <Image key={image} id={image} />
             ))}
-          </div>
-
-          
+          </div>       
           </div>
         </div>
-        
+        <div style={{backgroundColor:"#1C2541"}}>
+          <ThreeD />
+        </div>
       </div>
     </div>
   );
