@@ -5,29 +5,7 @@ import "./Itinerary.css"
 import { removeItem } from "./array.ts";
 
 
-// function Buttons(){
-//     const buttons = [
-//         <Button key="one">1-3 Days</Button>,
-//         <Button key="two">4-6 Days</Button>,
-//         <Button key="three">7-10 Days</Button>,
-//       ];
-//     return (
-//         <Box
-//           sx={{
-//             display: 'flex',
-//             flexDirection: 'column',
-//             alignItems: 'center',
-//             '& > *': {
-//               m: 2,
-//             },
-//           }}
-//         >
-//           <ButtonGroup size="large" aria-label="large button group">
-//             {buttons}
-//           </ButtonGroup>
-//         </Box>
-//       );
-// }
+
 
 
 function Gallery() {

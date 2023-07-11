@@ -12,11 +12,12 @@ import ItineraryPage from './ItineraryPage';
 import sloganImage from './images/slogan.jpg';
 import { motion, MotionConfig, useMotionValue } from 'framer-motion';
 import { Shapes } from './Shapes';
-import { transition } from './settings';
+import { transition as transitions} from './settings';
 import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
+import ThreeD from "./ThreeD.js";
 
 function PlayButton() {
   const [ref, bounds] = useMeasure({ scroll: false });
@@ -31,7 +32,7 @@ function PlayButton() {
   };
 
   return (
-    <MotionConfig transition={transition}>
+    <MotionConfig transition={transitions}>
       <motion.button
         className="PlayButton"
         ref={ref}
@@ -163,7 +164,11 @@ export default function MainMenu() {
         <PlayButton />
       </div>
       <Box>{content}</Box>
-      <div><Footer /></div>
+      <Box><div style={{backgroundColor:"#1C2541"}}>
+          <ThreeD />
+        </div>
+        <div><Footer /></div></Box>
+     
     </Box>
     
 

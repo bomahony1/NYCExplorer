@@ -3,15 +3,15 @@ import { motion, MotionConfig } from "framer-motion"
 import { useAnimatedText } from "./use-animated-text"
 import "./ThreeD.css"
 import { Scene } from "./Canvas"
-import { transition } from "./transition"
+import { transition as switchTransition } from "./transition";
 
 export default function ThreeD() {
   const [isOn, setOn] = useState(true)
-  const headerRef = useAnimatedText(isOn ? 8 : 9, transition)
+  const headerRef = useAnimatedText(isOn ? 8 : 9, switchTransition)
 
   return (
     <div className="threed-page">
-    <MotionConfig transition={transition}>
+    <MotionConfig transition={switchTransition}>
       <motion.div
         className="container"
         initial={false}

@@ -10,7 +10,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion} from "framer-motion";
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import ThreeD from "./ThreeD.js";
+
 
 
 
@@ -235,9 +235,7 @@ function HomePage() {
           </div>       
           </div>
         </div>
-        <div style={{backgroundColor:"#1C2541"}}>
-          <ThreeD />
-        </div>
+        
       </div>
     </div>
   );
