@@ -1,12 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useSpring} from "framer-motion";
 import { Button, Box, ButtonGroup } from "@mui/material";
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
-// import Typography from '@mui/material/Typography';
-// import CardActionArea from '@mui/material/CardActionArea';
-// import CardActions from '@mui/material/CardActions';
 import "./Itinerary.css"
 import { removeItem } from "./array.ts";
 
@@ -100,9 +94,6 @@ function Window({ content }) {
   );
 }
 
-
-
-
 // function cards(imageUrl, title,time, description) {
 //     return (
 //       <div>
@@ -136,8 +127,6 @@ function Window({ content }) {
 //       </div>
 //     );
 //   }
-
-
 
 function Pop(){
   const count = useRef(0);
@@ -205,11 +194,9 @@ function ItineraryPage() {
                 <Buttons setSelectedTab={setSelectedTab} />
                 <Window content={selectedTab} />
             </div>
-            
             <div className="pop">
             <Pop />
             </div>
-            
             <article>
       <motion.div className="progress" style={{ scaleX }} />
       <motion.div

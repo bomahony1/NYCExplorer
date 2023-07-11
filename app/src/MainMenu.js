@@ -14,6 +14,7 @@ import { Shapes } from "./Shapes";
 import { transition } from "./settings";
 import useMeasure from "react-use-measure";
 import './MainMenu.css';
+import { styled } from '@mui/system';
 
 
 
@@ -89,8 +90,13 @@ function PlayButton() {
 }
 
 
+
 export default function MainMenu() {
   const [value, setValue] = useState(0);
+  const StyledTabIcon = styled('span')({
+    fontSize: '1.6rem', // Adjust the icon size as needed
+  });
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -116,29 +122,28 @@ export default function MainMenu() {
           textColor="primary"
           centered
           sx={{
-        
             marginLeft: '300px' 
           }}
         >
           <Tab
             label="Home"
-            icon={<HomeOutlinedIcon />}
-            sx={{ color: '#1C2541' }}
+            icon={<StyledTabIcon><HomeOutlinedIcon /></StyledTabIcon>}
+            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem', '&.Mui-selected': { color: '#477696' } }}
           />
           <Tab
             label="Map"
-            icon={<SearchIcon />}
-            sx={{ color: '#1C2541' }}
+            icon={<StyledTabIcon><SearchIcon /></StyledTabIcon>}
+            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem', '&.Mui-selected': { color: '#477696' }}}
           />
           <Tab
             label="Itinerary"
-            icon={<PersonPinIcon />}
-            sx={{ color: '#1C2541' }}
+            icon={<StyledTabIcon><PersonPinIcon /></StyledTabIcon>}
+            sx={{ color: '#1C2541',fontWeight: 'bold',fontSize: '1.0rem','&.Mui-selected': { color: '#477696' } }}
           />
         </Tabs>
         <PlayButton/>
       </div>
-      <Box sx={{ marginTop: '30px' }}>{content}</Box>
+      <Box >{content}</Box>
     </Box>
   );
 }
