@@ -37,6 +37,11 @@ function NestedList() {
   const handleClick4 = () => {
     setOpen4(!open4);
   };
+  const handleButtonClick = (url) => {
+    window.open(url, '_blank');
+  };
+
+  
 
   return (
     <List
@@ -55,7 +60,7 @@ function NestedList() {
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
           Visit New York City's most iconic skyscraper and admire the panoramic views over Manhattan
-          <Button size="small" style={{  color: '#477696' }}>Explore</Button>
+          <Button size="small" style={{  color: '#477696' }}onClick={() => handleButtonClick('https://www.esbnyc.com/')}>Explore</Button>
           <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
@@ -70,7 +75,7 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
           Explore the world's financial center with a Wall Street insider
-          <Button size="small" style={{  color: '#477696' }}>Explore</Button>
+          <Button size="small" style={{  color: '#477696' }} onClick={() => handleButtonClick('https://www.getyourguide.com/wall-street-l3414/tours-tc1/')}>Explore</Button>
           <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
@@ -85,7 +90,7 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white" ,fontWeight: 'normal'}}>
         Explore central area in NYC that has many shops, restaurants, office buildings and flashing billboards around it.
-        <Button size="small" style={{  color: '#477696' }}>Explore</Button>
+        <Button size="small" style={{  color: '#477696' }} onClick={() => handleButtonClick('https://www.timessquarenyc.org/')}>Explore</Button>
         <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
@@ -100,7 +105,7 @@ function NestedList() {
         <List component="div" disablePadding>
         <ListItemButton sx={{ pl: 4 ,color:"white",fontWeight: 'normal'}}>
         Donated by the French in 1886, Lady Liberty is a symbol of democracy both in the USA and worldwide
-        <Button size="small"  style={{  color: '#477696' }}>Explore</Button>
+        <Button size="small"  style={{  color: '#477696' }} onClick={() => handleButtonClick('https://www.statueoflibertytickets.com/')}>Explore</Button>
         <ArrowRightAltIcon  sx={{ color: "disabled"}}/>
           </ListItemButton>
         </List>
