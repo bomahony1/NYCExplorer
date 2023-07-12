@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useSpring} from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform} from "framer-motion";
 import { Button, Box, ButtonGroup } from "@mui/material";
 import "./Itinerary.css"
 import { removeItem } from "./array.ts";
@@ -7,10 +7,11 @@ import { removeItem } from "./array.ts";
 
 
 
-
-function Gallery() {
+function Gallery({ items }) {
   const ref = useRef(null);
-  const { scrollXProgress } = useScroll({ container: ref });
+  const { scrollYProgress } = useScroll({ container: ref });
+
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <>
@@ -20,30 +21,98 @@ function Gallery() {
           cx="50"
           cy="50"
           r="30"
-          pathLength="1"
+          pathLength={pathLength}
           className="indicator"
-          style={{ pathLength: scrollXProgress }}
         />
       </svg>
       <ul ref={ref}>
-        <li></li>
-        <p>Additional text or description for 1-3 Days</p>
-        <li></li>
-        <p>Additional text or description for 1-3 Days</p>
-        <li></li>
-        <p>Additional text or description for 1-3 Days</p>
-       
+        {items.map((item) => (
+          <div key={item.id}>
+            <li>{item.text}</li>
+            
+            
+            <img src={`/${item.id}.png`}  alt={item.imageAlt} />
+          </div>
+        ))}
       </ul>
     </>
   );
 }
+//  photos from https://www.sightseeingpass.com
+function Window({ content }) {
+  let items = [];
+  if (content === "Content for 1-2 Days") {
+    items = [
+      { id: 5, text: "1st Day in NYC",  imageAlt: "1st Day" },
+      { id: 6, text: "2nd Day in NYC",  imageAlt: "2nd Day" },
+      
+    ];
+  } else if (content === "Content for 3-4 Days") {
+    items = [
+      { id: 5, text: "1st Day in NYC",  imageAlt: "1st Day" },
+      { id: 6, text: "2nd Day in NYC",  imageAlt: "2nd Day" },
+      { id: 7, text: "1st Day in NYC",  imageAlt: "3rd Day" },
+      { id: 8, text: "2nd Day in NYC",  imageAlt: "4th Day" },
+      
+      
+    ];
+    
+    // Define items for 4-6 Days
+  } else if (content === "Content for 5-7 Days") {
+    items = [
+      { id: 5, text: "1st Day in NYC",  imageAlt: "1st Day" },
+      { id: 6, text: "2nd Day in NYC",  imageAlt: "2nd Day" },
+      { id: 7, text: "1st Day in NYC",  imageAlt: "3rd Day" },
+      { id: 8, text: "2nd Day in NYC",  imageAlt: "4th Day" },
+      { id: 9, text: "1st Day in NYC",  imageAlt: "5rd Day" },
+      { id: 10, text: "2nd Day in NYC",  imageAlt: "6th Day" },
+      { id: 11, text: "2nd Day in NYC",  imageAlt: "6th Day" },
+    ];
+   
+    
+  }
+
+  return (
+    <div className="window">
+      <div className="window-content">
+        {content === "Content for 1-2 Days" && (
+          <div>
+            <h2>Itinerary for 1-2 Days</h2>
+            <div className="gallery">
+              <Gallery items={items} />
+            </div>
+          </div>
+        )}
+        {content === "Content for 3-4 Days" && (
+          <div>
+            <h2>Itinerary for 3-4 Days</h2>
+            <div className="gallery">
+              <Gallery items={items} />
+            </div>
+          </div>
+        )}
+        {content === "Content for 5-7 Days" && (
+          <div>
+            <h2>Itinerary for 5-7 Days</h2>
+            <div className="gallery">
+              <Gallery items={items} />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
 
 
 function Buttons({ setSelectedTab }) {
   const buttons = [
-    { label: "1-3 Days", content: "Content for 1-3 Days" },
-    { label: "4-6 Days",  content: "Content for 4-6 Days" },
-    { label: "7-10 Days", content: "Content for 7-10 Days" },
+    { label: "1-2 Days", content: "Content for 1-2 Days" },
+    { label: "3-4 Days", content: "Content for 3-4 Days" },
+    { label: "5-7 Days", content: "Content for 5-7 Days" },
   ];
   const handleClick = (item) => {
     setSelectedTab(item.content);
@@ -65,8 +134,14 @@ function Buttons({ setSelectedTab }) {
           <Button
             key={item.label}
             onClick={() => handleClick(item)}
+            sx={{
+              color: "#1C2541",
+              "&:hover": {
+                color: "#1C2541",
+              },
+            }}
           >
-           {item.label}
+            {item.label}
           </Button>
         ))}
       </ButtonGroup>
@@ -74,43 +149,6 @@ function Buttons({ setSelectedTab }) {
   );
 }
 
-
-
-function Window({ content }) {
-  return (
-    <div className="window">
-      <div className="window-content">
-        {content === "Content for 1-3 Days" && (
-          <div>
-            <h3>Gallery for 1-3 Days</h3>
-            <div className="gallery">
-              <Gallery />
-            </div>
-
-          </div>
-        )}
-        {content === "Content for 4-6 Days" && (
-          <div>
-            <h3>Gallery for 4-6 Days</h3>
-            <div className="gallery">
-            <Gallery />
-            </div>
-            <p>Additional text or description for 4-6 Days</p>
-          </div>
-        )}
-        {content === "Content for 7-10 Days" && (
-          <div>
-            <h3>Gallery for 7-10 Days</h3>
-            <div className="gallery">
-            <Gallery />
-            </div>
-            <p>Additional text or description for 7-10 Days</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 
 function Pop(){
@@ -175,7 +213,7 @@ function ItineraryPage() {
     return (
         <div className="itinerary-page">
             <div>
-                <h2>How many days are you planning to stay?</h2>
+                <h1>How many days are you planning to stay?</h1>
                 <Buttons setSelectedTab={setSelectedTab} />
                 <Window content={selectedTab} />
             </div>

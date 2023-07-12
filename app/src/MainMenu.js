@@ -165,7 +165,7 @@ export default function MainMenu() {
       </div>
       <Box>{content}</Box>
       <Box><div style={{backgroundColor:"#1C2541"}}>
-          <ThreeD />
+          {/* <ThreeD /> */}
         </div>
         <div><Footer /></div></Box>
      
