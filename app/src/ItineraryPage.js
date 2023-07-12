@@ -7,6 +7,7 @@ import { removeItem } from "./array.ts";
 
 
 
+
 function Gallery({ items }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ container: ref });
@@ -28,10 +29,8 @@ function Gallery({ items }) {
       <ul ref={ref}>
         {items.map((item) => (
           <div key={item.id}>
-            <li>{item.text}</li>
-            
-            
-            <img src={`/${item.id}.png`}  alt={item.imageAlt} />
+           <li style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "20px" }}>{item.text}</li>
+           <img src={`/${item.id}.png`}  alt={item.imageAlt} style={{ width: "999px", height: "600px" }}/>
           </div>
         ))}
       </ul>
@@ -51,8 +50,8 @@ function Window({ content }) {
     items = [
       { id: 5, text: "1st Day in NYC",  imageAlt: "1st Day" },
       { id: 6, text: "2nd Day in NYC",  imageAlt: "2nd Day" },
-      { id: 7, text: "1st Day in NYC",  imageAlt: "3rd Day" },
-      { id: 8, text: "2nd Day in NYC",  imageAlt: "4th Day" },
+      { id: 7, text: "3rd Day in NYC",  imageAlt: "3rd Day" },
+      { id: 8, text: "4td Day in NYC",  imageAlt: "4th Day" },
       
       
     ];
@@ -62,11 +61,11 @@ function Window({ content }) {
     items = [
       { id: 5, text: "1st Day in NYC",  imageAlt: "1st Day" },
       { id: 6, text: "2nd Day in NYC",  imageAlt: "2nd Day" },
-      { id: 7, text: "1st Day in NYC",  imageAlt: "3rd Day" },
-      { id: 8, text: "2nd Day in NYC",  imageAlt: "4th Day" },
-      { id: 9, text: "1st Day in NYC",  imageAlt: "5rd Day" },
-      { id: 10, text: "2nd Day in NYC",  imageAlt: "6th Day" },
-      { id: 11, text: "2nd Day in NYC",  imageAlt: "6th Day" },
+      { id: 7, text: "3rd Day in NYC",  imageAlt: "3rd Day" },
+      { id: 8, text: "4th Day in NYC",  imageAlt: "4th Day" },
+      { id: 9, text: "5th Day in NYC",  imageAlt: "5rd Day" },
+      { id: 10, text: "6th Day in NYC",  imageAlt: "6th Day" },
+      { id: 11, text: "7th Day in NYC",  imageAlt: "7th Day" },
     ];
    
     
@@ -77,7 +76,8 @@ function Window({ content }) {
       <div className="window-content">
         {content === "Content for 1-2 Days" && (
           <div>
-            <h2>Itinerary for 1-2 Days</h2>
+             <code>New York City 2 Day Itinerary </code>
+      
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -85,7 +85,7 @@ function Window({ content }) {
         )}
         {content === "Content for 3-4 Days" && (
           <div>
-            <h2>Itinerary for 3-4 Days</h2>
+             <code>New York City 4 Day Itinerary </code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -93,7 +93,7 @@ function Window({ content }) {
         )}
         {content === "Content for 5-7 Days" && (
           <div>
-            <h2>Itinerary for 5-7 Days</h2>
+             <code>New York City 7 Day Itinerary </code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -208,13 +208,21 @@ function ItineraryPage() {
     damping: 30,
     restDelta: 0.001
   });
+  const handleButtonClick = (url) => {
+    window.open(url, '_blank');
+  };
 
 
     return (
         <div className="itinerary-page">
             <div>
-                <h1>How many days are you planning to stay?</h1>
-                <Buttons setSelectedTab={setSelectedTab} />
+              <div style={{display:"flex",alignItems: "center",justifyContent: "center"}}>
+              <h1 style={{flex:0.45}}>Money saving DAY Pass itineraries</h1>
+              <Button size="small" style={{ backgroundColor: "white", color: "#477696",marginTop:"3px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+              Book now
+              </Button>
+              </div>
+              <Buttons setSelectedTab={setSelectedTab} style={{flex:1}} />
                 <Window content={selectedTab} />
             </div>
             <div className="pop">
