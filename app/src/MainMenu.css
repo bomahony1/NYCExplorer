@@ -1,7 +1,9 @@
 .PlayButton {
     --purple: #db07d1;
     --pink: #f2056f;
-    --blue: #61dafb;
+    --blue: #4f9cc4;
+    --darkblue:#1C2541;
+    --greenblue:#3f5a68;
   
     appearance: none;
     border: none;
@@ -31,7 +33,7 @@
     right: -1px;
     bottom: -1px;
     border-radius: 60px;
-    background: linear-gradient(60deg, var(--blue) 0%, #d6cbf6 30%, var(--pink) 70%);
+    background: linear-gradient(60deg, var(--darkblue) 0%, #e3def1 30%, var(--blue) 70%);
   }
   
   .PlayButton .blush {
@@ -44,7 +46,7 @@
   
   .PlayButton .blush.pink {
     right: 20px;
-    background: var(--purple);
+    background: var(--greenblue);
   }
   
   .PlayButton .blush.blue {
