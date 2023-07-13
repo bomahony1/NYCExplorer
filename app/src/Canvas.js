@@ -133,9 +133,6 @@ import { useCursor } from "./use-cursor";
 import { transition as switchTransition } from "./transition";
 
 
-
-
-
 function Switch({ isOn, setOn }) {
   const { nodes, materials } = useGLTF("/switch.glb");
   const texture = useTexture("/cross.jpg");

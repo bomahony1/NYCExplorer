@@ -7,7 +7,7 @@ import { transition as switchTransition } from "./transition";
 
 export default function ThreeD() {
   const [isOn, setOn] = useState(true)
-  const headerRef = useAnimatedText(isOn ? 8 : 9, switchTransition)
+  const headerRef = useAnimatedText(isOn ? 0 : 9, switchTransition)
 
   return (
     <div className="threed-page">
@@ -20,8 +20,8 @@ export default function ThreeD() {
           color: isOn ? "#1C2541" : "#ffffff"
         }}
       >
-        <h1 className="open" children="<h1>" />
-        <h1 className="close" children="</h1>" />
+        <h1 className="open" children="<Buzzin>" />
+        <h1 className="close" children="</NYC>" />
         <motion.h1 ref={headerRef} />
         <Scene isOn={isOn} setOn={setOn} />
       </motion.div>

@@ -16,7 +16,7 @@ import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
-// import ThreeD from "./ThreeD.js";
+
 
 const handleButtonClick = (url) => {
   window.open(url, '_blank');
@@ -166,14 +166,15 @@ export default function MainMenu() {
         </Tabs>
         <PlayButton />
       </div>
+      <div>
       <Box>{content}</Box>
-      <Box><div style={{backgroundColor:"#1C2541"}}>
-          {/* <ThreeD /> */}
-        </div>
-        <div><Footer /></div></Box>
-     
+      </div>
+      <div style={{position:"relative"}}>
+      <div style={{position:'absolute',bottom:'200px',padding:"20px",textAlign:"center",top:"20px",left:"35%",zIndex:"999"}}><Footer /></div>
+      </div>
     </Box>
-    
+      
+  
 
   );
 }
