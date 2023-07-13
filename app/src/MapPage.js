@@ -3,7 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useLoadScript, InfoWindow } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Button from '@mui/material/Button';
@@ -82,7 +82,9 @@ function LocationSearchInput({ placeholder, value, onChange }) {
 }
 
 function MapPage() {
-  const { isLoaded } = useLoadScript({
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
     googleMapsApiKey: MAPS_API_KEY,
     libraries: ['places'],
   });
@@ -288,6 +290,36 @@ function MapPage() {
             center={center}
             zoom={12}
             mapId="MAPS_API_KEY"
+            options={{
+              styles: [
+                {
+                  featureType: 'all',
+                  stylers: [
+                    { saturation: 0 },
+                    { hue: '#e3f2fd' },
+                  ],
+                },
+                {
+                  featureType: 'road',
+                  stylers: [{ saturation: -70 }],
+                },
+                {
+                  featureType: 'transit',
+                  stylers: [{ visibility: 'off' }],
+                },
+                {
+                  featureType: 'poi',
+                  stylers: [{ visibility: 'off' }],
+                },
+                {
+                  featureType: 'water',
+                  stylers: [
+                    { visibility: 'simplified' },
+                    { saturation: -60 },
+                  ],
+                },
+              ],
+            }}
           >
             {origin && destination && !directions && showMarkers && (
               <DirectionsService
