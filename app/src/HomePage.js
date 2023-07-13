@@ -13,8 +13,6 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 
 
-
-
 function NestedList() {
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -143,9 +141,6 @@ function Image({ id }) {
 }
 
 
-
-
-
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -246,7 +241,6 @@ function HomePage() {
     </div>
   );
 }
-
 
 
 

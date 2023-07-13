@@ -19,6 +19,10 @@ import { styled } from '@mui/system';
 import Footer from './Footer';
 import ThreeD from "./ThreeD.js";
 
+const handleButtonClick = (url) => {
+  window.open(url, '_blank');
+};
+
 function PlayButton() {
   const [ref, bounds] = useMeasure({ scroll: false });
   const [isHover, setIsHover] = useState(false);
@@ -75,7 +79,7 @@ function PlayButton() {
             </Suspense>
           </div>
         </motion.div>
-        <motion.div variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }} className="label">
+        <motion.div variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }} className="label" onClick={() => handleButtonClick('https://github.com/paul-od24/NYC_Busyness')}>
           Contact 
         </motion.div>
       </motion.button>
