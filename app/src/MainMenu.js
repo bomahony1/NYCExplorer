@@ -169,12 +169,12 @@ export default function MainMenu() {
       <div>
       <Box>{content}</Box>
       </div>
-      <div style={{position:"relative"}}>
+      <Box style={{position:"relative"}}>
       <div style={{position:'absolute',bottom:'200px',padding:"20px",textAlign:"center",top:"20px",left:"35%",zIndex:"999"}}><Footer /></div>
-      </div>
+      </Box>
+  
     </Box>
       
-  
 
   );
 }
