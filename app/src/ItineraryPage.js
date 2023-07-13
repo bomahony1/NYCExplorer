@@ -10,7 +10,7 @@ function Gallery({ items }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ container: ref });
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1],);
 
   return (
     <>
@@ -149,6 +149,7 @@ function Pop() {
   const count = useRef(0);
   const [items, setItems] = useState([]);
   const [popLayout, setPopLayout] = useState(false);
+  
 
   const customTexts = [
                         "Fotografiska NY",
@@ -209,6 +210,7 @@ function Pop() {
               onClick={() => {
                 const newItems = items.filter((i) => i.id !== item.id);
                 setItems(newItems);
+                removeItem(newItems, item.id);
               }}
             >
               {item.text}

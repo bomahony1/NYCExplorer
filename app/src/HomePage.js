@@ -201,7 +201,7 @@ function HomePage() {
             {events.map((event, index) => (
               <div key={index} onMouseEnter={() => setActiveSlide(index)} onClick={() => handleBringMeThere(event.url)}>
                 <CardActionArea>
-                  <CardMedia component="img" height="620" width="699" image={event.image} alt="image of event"  padding="5px" marginButton="5px" />
+                  <CardMedia component="img" height="620" width="699" image={event.image} alt="image of event"  padding="5px" marginbutton="5px" />
                   <CardContent>
                     <Typography
                       gutterBottom
@@ -228,7 +228,7 @@ function HomePage() {
           </div> 
           <NestedList />
           </div >
-          <div classname="images" style={{ border:"2px solid white",flex: 2,margin:"100px"}}>
+          <div className="images" style={{ border:"2px solid white",flex: 2,margin:"100px"}}>
           <div className="images-container">
             {[1, 2, 3, 4].map((image) => (
               <Image key={image} id={image} />

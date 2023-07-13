@@ -1,7 +1,7 @@
 import { motion } from "framer-motion-3d";
 import { MotionConfig } from "framer-motion";
 import { useRef, useLayoutEffect } from "react";
-import { transition } from "./settings";
+import { transition as transitions} from './settings';
 import { Canvas, useThree } from "@react-three/fiber";
 import { useSmoothTransform } from "./use-smooth-transform";
 
@@ -12,7 +12,7 @@ export function Shapes({ isHover, isPress, mouseX, mouseY }) {
   return (
     <Canvas shadows dpr={[1, 2]} resize={{ scroll: false, offsetSize: true }}>
       <Camera mouseX={mouseX} mouseY={mouseY} />
-      <MotionConfig transition={transition}>
+      <MotionConfig transition={transitions}>
         <motion.group
           center={[0, 0, 0]}
           rotation={[lightRotateX, lightRotateY, 0]}

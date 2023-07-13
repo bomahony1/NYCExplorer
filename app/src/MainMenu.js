@@ -9,7 +9,6 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import HomePage from './HomePage';
 import MapPage from './MapPage';
 import ItineraryPage from './ItineraryPage';
-
 import { motion, MotionConfig, useMotionValue } from 'framer-motion';
 import { Shapes } from './Shapes';
 import { transition as transitions} from './settings';
@@ -17,7 +16,7 @@ import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
-import ThreeD from "./ThreeD.js";
+// import ThreeD from "./ThreeD.js";
 
 const handleButtonClick = (url) => {
   window.open(url, '_blank');
