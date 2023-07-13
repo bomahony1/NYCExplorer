@@ -238,7 +238,7 @@ function MapPage() {
   return (
     <div style={{ margin: '0 50px', color: '#4f9cc4' }}>
       <div style={{ fontWeight: 'bold' }}>
-        <h1 style={{ color: '#477b96' }}>New York Map</h1>
+        <h1 style={{ color: '#1C2541' }}>New York Map</h1>
         <p>
           By searching in the search bar below or clicking on the map, you can
           access a detailed legend.
@@ -345,6 +345,17 @@ function MapPage() {
                   position={marker.position}
                   title={marker.title}
                   onClick={() => handleMarkerClick(marker)}
+                  options={{
+                    icon: {
+                      path: window.google.maps.SymbolPath.CIRCLE,
+                      fillColor: '#f7c59f',
+                      fillOpacity: 0.8,
+                      strokeColor: 'white',
+                      strokeWeight: 1,
+                      scale: 12,
+                    },
+                  }}
+                  
                 >
                   {selectedMarker === marker && (
                     <InfoWindow
