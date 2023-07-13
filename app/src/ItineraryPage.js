@@ -199,10 +199,10 @@ function Pop() {
       <ul>
         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
           {items.map((item) => (
-            <motion.li
+            <><motion.li
               layout
               initial={{ scale: 0.8, opacity: 0 }}
-              style={{ justifyContent: "center", alignItems: "center", fontSize: "20px",display: "flex"}}
+              style={{ justifyContent: "center", alignItems: "center", fontSize: "20px", display: "flex" }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring" }}
@@ -211,10 +211,16 @@ function Pop() {
                 const newItems = items.filter((i) => i.id !== item.id);
                 setItems(newItems);
                 removeItem(newItems, item.id);
-              }}
+              } }
             >
               {item.text}
             </motion.li>
+            <img
+            src={`/${item.id + 12}.jpg`} // Use index + 12 as the file name
+            alt={item.imageAlt}
+            style={{ width: "600px", height: "400px",alignItems:"center" }}
+            />
+            </>
           ))}
         </AnimatePresence>
       </ul>
