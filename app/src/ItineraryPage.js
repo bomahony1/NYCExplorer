@@ -6,8 +6,6 @@ import { removeItem } from "./array.ts";
 
 
 
-
-
 function Gallery({ items }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ container: ref });
@@ -105,9 +103,6 @@ function Window({ content }) {
 }
 
 
-
-
-
 function Buttons({ setSelectedTab }) {
   const buttons = [
     { label: "1-2 Days", content: "Content for 1-2 Days" },
@@ -151,54 +146,6 @@ function Buttons({ setSelectedTab }) {
 
 
 
-// function Pop(){
-//   const count = useRef(0);
-//   const [items, setItems] = useState([0]);
-//   const [popLayout, setPopLayout] = useState(false);
-
-//   return (
-//     <div className="example">
-//       <div className="controls">
-//         <label className="enable">
-//           <code>POP YOUR Itinerary Plan </code>
-//           <input
-//             type="checkbox"
-//             checked={popLayout}
-//             onChange={(e) => setPopLayout(e.currentTarget.checked)}
-//           />
-//         </label>
-//         <motion.button
-//           whileTap={{ scale: 0.95 }}
-//           onClick={() => {
-//             count.current++;
-//             setItems([...items, count.current]);
-//           }}
-//         >
-//           Add Plan
-//         </motion.button>
-//       </div>
-//       <ul>
-//         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
-//           {items.map((id) => (
-//             <motion.li
-//               layout
-//               initial={{ scale: 0.8, opacity: 0 }}
-//               animate={{ scale: 1, opacity: 1 }}
-//               exit={{ scale: 0.8, opacity: 0 }}
-//               transition={{ type: "spring" }}
-//               key={id}
-//               onClick={() => {
-//                 const newItems = [...items];
-//                 removeItem(newItems, id);
-//                 setItems(newItems);
-//               }}
-//             />
-//           ))}
-//         </AnimatePresence>
-//       </ul>
-//     </div>
-//   );
-// }
 
 function Pop() {
   const count = useRef(0);

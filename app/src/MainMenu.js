@@ -9,7 +9,7 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import HomePage from './HomePage';
 import MapPage from './MapPage';
 import ItineraryPage from './ItineraryPage';
-import sloganImage from './images/slogan.jpg';
+
 import { motion, MotionConfig, useMotionValue } from 'framer-motion';
 import { Shapes } from './Shapes';
 import { transition as transitions} from './settings';
@@ -134,7 +134,7 @@ export default function MainMenu() {
           boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
         }}
       >
-        <img src={sloganImage} alt="Slogan" style={{ width: '13%' }} />
+        <img src={`/slogan.jpg`} alt="Slogan" style={{ width: '13%' }} />
         <Tabs
           value={value}
           onChange={handleChange}
