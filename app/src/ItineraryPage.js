@@ -151,10 +151,82 @@ function Buttons({ setSelectedTab }) {
 
 
 
-function Pop(){
+// function Pop(){
+//   const count = useRef(0);
+//   const [items, setItems] = useState([0]);
+//   const [popLayout, setPopLayout] = useState(false);
+
+//   return (
+//     <div className="example">
+//       <div className="controls">
+//         <label className="enable">
+//           <code>POP YOUR Itinerary Plan </code>
+//           <input
+//             type="checkbox"
+//             checked={popLayout}
+//             onChange={(e) => setPopLayout(e.currentTarget.checked)}
+//           />
+//         </label>
+//         <motion.button
+//           whileTap={{ scale: 0.95 }}
+//           onClick={() => {
+//             count.current++;
+//             setItems([...items, count.current]);
+//           }}
+//         >
+//           Add Plan
+//         </motion.button>
+//       </div>
+//       <ul>
+//         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
+//           {items.map((id) => (
+//             <motion.li
+//               layout
+//               initial={{ scale: 0.8, opacity: 0 }}
+//               animate={{ scale: 1, opacity: 1 }}
+//               exit={{ scale: 0.8, opacity: 0 }}
+//               transition={{ type: "spring" }}
+//               key={id}
+//               onClick={() => {
+//                 const newItems = [...items];
+//                 removeItem(newItems, id);
+//                 setItems(newItems);
+//               }}
+//             />
+//           ))}
+//         </AnimatePresence>
+//       </ul>
+//     </div>
+//   );
+// }
+
+function Pop() {
   const count = useRef(0);
-  const [items, setItems] = useState([0]);
+  const [items, setItems] = useState([]);
   const [popLayout, setPopLayout] = useState(false);
+
+  const customTexts = [
+                        "Fotografiska NY",
+                        "Downtown & Statue of Liberty", 
+                        "Madame Tussauds New York",
+                        "Solomon R. Guggenheim Museum",
+                        "Entertain Yourself in Times Square",
+                        "Museum of Broadway",
+                        "El Museo del Barrio",
+                        "Empire State Building", 
+                        "Escape Game New York",
+                        "St. Patrick’s Cathedral Tour",
+                        "LoL Comedy Lounge Magic",
+                        "Intrepid Sea, Air & Space Museum",
+                        "One World Observatory",
+                        "Central Park Guided Bike Tour ",
+                        "American Museum of Natural History",
+                        "Scavenger Hunts",
+                        "Observation Deck at Rockefeller Center",
+                        "Whitney Museum of American Art",
+                        "Museum of the City of New York",
+                        "Ellis Island Roundtrip Ferry Tour",
+                        "New York Historical Society Museum and Library"]; // Add your custom texts here
 
   return (
     <div className="example">
@@ -171,7 +243,8 @@ function Pop(){
           whileTap={{ scale: 0.95 }}
           onClick={() => {
             count.current++;
-            setItems([...items, count.current]);
+            const newItem = { id: count.current, text: customTexts[count.current - 1] };
+            setItems([...items, newItem]);
           }}
         >
           Add Plan
@@ -179,26 +252,29 @@ function Pop(){
       </div>
       <ul>
         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
-          {items.map((id) => (
+          {items.map((item) => (
             <motion.li
               layout
-              // initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              style={{ justifyContent: "center", alignItems: "center", fontSize: "20px",display: "flex"}}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring" }}
-              key={id}
+              key={item.id}
               onClick={() => {
-                const newItems = [...items];
-                removeItem(newItems, id);
+                const newItems = items.filter((i) => i.id !== item.id);
                 setItems(newItems);
               }}
-            />
+            >
+              {item.text}
+            </motion.li>
           ))}
         </AnimatePresence>
       </ul>
     </div>
   );
 }
+
 
 function ItineraryPage() {
   const { scrollYProgress } = useScroll();
