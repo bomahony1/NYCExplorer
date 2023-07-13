@@ -216,9 +216,9 @@ function Pop() {
               {item.text}
             </motion.li>
             <img
-            src={`/${item.id + 12}.jpg`} // Use index + 12 as the file name
+            src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
-            style={{ width: "600px", height: "400px",alignItems:"center" }}
+            style={{ width: "300px", height: "200px",alignItems:"center" }}
             />
             </>
           ))}
