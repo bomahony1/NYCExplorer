@@ -16,6 +16,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha('#3f5a68', 0.25),
   },
   marginLeft: 0,
+  marginTop: 10,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
@@ -203,9 +204,35 @@ function MapPage() {
   const handleSearch = () => {
     if (origin && destination) {
       setShowMarkers(false);
+      handleSearchii();
     }
   };
 
+  const handleSearchii = () => {
+    if (origin && destination) {
+      setShowMarkers(false);
+  
+      // Perform routing using DirectionsService
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: origin,
+          destination: destination,
+          travelMode: 'DRIVING',
+        },
+        (response, status) => {
+          if (status === 'OK') {
+            setDirections(response);
+          } else {
+            console.error('Error:', status);
+          }
+        }
+      );
+    }
+  };
+
+  const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
+  const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
     <div style={{ margin: '0 50px', color: '#4f9cc4' }}>
       <div style={{ fontWeight: 'bold' }}>
@@ -227,14 +254,29 @@ function MapPage() {
           onChange={setDestinationInput}
         />
 
-        <Button variant="outlined" size="medium" onClick={handleSearch} disabled={!origin || !destination} style={{ marginTop: '20px' }}>
+        <Button 
+          variant="outlined" 
+          size="medium" 
+          onClick={handleSearch} 
+          disabled={!origin || !destination} 
+          style={{ marginTop: '20px' }}
+        >
           Toggle Markers
         </Button>
+        <Button 
+          variant="outlined" 
+          size="medium" 
+          onClick={handleSearchii} 
+          disabled={!origin || !destination} 
+          style={{ marginTop: '20px' }}
+        >
+          Search
+        </Button>
       </div>
-      {origin && destination && (
+      {origin && destination && !directions &&  (
         <div style={{ marginTop: '20px' }}>
-          <p>Distance: {distance}</p>
-          <p>Time to walk: {duration}</p>
+          <p>Distance: {distanceText}</p>
+          <p>Time to walk: {durationText}</p>
         </div>
       )}
       <div style={{ marginTop: '20px', height: '600px' }}>
@@ -247,7 +289,7 @@ function MapPage() {
             zoom={12}
             mapId="MAPS_API_KEY"
           >
-            {origin && destination && (
+            {origin && destination && !directions && showMarkers && (
               <DirectionsService
                 options={{
                   origin: origin,
@@ -282,8 +324,8 @@ function MapPage() {
                         <p>Categories: {selectedMarker.info.categories.map(category => category.name).join(', ')}</p>
                         <p>Address: {selectedMarker.info.address}</p>
                         <p>
-                        Link: <a href={selectedMarker.info.link}>{selectedMarker.info.link}</a>
-                       </p>
+                          Link: <a href={selectedMarker.info.link}>{selectedMarker.info.link}</a>
+                        </p>
                       </div>
                     </InfoWindow>
                   )}

@@ -149,16 +149,22 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
- 
-
- 
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/events/')
       .then(response => response.json())
       .then(data => {
         if (data.length > 0) {
-          setEvents(data.slice(0, 5)); // Only store the first 5 events
+          // Filter out events with duplicate names to ensure we have different events in the slider
+          const filteredEvents = data.reduce((accumulator, currentEvent) => {
+            const isDuplicate = accumulator.some(event => event.name === currentEvent.name);
+            if (!isDuplicate) {
+              accumulator.push(currentEvent);
+            }
+            return accumulator;
+          }, []);
+
+          setEvents(filteredEvents.slice(0, 5)); // Only store the first 5 events
         } else {
           setEvents([]);
         }
