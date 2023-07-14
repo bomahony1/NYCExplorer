@@ -220,7 +220,7 @@ function MapPage() {
 
   useEffect(() => {
     // Fetch weather data from the API
-    fetch('/api/weather/')
+    fetch('http://127.0.0.1:8000/api/weather/')
       .then((response) => response.json())
       .then((data) => setWeatherData(data))
       .catch((error) => console.error(error));
@@ -489,15 +489,15 @@ function MapPage() {
                       position={selectedMarker.position}
                       onCloseClick={handleInfoWindowClose}
                     >
-                      <div>
+                      {/* <div>
                         <h3>{selectedMarker.title}</h3>
                         <p>Categories: {selectedMarker.info.categories.map(category => category.name).join(', ')}</p>
                         <p>Address: {selectedMarker.info.address}</p>
                         <p>
                           Link: <a href={selectedMarker.info.link}>{selectedMarker.info.link}</a>
                         </p>
-                      </div>
-                         {/* <div>
+                      </div> */}
+                         <div>
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && ( // Add a check for the existence of info object
                           <div>
@@ -506,7 +506,7 @@ function MapPage() {
                             
                           </div>
                         )}
-                      </div> */}
+                      </div>
                     </InfoWindow>
                   )}
                 </Marker>
