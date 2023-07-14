@@ -363,7 +363,8 @@ function MapPage() {
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
     <div style={{ margin: '0 50px', color: '#1C2541' }}>
-     
+    <div className='fixed-box'>
+    <div id="info01">
       <div>
       {weatherData ? (
         <div>
@@ -411,6 +412,9 @@ function MapPage() {
           <p>Time to walk: {durationText}</p>
         </div>
       )}
+      </div>
+      </div>
+      {/* map div */}
       <div style={{ marginTop: '20px', height: '800px' }}>
         {!isLoaded ? (
           <div>Loading...</div>

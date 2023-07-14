@@ -1,0 +1,21 @@
+#info01 {
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.7); /* 背景色为白色半透明 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */
+    opacity: 1; /* 设置不透明度为1，也就是完全不透明 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fixed-box {
+    align-items: center;
+    position: absolute;
+    top: 0;
+    top: 10px;
+    right: -6vw;
+    width: 350px;
+    z-index: 1;
+}

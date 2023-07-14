@@ -130,9 +130,10 @@ function Buttons({ setSelectedTab }) {
             key={item.label}
             onClick={() => handleClick(item)}
             sx={{
-              color: "#1C2541",
+              color: "white",
               "&:hover": {
-                color: "#1C2541",
+                color: "white",
+                border: "1px solid white", // 添加白色边框
               },
             }}
           >
@@ -178,7 +179,7 @@ function Pop() {
     <div className="example">
       <div className="controls">
         <label className="enable">
-          <code>POP YOUR Itinerary Plan </code>
+          <code style={{color:"white"}}>POP YOUR Itinerary Plan </code>
           <input
             type="checkbox"
             checked={popLayout}
@@ -243,20 +244,26 @@ function ItineraryPage() {
 
 
     return (
-        <div className="itinerary-page">
+        <div className="itinerary-page" style={{backgroundColor:"#1C2541"}}>
             <div>
               <div style={{display:"flex",alignItems: "center",justifyContent: "center"}}>
-              <h1 style={{flex:0.45}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{ backgroundColor: "white", color: "#477696",marginTop:"3px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+              <h1 style={{flex:0.45,color:"white"}}>Money saving DAY Pass itineraries</h1>
+              <Button size="small" style={{  color: "white",marginTop:"3px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
               Book now
               </Button>
               </div>
               <Buttons setSelectedTab={setSelectedTab} style={{flex:1}} />
-                <Window content={selectedTab} />
+                <Window content={selectedTab}  />
             </div>
-            <div className="pop">
+            <div style={{display:"flex"}}>
+            <div className="pop" style={{flex:1.4}}>
             <Pop />
             </div>
+            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"300px",width:"150px",marginTop:"100px",marginRight:"160px"}}>
+            <strong style={{color:"white"}}>place the description of landmarks</strong>
+            </div>
+            </div>
+            {/* add the scroll process */}
             <article>
       <motion.div className="progress" style={{ scaleX }} />
       <motion.div
