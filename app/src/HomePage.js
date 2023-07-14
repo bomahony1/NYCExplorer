@@ -230,7 +230,7 @@ function HomePage() {
           </div >
           <div className="images" style={{ border:"2px solid white",flex: 2,margin:"100px"}}>
           <div className="images-container">
-            {[1, 2, 3, 4].map((image) => (
+            {[1, 2, 3, 4,13,14,15,19,23,24,25,26,28,29,32].map((image) => (
               <Image key={image} id={image} />
             ))}
           </div>       

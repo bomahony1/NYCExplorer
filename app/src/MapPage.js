@@ -362,14 +362,8 @@ function MapPage() {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
-    <div style={{ margin: '0 50px', color: '#4f9cc4' }}>
-      <div style={{ fontWeight: 'bold' }}>
-        <h1 style={{ color: '#1C2541' }}>New York Map</h1>
-        <p>
-          By searching in the search bar below or clicking on the map, you can
-          access a detailed legend.
-        </p>
-      </div>
+    <div style={{ margin: '0 50px', color: '#1C2541' }}>
+     
       <div>
       {weatherData ? (
         <div>
@@ -417,7 +411,7 @@ function MapPage() {
           <p>Time to walk: {durationText}</p>
         </div>
       )}
-      <div style={{ marginTop: '20px', height: '600px' }}>
+      <div style={{ marginTop: '20px', height: '800px' }}>
         {!isLoaded ? (
           <div>Loading...</div>
         ) : (
