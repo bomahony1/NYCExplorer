@@ -89,7 +89,7 @@ function MapPage() {
     libraries: ['places'],
   });
 
-  const center = useMemo(() => ({ lat: 40.7128, lng: -74.0060 }), []);
+  const center = useMemo(() => ({ lat: 40.7484, lng: -73.9857 }), []);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [directions, setDirections] = useState(null);
@@ -101,32 +101,206 @@ function MapPage() {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
 
-  useEffect(() => {
-    if (isLoaded) {
-      fetch('http://127.0.0.1:8000/api/restaurants/') // Fetch data from the backend server
-        .then((response) => response.json())
-        .then((data) => {
-          const newMarkers = data.results.map((restaurant) => ({
-            id: restaurant.fsq_id,
-            position: {
-              lat: restaurant.geocodes.main.latitude,
-              lng: restaurant.geocodes.main.longitude,
+  const defaultMarkerOptions = {
+    icon: {
+      path: window.google.maps.SymbolPath.CIRCLE,
+      fillColor: '#1C2541', // Default color
+      fillOpacity: 0.8,
+      strokeColor: 'white',
+      strokeWeight: 1,
+      scale: 12,
+    },
+  };
+
+  
+//  fetchrestaurants  data
+//   useEffect(() => {
+//     if (isLoaded) {
+//       fetch('http://127.0.0.1:8000/api/restaurants/') // Fetch data from the backend server
+//         .then((response) => response.json())
+//         .then((data) => {
+//           const newMarkers = data.results.map((restaurant) => ({
+//             id: restaurant.fsq_id,
+//             position: {
+//               lat: restaurant.geocodes.main.latitude,
+//               lng: restaurant.geocodes.main.longitude,
+//             },
+//             title: restaurant.name,
+//             info: {
+//               categories: restaurant.categories,
+//               address: restaurant.location.address,
+//               link: restaurant.link, 
+//             },
+//             type: 'restaurant', // Marker type
+//             options: {
+//               icon: {
+//                 path: window.google.maps.SymbolPath.CIRCLE,
+//                 fillColor: '#ff6b35',
+//                 fillOpacity: 0.8,
+//                 strokeColor: 'white',
+//                 strokeWeight: 1,
+//                 scale: 12,
+//               },},
+          
+            
+//           }));
+//           setMarkers(newMarkers);
+//         })
+//         .catch((error) => {
+//           console.error(error);
+//           setMarkers([]); // Clear markers if there's an error
+//         });
+//     }
+//   }, [isLoaded]);
+
+
+// // fetch hotels data
+// useEffect(() => {
+//   if (isLoaded) {
+//     fetch('http://127.0.0.1:8000/api/hotels/') // Fetch data from the backend server
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const newMarkers = data.results.map((hotel) => ({
+//           id: hotel.fsq_id,
+//           position: {
+//             lat: hotel.geocodes.main.latitude,
+//             lng: hotel.geocodes.main.longitude,
+//           },
+//           title: hotel.name,
+//           info: {
+//             categories: hotel.categories,
+//             address: hotel.location.address,
+//             link: hotel.link,
+//           },
+//           type: 'hotel', // Marker type
+//           options: {
+//             icon: {
+//               path: window.google.maps.SymbolPath.CIRCLE,
+//               fillColor: '#efefd0',
+//               fillOpacity: 0.8,
+//               strokeColor: 'white',
+//               strokeWeight: 1,
+//               scale: 12,
+//             },
+         
+//           },
+//         }));
+//         setMarkers(newMarkers);
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         setMarkers([]); // Clear markers if there's an error
+//       });
+//   }
+// }, [isLoaded]);
+
+
+
+ // fetch restaurants data
+ useEffect(() => {
+  if (isLoaded) {
+    fetch('http://127.0.0.1:8000/api/restaurants/')
+      .then((response) => response.json())
+      .then((data) => {
+        const newMarkers = data.results.map((restaurant) => ({
+          id: restaurant.fsq_id,
+          position: {
+            lat: restaurant.geocodes.main.latitude,
+            lng: restaurant.geocodes.main.longitude,
+          },
+          title: restaurant.name,
+          info: {
+            categories: restaurant.categories,
+            address: restaurant.location.address,
+            link: restaurant.link,
+          },
+          options: {
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              fillColor: '#ff6b35', // Color for restaurants
+              fillOpacity: 0.7,
+              strokeColor: 'white',
+              strokeWeight: 1,
+              scale: 12,
             },
-            title: restaurant.name,
-            info: {
-              categories: restaurant.categories,
-              address: restaurant.location.address,
-              link: restaurant.link,
+          },
+        }));
+        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMarkers([]); // Clear markers if there's an error
+      });
+  }
+}, [isLoaded]);
+
+// fetch hotels data
+useEffect(() => {
+  if (isLoaded) {
+    fetch('http://127.0.0.1:8000/api/hotels/')
+      .then((response) => response.json())
+      .then((data) => {
+        const newMarkers = data.results.map((hotel) => ({
+          id: hotel.fsq_id,
+          position: {
+            lat: hotel.geocodes.main.latitude,
+            lng: hotel.geocodes.main.longitude,
+          },
+          title: hotel.name,
+          info: {
+            categories: hotel.categories,
+            address: hotel.location.address,
+            link: hotel.link,
+          },
+          options: {
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              fillColor: '#4f9cc4', // Color for hotels
+              fillOpacity: 0.7,
+              strokeColor: 'white',
+              strokeWeight: 1,
+              scale: 12,
             },
-          }));
-          setMarkers(newMarkers);
-        })
-        .catch((error) => {
-          console.error(error);
-          setMarkers([]); // Clear markers if there's an error
-        });
-    }
-  }, [isLoaded]);
+          },
+        }));
+        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMarkers([]); // Clear markers if there's an error
+      });
+  }
+}, [isLoaded]);
+
+// fetch googleRestaurants data
+
+// useEffect(() => {
+//   if (isLoaded) {
+//     fetch('http://127.0.0.1:8000/api/googleRestaurants/') // Fetch data from the backend server
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const newMarkers = data.results.map((hotel) => ({
+//           id: hotel.fsq_id,
+//           position: {
+//             lat: hotel.geocodes.main.latitude,
+//             lng: hotel.geocodes.main.longitude,
+//           },
+//           title: hotel.name,
+//           info: {
+//             categories: hotel.categories,
+//             address: hotel.location.address,
+//             link: hotel.link,
+//           },
+
+//         }));
+//         setMarkers(newMarkers);
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         setMarkers([]); // Clear markers if there's an error
+//       });
+//   }
+// }, [isLoaded]);
 
   useEffect(() => {
     if (originInput) {
@@ -345,16 +519,7 @@ function MapPage() {
                   position={marker.position}
                   title={marker.title}
                   onClick={() => handleMarkerClick(marker)}
-                  options={{
-                    icon: {
-                      path: window.google.maps.SymbolPath.CIRCLE,
-                      fillColor: '#f7c59f',
-                      fillOpacity: 0.8,
-                      strokeColor: 'white',
-                      strokeWeight: 1,
-                      scale: 12,
-                    },
-                  }}
+                  options={marker.options}
                   
                 >
                   {selectedMarker === marker && (

@@ -199,10 +199,10 @@ function Pop() {
       <ul>
         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
           {items.map((item) => (
-            <><motion.li
+            <div  key={item.id}><motion.li
               layout
               initial={{ scale: 0.8, opacity: 0 }}
-              style={{ justifyContent: "center", alignItems: "center", fontSize: "20px", display: "flex" }}
+              style={{ justifyContent: "center", alignItems: "center", fontSize: "20px",margin:"10px", display: "flex" }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring" }}
@@ -218,9 +218,9 @@ function Pop() {
             <img
             src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
-            style={{ width: "300px", height: "200px",alignItems:"center" }}
+            style={{ width: "320px", height: "220px",alignItems:"center" }}
             />
-            </>
+            </div>
           ))}
         </AnimatePresence>
       </ul>
