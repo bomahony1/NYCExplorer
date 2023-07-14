@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +27,6 @@ SECRET_KEY = "django-insecure-w_g4%h+%pr(&8@$@pxlz-ebn%@o9i6vz_1j3=ub$s_(7v#)8$f
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 
 
 # Application definition
@@ -88,8 +86,8 @@ CORS_ALLOWED_ORIGINS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3', # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'NAME': 'db.sqlite3',  # This is where you put the name of the db file.
+        # If one doesn't exist, it will be created at migration time.
     }
 }
 
@@ -141,3 +139,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CORS_ALLOW_ALL_ORIGINS = True
