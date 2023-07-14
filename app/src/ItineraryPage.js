@@ -257,7 +257,7 @@ function ItineraryPage() {
                 <Window content={selectedTab}  />
             </div>
             <div style={{display:"flex"}}>
-            <div className="pop" style={{flex:1.4}}>
+            <div className="pop" style={{flex:1.4,marginTop:"80px"}}>
             <Pop />
             </div>
           
