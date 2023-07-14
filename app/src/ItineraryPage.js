@@ -220,7 +220,7 @@ function Pop() {
             <img
             src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
-            style={{ width: "320px", height: "220px",alignItems:"center" }}
+            style={{ width: "320px", height: "210px",alignItems:"center" }}
             />
             </div>
           ))}
