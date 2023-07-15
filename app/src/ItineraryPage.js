@@ -247,13 +247,13 @@ function ItineraryPage() {
     return (
         <div className="itinerary-page" style={{backgroundColor:"#1C2541"}}>
             <div>
-              <div style={{display:"flex",alignItems: "center",justifyContent: "center"}}>
-              <h1 style={{flex:0.45,color:"white"}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{  color: "white",marginTop:"3px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+              <div style={{display:"flex",alignItems: "center",justifyContent: "center",marginTop:"0px"}}>
+              <h1 style={{flex:0.45,color:"white",marginBottom:"3px"}}>Money saving DAY Pass itineraries</h1>
+              <Button size="small" style={{  color: "white",marginTop:"20px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
               Book now
               </Button>
               </div>
-              <Buttons setSelectedTab={setSelectedTab} style={{flex:1}} />
+              <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
                 <Window content={selectedTab}  />
             </div>
             <div style={{display:"flex"}}>
