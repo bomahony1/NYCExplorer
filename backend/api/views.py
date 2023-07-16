@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 import requests
-from .services import get_venues_restaurant, get_venues_hotels, get_weather, get_events, get_google_restaurants
+from .services import get_venues_restaurant, get_venues_hotels, get_weather, get_events, get_google_restaurants, get_google_attractions
 
 class WeatherAPIView(generics.GenericAPIView):
     @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
@@ -37,6 +37,26 @@ class GoogleRestaurantAPIView(generics.ListAPIView):
         cache.set(self.cache_key, google_restaurant_data, timeout=3600)  # Cache for 1 hour
 
         return Response(google_restaurant_data)
+
+class GoogleAttractionsAPIView(generics.ListAPIView):
+    queryset = []  # Add your queryset here if you have one
+    cache_key = 'google_attraction_data'
+
+    def get_queryset(self):
+        # You can implement custom queryset logic here if needed
+        return self.queryset
+
+    def get(self, request, *args, **kwargs):
+        # Check if the data is already cached
+        cached_data = cache.get(self.cache_key)
+        if cached_data is not None:
+            return Response(cached_data)
+
+        # If not cached, fetch the data and cache it
+        google_attraction_data = get_google_attractions()
+        cache.set(self.cache_key, google_attraction_data, timeout=3600)  # Cache for 1 hour
+
+        return Response(google_attraction_data)
 
 
 class HotelsAPIView(generics.GenericAPIView):
