@@ -103,42 +103,82 @@ function MapPage() {
 
 
     // fetch restaurants data
-    useEffect(() => {
-      if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/restaurants/')
-          .then((response) => response.json())
-          .then((data) => {
-            const newMarkers = data.results.map((restaurant) => ({
-              id: restaurant.fsq_id,
-              position: {
-                lat: restaurant.geocodes.main.latitude,
-                lng: restaurant.geocodes.main.longitude,
-              },
-              title: restaurant.name,
-              info: {
-                categories: restaurant.categories,
-                address: restaurant.location.address,
-                link: restaurant.link,
-              },
-              options: {
-                icon: {
-                  path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#ff6b35', // Color for restaurants
-                  fillOpacity: 0.7,
-                  strokeColor: 'white',
-                  strokeWeight: 1,
-                  scale: 8,
-                },
-              },
-            }));
-            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setMarkers([]); // Clear markers if there's an error
-          });
-      }
-    }, [isLoaded]);
+    // useEffect(() => {
+    //   if (isLoaded) {
+    //     fetch('http://127.0.0.1:8000/api/restaurants/')
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         const newMarkers = data.results.map((restaurant) => ({
+    //           id: restaurant.fsq_id,
+    //           position: {
+    //             lat: restaurant.geocodes.main.latitude,
+    //             lng: restaurant.geocodes.main.longitude,
+    //           },
+    //           title: restaurant.name,
+    //           info: {
+    //             categories: restaurant.categories,
+    //             address: restaurant.location.address,
+    //             link: restaurant.link,
+    //           },
+    //           options: {
+    //             icon: {
+    //               path: window.google.maps.SymbolPath.CIRCLE,
+    //               fillColor: '#ff6b35', // Color for restaurants
+    //               fillOpacity: 0.7,
+    //               strokeColor: 'white',
+    //               strokeWeight: 1,
+    //               scale: 8,
+    //             },
+    //           },
+    //         }));
+    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //         setMarkers([]); // Clear markers if there's an error
+    //       });
+    //   }
+    // }, [isLoaded]);
+
+
+    // fetch restaurants data
+useEffect(() => {
+  if (isLoaded) {
+    fetch('http://127.0.0.1:8000/api/googleAttractions/')
+      .then((response) => response.json())
+      .then((data) => {
+        const newMarkers = data.map((restaurant) => ({
+          id: restaurant.name,
+          position: {
+            lat: restaurant.latitude,
+            lng: restaurant.longitude,
+          },
+          title: restaurant.name,
+          info: {
+            address: restaurant.address,
+            rating: restaurant.rating,
+            photos: restaurant.photos,
+          },
+          options: {
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              fillColor: '#ff6b35', // Color for restaurants
+              fillOpacity: 0.7,
+              strokeColor: 'white',
+              strokeWeight: 1,
+              scale: 8,
+            },
+          },
+        }));
+        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMarkers([]); // Clear markers if there's an error
+      });
+  }
+}, [isLoaded]);
+
 
     // fetch hotels data
     useEffect(() => {
@@ -501,7 +541,12 @@ function MapPage() {
                           <div>
                             <p>Address: {selectedMarker.info.address}</p>
                             <p>Rating: {selectedMarker.info.rating}</p>
-                            
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+          <img
+            src={selectedMarker.info.photos[0]} // Display the first photo in the photos array
+            alt={selectedMarker.title}
+          />
+        )}
                           </div>
                         )}
                       </div>
