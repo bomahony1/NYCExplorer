@@ -1,14 +1,15 @@
 import requests
 import time
 
-def get_google_restaurants():
+def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
-        "query": "restaurants in Manhattan, New York",
-        "key": api_key
+        "query": "Hotels in Manhattan, New York",
+        "key": api_key,
+        "fields": "name,formatted_address,geometry/location,rating,photos"
     }
-    restaurant_data = []
+    attraction_data = []
 
     try:
         while True:
@@ -24,15 +25,16 @@ def get_google_restaurants():
                 lat = location["lat"]
                 lng = location["lng"]
                 rating = result.get("rating")
-                photos = result.get("photos", [])
+                photos = result.get("photos")
 
                 photo_urls = []
-                for photo in photos:
-                    photo_reference = photo.get("photo_reference")
-                    photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
-                    photo_urls.append(photo_url)
+                if photos:
+                    for photo in photos:
+                        photo_reference = photo.get("photo_reference")
+                        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
+                        photo_urls.append(photo_url)
 
-                restaurant_data.append({
+                attraction_data.append({
                     "name": name,
                     "address": address,
                     "latitude": lat,
@@ -48,7 +50,7 @@ def get_google_restaurants():
             time.sleep(2)  # Delay between API calls as per Google's guidelines
 
     except requests.exceptions.RequestException as e:
-        print("Error in get_google_restaurants:", e)
-    return restaurant_data
+        print("Error in get_attractions:", e)
+    return attraction_data
 
-
+get_google_attractions()
