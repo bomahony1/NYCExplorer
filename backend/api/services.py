@@ -67,6 +67,7 @@ def get_venues_restaurant():
         print("Error in get_venues:", e)
         return None
 
+
 def get_venues_hotels():
     url = "https://api.foursquare.com/v3/places/search"
     headers = {
@@ -88,6 +89,111 @@ def get_venues_hotels():
     except requests.exceptions.RequestException as e:
         print("Error in get_venues:", e)
         return None
+
+# Google Places API
+
+def get_google_restaurants():
+    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    params = {
+        "query": "restaurants in Manhattan, New York",
+        "key": api_key
+    }
+    restaurant_data = []
+
+    try:
+        while True:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            results = data["results"]
+
+            for result in results:
+                name = result["name"]
+                address = result["formatted_address"]
+                location = result["geometry"]["location"]
+                lat = location["lat"]
+                lng = location["lng"]
+                rating = result.get("rating")
+                photos = result.get("photos", [])
+
+                photo_urls = []
+                for photo in photos:
+                    photo_reference = photo.get("photo_reference")
+                    photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
+                    photo_urls.append(photo_url)
+
+                restaurant_data.append({
+                    "name": name,
+                    "address": address,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "rating": rating,
+                    "photos": photo_urls
+                })
+
+            if "next_page_token" not in data:
+                break
+
+            params["pagetoken"] = data["next_page_token"]
+            time.sleep(2)  # Delay between API calls as per Google's guidelines
+
+    except requests.exceptions.RequestException as e:
+        print("Error in get_google_restaurants:", e)
+    return restaurant_data
+
+def get_google_attractions():
+    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    params = {
+        "query": "tourist attractions in Manhattan, New York",
+        "key": api_key,
+        "fields": "name,formatted_address,geometry/location,rating,photos"
+    }
+    attraction_data = []
+
+    try:
+        while True:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            results = data["results"]
+
+            for result in results:
+                name = result["name"]
+                address = result["formatted_address"]
+                location = result["geometry"]["location"]
+                lat = location["lat"]
+                lng = location["lng"]
+                rating = result.get("rating")
+                photos = result.get("photos")
+
+                photo_urls = []
+                if photos:
+                    for photo in photos:
+                        photo_reference = photo.get("photo_reference")
+                        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
+                        photo_urls.append(photo_url)
+
+                attraction_data.append({
+                    "name": name,
+                    "address": address,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "rating": rating,
+                    "photos": photo_urls
+                })
+
+            if "next_page_token" not in data:
+                break
+
+            params["pagetoken"] = data["next_page_token"]
+            time.sleep(2)  # Delay between API calls as per Google's guidelines
+
+    except requests.exceptions.RequestException as e:
+        print("Error in get_attractions:", e)
+        
+    return attraction_data
 
 # Ticketmaster API
 
@@ -153,103 +259,4 @@ def get_events():
             break
 
     return event_data
-
-
-# Google Places API
-
-def get_google_restaurants():
-    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
-    params = {
-        "query": "restaurants in Manhattan, New York",
-        "key": api_key
-    }
-    restaurant_data = []
-
-    try:
-        while True:
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-            data = response.json()
-            results = data["results"]
-
-            for result in results:
-                name = result["name"]
-                address = result["formatted_address"]
-                location = result["geometry"]["location"]
-                lat = location["lat"]
-                lng = location["lng"]
-                rating = result.get("rating")
-
-                restaurant_data.append({
-                    "name": name,
-                    "address": address,
-                    "latitude": lat,
-                    "longitude": lng,
-                    "rating": rating
-                })
-
-            if "next_page_token" not in data:
-                break
-
-            params["pagetoken"] = data["next_page_token"]
-            time.sleep(2)  # Delay between API calls as per Google's guidelines
-
-    except requests.exceptions.RequestException as e:
-        print("Error in get_restaurants:", e)
-
-    return restaurant_data
-
-def get_google_attractions():
-    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
-    params = {
-        "query": "tourist attractions in Manhattan, New York",
-        "key": api_key,
-        "fields": "name,formatted_address,geometry/location,rating,photos"
-    }
-    attraction_data = []
-
-    try:
-        while True:
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-            data = response.json()
-            results = data["results"]
-
-            for result in results:
-                name = result["name"]
-                address = result["formatted_address"]
-                location = result["geometry"]["location"]
-                lat = location["lat"]
-                lng = location["lng"]
-                rating = result.get("rating")
-                photos = result.get("photos")
-
-                photo_urls = []
-                if photos:
-                    for photo in photos:
-                        photo_reference = photo.get("photo_reference")
-                        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
-                        photo_urls.append(photo_url)
-
-                attraction_data.append({
-                    "name": name,
-                    "address": address,
-                    "latitude": lat,
-                    "longitude": lng,
-                    "rating": rating,
-                    "photos": photo_urls
-                })
-
-            if "next_page_token" not in data:
-                break
-
-            params["pagetoken"] = data["next_page_token"]
-            time.sleep(2)  # Delay between API calls as per Google's guidelines
-
-    except requests.exceptions.RequestException as e:
-        print("Error in get_attractions:", e)
-        
-    return attraction_data
 
