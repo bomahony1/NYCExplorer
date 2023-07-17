@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import WeatherAPIView, EventsAPIView, RestaurantAPIView, GoogleRestaurantAPIView, GoogleAttractionsAPIView, HotelsAPIView
+from .views import WeatherAPIView, EventsAPIView, RestaurantAPIView, GoogleRestaurantAPIView, GoogleAttractionsAPIView, HotelsAPIView, PredictionAPIView
 
 app_name = "api"
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('hotels/', HotelsAPIView.as_view(), name='events'),
     path('events/', EventsAPIView.as_view(), name='events'),
     path('weather/', WeatherAPIView.as_view(), name='weather'),
+    path('predict/', PredictionAPIView.as_view(), name='predict'),
 ]

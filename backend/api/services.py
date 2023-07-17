@@ -1,12 +1,12 @@
 import requests
 import json
-import pickle 
 import time
 import datetime
-import pandas as pd
 from datetime import timedelta
-#from django.http import JsonResponse
-#from django.utils import timezone
+from django.http import JsonResponse
+from django.utils import timezone
+import pickle
+import pandas as pd
 
 # OpenWeather API
 
@@ -57,6 +57,7 @@ def get_venues_restaurant():
         "open_now": "true",
         "categoryId": "4d4b7105d754a06374d81259",  # Category ID for Food (Restaurants)
         "limit": 50,  # Number of results to retrieve per request
+        "richData": "true"  # Include rich data for POIs
     }
 
     try:
@@ -143,32 +144,58 @@ def get_google_restaurants():
         print("Error in get_google_restaurants:", e)
     return restaurant_data
 
+def get_google_attractions():
+    url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    params = {
+        "query": "tourist attractions in Manhattan, New York",
+        "key": api_key,
+        "fields": "name,formatted_address,geometry/location,rating,photos"
+    }
+    attraction_data = []
 
-def get_predictions(hour, day, month, latitude, longitude):
-    """Returns prediction of busyness in Area."""
-    def get_location_id(latitude, longitude):
-        """Returns location ID given coordinates"""
-        with open('../../data/taxi_zones.json', 'r') as file:
-            data = json.load(file)
-        latitude, longitude = str(latitude), str(longitude)
-        zone = None
-        for _ in data:
-            if latitude and longitude in data['data'][0][10]:
-                zone = data['data'][0][13]
-        return zone
+    try:
+        while True:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            results = data["results"]
+
+            for result in results:
+                name = result["name"]
+                address = result["formatted_address"]
+                location = result["geometry"]["location"]
+                lat = location["lat"]
+                lng = location["lng"]
+                rating = result.get("rating")
+                photos = result.get("photos")
+
+                photo_urls = []
+                if photos:
+                    for photo in photos:
+                        photo_reference = photo.get("photo_reference")
+                        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
+                        photo_urls.append(photo_url)
+
+                attraction_data.append({
+                    "name": name,
+                    "address": address,
+                    "latitude": lat,
+                    "longitude": lng,
+                    "rating": rating,
+                    "photos": photo_urls
+                })
+
+            if "next_page_token" not in data:
+                break
+
+            params["pagetoken"] = data["next_page_token"]
+            time.sleep(2)  # Delay between API calls as per Google's guidelines
+
+    except requests.exceptions.RequestException as e:
+        print("Error in get_attractions:", e)
         
-    with open('../../data/small_model.pkl', 'rb') as file:
-        model = pickle.load(file)
-    location_id = get_location_id(latitude, longitude)
-
-    feature_names = ['hour', 'day_of_week', 'month', 'pulocationid']
-    prediction_data = [[hour, month, day, location_id]]
-    prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
-
-    prediction_data = model.predict(prediction_data_df)
-    return prediction_data[0]
-
-
+    return attraction_data
 
 # Ticketmaster API
 
@@ -235,3 +262,29 @@ def get_events():
 
     return event_data
 
+
+# ML Model 
+
+def get_predictions(hour, day, month, latitude, longitude):
+    """Returns prediction of busyness in Area."""
+    def get_location_id(latitude, longitude):
+        """Returns location ID given coordinates"""
+        with open('/Users/billomahony/Developer/Tourism App/git/NYC_Busyness/data/taxi_zones.json', 'r') as file:
+            data = json.load(file)
+        latitude, longitude = str(latitude), str(longitude)
+        zone = None
+        for _ in data:
+            if latitude and longitude in data['data'][0][10]:
+                zone = data['data'][0][13]
+        return zone
+        
+    with open('/Users/billomahony/Developer/Tourism App/git/NYC_Busyness/data/small_model.pkl', 'rb') as file:
+        model = pickle.load(file)
+    location_id = get_location_id(latitude, longitude)
+
+    feature_names = ['hour', 'day_of_week', 'month', 'pulocationid']
+    prediction_data = [[hour, month, day, location_id]]
+    prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
+
+    prediction_data = model.predict(prediction_data_df)
+    return prediction_data[0]
