@@ -7,6 +7,10 @@ import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-map
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Button from '@mui/material/Button';
+import TemporaryDrawer from './TemporaryDrawer';
+
+
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -404,6 +408,9 @@ useEffect(() => {
   return (
     <div style={{ margin: '0 50px', color: '#1C2541' }}>
     <div className='fixed-box'>
+    <div>
+     <TemporaryDrawer />
+    </div>
     <div id="info01">
       <div>
       {weatherData ? (

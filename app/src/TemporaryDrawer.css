@@ -1,0 +1,6 @@
+.box-container {
+    position: absolute;
+    top: 0;
+    right: 300px; /* 调整这个值以控制窗口框的位置 */
+  }
+  
