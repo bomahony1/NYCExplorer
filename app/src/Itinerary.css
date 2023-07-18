@@ -1,14 +1,10 @@
-/* Rest of your existing styles */
-
 .itinerary-page {
- 
   --white: #fafafa;
   --lightBlue: #1C2541;
   
-
   --background: var(--white);
   --accent: var(--lightBlue);
-
+  
   margin: 0;
   padding: 0;
   color: var(--accent);
@@ -17,51 +13,49 @@
   font-family: sofia-pro, sans-serif;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
-}
-
-.itinerary-page h1,
-.itinerary-page h2,
-.itinerary-page h3 {
+  }
+  
+  .itinerary-page h1,
+  .itinerary-page h2,
+  .itinerary-page h3 {
   font-family: sofia-pro, sans-serif;
   font-weight: 600;
   font-style: normal;
-  color: #1C2541;
-}
-
-
-
-.itinerary-page circle {
+  color: #fafafa;
+  }
+  
+  .itinerary-page circle {
   stroke-dashoffset: 0;
   stroke-width: 15%;
   fill: none;
-}
-
-.itinerary-page .bg {
+  }
+  
+  .itinerary-page .bg {
   stroke: var(--accent);
   opacity: 0.3;
-}
-
-.itinerary-page #progress .indicator {
+  }
+  
+  .itinerary-page #progress .indicator {
   stroke: var(--accent);
-}
-
-.itinerary-page ::-webkit-scrollbar {
+  }
+  
+  .itinerary-page ::-webkit-scrollbar {
   height: 5px;
   width: 5px;
   background: var(--background);
   -webkit-border-radius: 1ex;
-}
-
-.itinerary-page ::-webkit-scrollbar-thumb {
+  }
+  
+  .itinerary-page ::-webkit-scrollbar-thumb {
   background: var(--accent);
   -webkit-border-radius: 1ex;
-}
-
-.itinerary-page ::-webkit-scrollbar-corner {
+  }
+  
+  .itinerary-page ::-webkit-scrollbar-corner {
   background: #fff3;
-}
-
-.itinerary-page .refresh {
+  }
+  
+  .itinerary-page .refresh {
   padding: 5px;
   position: absolute;
   border: 1px dotted var(--accent);
@@ -74,41 +68,39 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
-
-.itinerary-page .refresh path {
+  }
+  
+  .itinerary-page .refresh path {
   fill: var(--accent);
-}
-
-
-
-.itinerary-page ul {
+  }
+  
+  .itinerary-page ul {
   display: flex;
   width: 300px;
   height: 300px;
   flex-direction: column;
   gap: 20px;
-}
-
-.itinerary-page li {
+  }
+  
+  .itinerary-page li {
   display: block;
   background: var(--accent);
-  color:var(--white);
+  color: var(--white);
   font-weight: bold;
   height: 40px;
   width: 100%;
   flex: 0 0 80px;
   border-radius: 20px;
-}
-
-.itinerary-page ul,
-.itinerary-page li {
+  }
+  
+  .itinerary-page ul,
+  .itinerary-page li {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.itinerary-page button {
+  }
+  
+  .itinerary-page button {
   -webkit-appearance: button;
   background: var(--accent);
   color: var(--background);
@@ -119,145 +111,241 @@
   font-weight: 700;
   cursor: pointer;
   width: 150px;
-}
-
-.itinerary-page input {
+  }
+  
+  .itinerary-page input {
   accent-color: var(--white);
-}
-
-.itinerary-page .controls {
+  }
+  
+  .itinerary-page .controls {
   display: flex;
   flex-direction: column;
   padding: 0;
   padding-bottom: 10px;
   align-items: center;
-}
-
-.itinerary-page label {
+  }
+  
+  .itinerary-page label {
   display: flex;
   align-items: center;
   margin: 20px 0;
-}
-
-.itinerary-page input[type="number"] {
+  }
+  
+  .itinerary-page input[type="number"] {
   border: 0;
   border-bottom: 1px dotted var(--accent);
   color: var(--accent);
   margin-left: 10px;
   background: var(--background);
   width: 50px;
-}
-
-.itinerary-page input[type="number"]:focus {
+  }
+  
+  .itinerary-page input[type="number"]:focus {
   outline: none;
   border-bottom: 2px solid var(--accent);
-}
-
-.itinerary-page input[type="number"]::-webkit-inner-spin-button {
+  }
+  
+  .itinerary-page input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
-}
-
-.itinerary-page .example {
+  }
+  
+  .itinerary-page .example {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
+  }
   
   #progress {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    transform: rotate(-90deg);
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  transform: rotate(-90deg);
   }
-
+  
   .progress {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--accent);
-    bottom: 100px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--accent);
+  bottom: 100px;
   }
+  
   .window {
-    display: flex;
-    justify-content: center;
-   
-    /* align-items: center; */
-    background-color: white;
-    border: 2px solid white;
-    border-radius: 4px;
-    margin-top: 6px;
-    
-    
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 4px;
+  margin-top: 6px;
   }
   
   .window-content {
-    text-align: center;
+  text-align: center;
   }
   
   .gallery {
-    display: flex;
-    position: relative;
-    list-style: none;
-    width: 1200px;
-    height: 600px;
-    /* overflow-y: scroll; */
-    padding: 10px 100px;
-    flex: 0 0 30px;
-    margin: 20 auto;
-    overflow-y: hidden;
+  display: flex;
+  position: relative;
+  list-style: none;
+  width: 1200px;
+  height: 600px;
+  padding: 10px 100px;
+  flex: 0 0 30px;
+  margin: 20 auto;
+  overflow-y: hidden;
   }
   
   .gallery::-webkit-scrollbar {
-    height: 5px;
-    width: 5px;
-    background: #fff3;
-    -webkit-border-radius: 1ex;
+  height: 5px;
+  width: 5px;
+  background: #fff3;
+  -webkit-border-radius: 1ex;
   }
   
   .gallery::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    -webkit-border-radius: 1ex;
+  background: var(--accent);
+  -webkit-border-radius: 1ex;
   }
   
   .gallery::-webkit-scrollbar-corner {
-    background: #fff3;
+  background: #fff3;
   }
-  
-  
-
   
   .gallery li:last-of-type {
-    margin:0px;
-   
+  margin: 0px;
   }
-
-
+  
   .gallery circle {
-    stroke-dashoffset: 0;
-    stroke-width: 15%;
-    fill: none;
+  stroke-dashoffset: 0;
+  stroke-width: 15%;
+  fill: none;
   }
-
+  
   .gallery #progress .indicator {
-    stroke: var(--accent);
+  stroke: var(--accent);
   }
+  
   .gallery ul {
-    display: flex;
-    list-style: none;
-    height: 600px;
-    overflow-x: scroll;
-    padding: 20px 0;
-    flex: 0 10 1100px;
-    margin: 0 auto;
+  display: flex;
+  list-style: none;
+  height: 600px;
+  overflow-x: scroll;
+  padding: 20px 0;
+  flex: 0 10 1100px;
+  margin: 0 auto;
   }
+  
   .gallery #progress {
-    position: absolute;
-    top: 0px; /* Adjust the top position as needed */
-    left: 0px;
-    transform: rotate(-90deg);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transform: rotate(-90deg);
   }
-
+  
+  .pop {
+  flex: 1.4;
+  margin-top: 80px;
+  }
+  
+  .info-box {
+  border: 2px solid white;
+  flex: 2;
+  height: 366px;
+  width: 150px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  overflow: auto;
+  color:#fafafa;
+  margin: "100px";
+  text-decoration: none;
+  background-color: #4f9cc4;
+  }
 
   
+  .attraction-names {
+  background-color: #4f9cc4;
+  padding: 10px;
+  color: white;
+  }
+  
+  .attraction-names a {
+  color:white;
+  font-size: 16px;
+  text-decoration: none;
+  margin: 8px;
+  padding: 8px;
+  background-color:#1C2541;
+  border-radius: 8px;
+  display:inline-block;
+  }
+  
+  .restaurant-names {
+    background-color: #4f9cc4;
+    padding: 10px;
+    color: white;
+  }
+  
+  .restaurant-names h2 {
+  margin-top: 0;
+  }
+  
+  .restaurant-names a {
+  color:white;
+  font-size: 16px;
+  text-decoration: none;
+  margin: 8px;
+  padding: 8px;
+  background-color:#1C2541;
+  border-radius: 8px;
+  display:inline-block;
+  }
+  
+  .hotel-names {
+    background-color: #4f9cc4;
+    padding: 10px;
+    color: white;
+  }
+  
+  .hotel-names h2 {
+  margin-top: 0;
+  }
+  
+  .hotel-names a {
+    color:white;
+  font-size: 16px;
+  text-decoration: none;
+  margin: 8px;
+  padding: 8px;
+  background-color:#1C2541;
+  border-radius: 8px;
+  display:inline-block;
+  }
+
+
+  .bottom-itin{
+    color: #fafafa;
+    padding: 20px;
+  }
+  .bottom-itin h2{
+    color: #fafafa;
+  }
+  h4 {
+    color: #fafafa;
+  }
+
+  .restaurant-names{
+    color: #fafafa;
+  }
+  attraction-names{
+    color: #fafafa;
+
+  }
+ .hotel-names{
+  color: #fafafa;
+  }
+  .btn-itin{
+    background-color: #fafafa;
+    color: #1C2541;
+  }
