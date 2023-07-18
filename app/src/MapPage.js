@@ -126,7 +126,7 @@ function TemporaryDrawer() {
       <button onClick={toggleDrawer}>Drawer Button</button>
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
-          <div style={{ width: '200px', background: 'white' }}>
+          <div style={{ width: '300px', background: 'white' }}>
             <h3>New York Trip</h3>
             <Divider />
             <button onClick={toggleWindow}>Open Window</button>
@@ -136,7 +136,7 @@ function TemporaryDrawer() {
           {isWindowOpen && (
             <div
               style={{
-                width: '200px',
+                width: '300px',
                 marginLeft: '10px',
                 background: 'lightblue',
               }}
@@ -397,29 +397,66 @@ useEffect(() => {
 }, [isLoaded]);
 
 
-    // fetch hotels data
+    // fetch googlehotels data
+    // useEffect(() => {
+    //   if (isLoaded) {
+    //     fetch('http://127.0.0.1:8000/api/hotels/')
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         const newMarkers = data.results.map((hotel) => ({
+    //           id: hotel.fsq_id,
+    //           position: {
+    //             lat: hotel.geocodes.main.latitude,
+    //             lng: hotel.geocodes.main.longitude,
+    //           },
+    //           title: hotel.name,
+    //           info: {
+    //             categories: hotel.categories,
+    //             address: hotel.location.address,
+    //             link: hotel.link,
+    //           },
+    //           options: {
+    //             icon: {
+    //               path: window.google.maps.SymbolPath.CIRCLE,
+    //               fillColor: '#efefd0', // Color for hotels
+    //               fillOpacity: 0.7,
+    //               strokeColor: 'white',
+    //               strokeWeight: 1,
+    //               scale: 8,
+    //             },
+    //           },
+    //         }));
+    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //         setMarkers([]); // Clear markers if there's an error
+    //       });
+    //   }
+    // }, [isLoaded]);
+
     useEffect(() => {
       if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/hotels/')
+        fetch('http://127.0.0.1:8000/api/googleHotels')
           .then((response) => response.json())
           .then((data) => {
-            const newMarkers = data.results.map((hotel) => ({
-              id: hotel.fsq_id,
+            const newMarkers = data.map((restaurant) => ({
+              id: restaurant.name,
               position: {
-                lat: hotel.geocodes.main.latitude,
-                lng: hotel.geocodes.main.longitude,
+                lat: restaurant.latitude,
+                lng: restaurant.longitude,
               },
-              title: hotel.name,
+              title: restaurant.name,
               info: {
-                categories: hotel.categories,
-                address: hotel.location.address,
-                link: hotel.link,
+                address: restaurant.address,
+                rating: restaurant.rating,
+                 photos: restaurant.photos,
               },
               options: {
                 icon: {
                   path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#efefd0', // Color for hotels
-                  fillOpacity: 0.7,
+                  fillColor: '#f7c59f', // Set the desired color for Google restaurants
+                  fillOpacity: 0.8,
                   strokeColor: 'white',
                   strokeWeight: 1,
                   scale: 8,
@@ -434,6 +471,8 @@ useEffect(() => {
           });
       }
     }, [isLoaded]);
+
+
 
     // fetch googleRestaurants data
     useEffect(() => {
@@ -451,6 +490,7 @@ useEffect(() => {
               info: {
                 address: restaurant.address,
                 rating: restaurant.rating,
+                 photos: restaurant.photos,
               },
               options: {
                 icon: {
@@ -678,7 +718,7 @@ useEffect(() => {
     </div>
 
       {/* map div */}
-      <div style={{ marginTop: '20px', height: '800px' ,flex:"1"}}>
+      <div style={{ marginTop: '20px', height: '800px' ,flex:"2"}}>
         {!isLoaded ? (
           <div>Loading...</div>
         ) : (
