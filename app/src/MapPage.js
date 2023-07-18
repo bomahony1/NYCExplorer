@@ -7,9 +7,195 @@ import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-map
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Button from '@mui/material/Button';
-import TemporaryDrawer from './TemporaryDrawer';
+import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
+import { pickersLayoutClasses } from '@mui/x-date-pickers/PickersLayout';
 
 
+
+const licenseKey = 'sqd7o7atrhghtitpk6ksjl5rs';
+
+
+
+//  add the CustomizedAccordions
+
+function DateRangePicker() {
+  
+  
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <StaticDateRangePicker
+        defaultValue={[dayjs('2022-04-17'), dayjs('2022-04-21')]}
+        sx={{
+          [`.${pickersLayoutClasses.contentWrapper}`]: {
+            alignItems: 'center',
+          },
+        }}
+      />
+    </LocalizationProvider>
+  );
+}
+
+  const Accordion = styled((props) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+  ))(({ theme }) => ({
+    border: `1px solid ${theme.palette.divider}`,
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+  }));
+  
+  const AccordionSummary = styled((props) => (
+    <MuiAccordionSummary {...props} />
+  ))(({ theme }) => ({
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? 'rgba(255, 255, 255, .05)'
+        : 'rgba(0, 0, 0, .03)',
+    flexDirection: 'row-reverse',
+    '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+      transform: 'rotate(90deg)',
+    },
+    '& .MuiAccordionSummary-content': {
+      marginLeft: theme.spacing(1),
+    },
+  }));
+  
+  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    padding: theme.spacing(2),
+    borderTop: '1px solid rgba(0, 0, 0, .125)',
+  }));
+  
+  function CustomizedAccordions() {
+    const [expanded, setExpanded] = useState('panel1');
+    const [items, setItems] = useState([
+      { label: 'Atrractions', checked: false, iconColor: 'red', inputValue: '' },
+      { label: 'Food', checked: false, iconColor: 'green', inputValue: '' },
+      { label: 'Hotels', checked: true, iconColor: 'blue', inputValue: '' },
+    ]);
+  
+    const handleChange = (panel) => (event, newExpanded) => {
+      setExpanded(newExpanded ? panel : false);
+    };
+  
+    const handleCheckboxChange = (index) => {
+      setItems((prevItems) => {
+        const newItems = [...prevItems];
+        newItems[index] = { ...newItems[index], checked: !newItems[index].checked };
+        return newItems;
+      });
+    };
+  
+    const handleInputChange = (index, value) => {
+      setItems((prevItems) => {
+        const newItems = [...prevItems];
+        newItems[index] = { ...newItems[index], inputValue: value };
+        return newItems;
+      });
+    };
+  
+    return (
+      <div>
+        {items.map((item, index) => (
+          <Accordion
+            key={index}
+            expanded={expanded === `panel${index + 1}`}
+            onChange={handleChange(`panel${index + 1}`)}
+          >
+            <AccordionSummary
+              aria-controls={`panel${index + 1}d-content`}
+              id={`panel${index + 1}d-header`}
+              expandIcon={
+                <Checkbox
+                  checked={item.checked}
+                  onChange={() => handleCheckboxChange(index)}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'checkbox' }}
+                />
+              }
+            >
+              <Typography>{item.label}</Typography>
+              {item.checked && (
+                <FiberManualRecordIcon style={{ color: item.iconColor, marginLeft: '8px' }} />
+              )}
+            </AccordionSummary>
+            <AccordionDetails>
+              <input
+                type="text"
+                value={item.inputValue}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            </AccordionDetails>
+            {item.checked && (
+              <AccordionDetails>
+                <Typography>{item.inputValue}</Typography>
+              </AccordionDetails>
+            )}
+          </Accordion>
+        ))}
+      </div>
+    );
+  }
+
+
+
+// add the drawer
+function TemporaryDrawer(){
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isWindowOpen, setWindowOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!isDrawerOpen);
+    setWindowOpen(false);
+  };
+
+  const toggleWindow = () => {
+    setWindowOpen(!isWindowOpen);
+  };
+
+  return (
+    <div>
+      <button onClick={toggleDrawer}>Drawer Button</button>
+      {isDrawerOpen && (
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '200px', background: 'white' }}>
+          <h3>New York Trip</h3>
+          <Divider />
+            <button onClick={toggleWindow}>Open Window</button>
+          <Divider />
+          <CustomizedAccordions />
+        
+           
+          </div>
+          {isWindowOpen && (
+            <div
+              style={{
+                width: '200px',
+                marginLeft: '10px',
+                background: 'lightblue',
+              }}
+            >
+              Itinerary
+              <DateRangePicker />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -105,44 +291,6 @@ function MapPage() {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
 
-
-    // fetch restaurants data
-    // useEffect(() => {
-    //   if (isLoaded) {
-    //     fetch('http://127.0.0.1:8000/api/restaurants/')
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         const newMarkers = data.results.map((restaurant) => ({
-    //           id: restaurant.fsq_id,
-    //           position: {
-    //             lat: restaurant.geocodes.main.latitude,
-    //             lng: restaurant.geocodes.main.longitude,
-    //           },
-    //           title: restaurant.name,
-    //           info: {
-    //             categories: restaurant.categories,
-    //             address: restaurant.location.address,
-    //             link: restaurant.link,
-    //           },
-    //           options: {
-    //             icon: {
-    //               path: window.google.maps.SymbolPath.CIRCLE,
-    //               fillColor: '#ff6b35', // Color for restaurants
-    //               fillOpacity: 0.7,
-    //               strokeColor: 'white',
-    //               strokeWeight: 1,
-    //               scale: 8,
-    //             },
-    //           },
-    //         }));
-    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //         setMarkers([]); // Clear markers if there's an error
-    //       });
-    //   }
-    // }, [isLoaded]);
 
 
     // fetch restaurants data
@@ -408,9 +556,7 @@ useEffect(() => {
   return (
     <div style={{ margin: '0 50px', color: '#1C2541' }}>
     <div className='fixed-box'>
-    <div>
-     <TemporaryDrawer />
-    </div>
+    
     <div id="info01">
       <div>
       {weatherData ? (
@@ -461,8 +607,13 @@ useEffect(() => {
       )}
       </div>
       </div>
+      <div style={{display:"flex"}}>
+      <div style={{flex:1}}>
+     <TemporaryDrawer />
+    </div>
+
       {/* map div */}
-      <div style={{ marginTop: '20px', height: '800px' }}>
+      <div style={{ marginTop: '20px', height: '800px' ,flex:"1"}}>
         {!isLoaded ? (
           <div>Loading...</div>
         ) : (
@@ -563,6 +714,7 @@ useEffect(() => {
               ))}
           </GoogleMap>
         )}
+      </div>
       </div>
     </div>
   );
