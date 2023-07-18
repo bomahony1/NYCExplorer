@@ -159,7 +159,7 @@ function NestedList({ attractions }) {
       </ListItemButton>
       <Collapse in={open4} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, color: 'white', fontWeight: 'normal', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <ListItemButton sx={{ pl: 4, color: 'white', fontWeight: 'normal',frontsize:"15px", display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <div>
               <b>Address:</b> {attractions.length > 3 && attractions[3].address}
             </div>

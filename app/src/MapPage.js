@@ -7,6 +7,261 @@ import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-map
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Button from '@mui/material/Button';
+import { Dialog, DialogTitle, DialogContent,Paper} from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // Import the styles
+import 'react-date-range/dist/theme/default.css'; // Import the theme
+
+
+// add the drawer and plan window
+
+function DateRangePickerComponent({ handleSelect }) {
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection'
+  });
+
+  const handleChange = (ranges) => {
+    setSelectedRange(ranges.selection);
+    handleSelect(ranges.selection);
+  };
+
+  return (
+    <div style={{ width: '100px' }}>
+      <DateRangePicker
+        ranges={[selectedRange]}
+        onChange={handleChange}
+      />
+    </div>
+  );
+}
+
+function DateRangePickerDialog({ handleSelect }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button onClick={handleOpen}>Open Date Range Picker</Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Select Date Range</DialogTitle>
+        <DialogContent>
+          <Paper sx={{ width: '600px' }}>
+            <DateRangePickerComponent handleSelect={handleSelect} />
+          </Paper>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+function TemporaryDrawer() {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isWindowOpen, setWindowOpen] = useState(false);
+  const [selectedRange, setSelectedRange] = useState(null);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!isDrawerOpen);
+    setWindowOpen(false);
+  };
+
+  const toggleWindow = () => {
+    setWindowOpen(!isWindowOpen);
+  };
+
+  const handleSelectRange = (range) => {
+    setSelectedRange(range);
+  };
+
+  const renderDateRangeContent = () => {
+    if (selectedRange) {
+      const { startDate, endDate } = selectedRange;
+      const start = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const end = endDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+      const dateContent = [];
+      for (let i = 0; i < days; i++) {
+        const currentDate = new Date(startDate.getTime() + i * (1000 * 60 * 60 * 24));
+        const dayString = currentDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        dateContent.push(
+          <div key={i}>
+            <h4>{dayString}</h4>
+            <p>Click to add day notes</p>
+            <p>Drag a place here to add it</p>
+          </div>
+        );
+      }
+
+      return (
+        <>
+          <h3>Selected Date Range</h3>
+          <p>{`${start} - ${end}`}</p>
+          {dateContent}
+        </>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div>
+      <button onClick={toggleDrawer}>Drawer Button</button>
+      {isDrawerOpen && (
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '200px', background: 'white' }}>
+            <h3>New York Trip</h3>
+            <Divider />
+            <button onClick={toggleWindow}>Open Window</button>
+            <Divider />
+            <CustomizedAccordions />
+          </div>
+          {isWindowOpen && (
+            <div
+              style={{
+                width: '200px',
+                marginLeft: '10px',
+                background: 'lightblue',
+              }}
+            >
+              Itinerary
+              <DateRangePickerDialog handleSelect={handleSelectRange} />
+              <div>{renderDateRangeContent()}</div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+
+  const Accordion = styled((props) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+  ))(({ theme }) => ({
+    border: `1px solid ${theme.palette.divider}`,
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+  }));
+  
+  const AccordionSummary = styled((props) => (
+    <MuiAccordionSummary {...props} />
+  ))(({ theme }) => ({
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? 'rgba(255, 255, 255, .05)'
+        : 'rgba(0, 0, 0, .03)',
+    flexDirection: 'row-reverse',
+    '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+      transform: 'rotate(90deg)',
+    },
+    '& .MuiAccordionSummary-content': {
+      marginLeft: theme.spacing(1),
+    },
+  }));
+  
+  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    padding: theme.spacing(2),
+    borderTop: '1px solid rgba(0, 0, 0, .125)',
+  }));
+  
+  function CustomizedAccordions() {
+    const [expanded, setExpanded] = useState('panel1');
+    const [items, setItems] = useState([
+      { label: 'Atrractions', checked: false, iconColor: 'red', inputValue: '' },
+      { label: 'Food', checked: false, iconColor: 'green', inputValue: '' },
+      { label: 'Hotels', checked: true, iconColor: 'blue', inputValue: '' },
+    ]);
+  
+    const handleChange = (panel) => (event, newExpanded) => {
+      setExpanded(newExpanded ? panel : false);
+    };
+  
+    const handleCheckboxChange = (index) => {
+      setItems((prevItems) => {
+        const newItems = [...prevItems];
+        newItems[index] = { ...newItems[index], checked: !newItems[index].checked };
+        return newItems;
+      });
+    };
+  
+    const handleInputChange = (index, value) => {
+      setItems((prevItems) => {
+        const newItems = [...prevItems];
+        newItems[index] = { ...newItems[index], inputValue: value };
+        return newItems;
+      });
+    };
+  
+    return (
+      <div>
+        {items.map((item, index) => (
+          <Accordion
+            key={index}
+            expanded={expanded === `panel${index + 1}`}
+            onChange={handleChange(`panel${index + 1}`)}
+          >
+            <AccordionSummary
+              aria-controls={`panel${index + 1}d-content`}
+              id={`panel${index + 1}d-header`}
+              expandIcon={
+                <Checkbox
+                  checked={item.checked}
+                  onChange={() => handleCheckboxChange(index)}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'checkbox' }}
+                />
+              }
+            >
+              <Typography>{item.label}</Typography>
+              {item.checked && (
+                <FiberManualRecordIcon style={{ color: item.iconColor, marginLeft: '8px' }} />
+              )}
+            </AccordionSummary>
+            <AccordionDetails>
+              <input
+                type="text"
+                value={item.inputValue}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            </AccordionDetails>
+            {item.checked && (
+              <AccordionDetails>
+                <Typography>{item.inputValue}</Typography>
+              </AccordionDetails>
+            )}
+          </Accordion>
+        ))}
+      </div>
+    );
+  }
+
+
+
+
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -101,44 +356,6 @@ function MapPage() {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
 
-
-    // fetch restaurants data
-    // useEffect(() => {
-    //   if (isLoaded) {
-    //     fetch('http://127.0.0.1:8000/api/restaurants/')
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         const newMarkers = data.results.map((restaurant) => ({
-    //           id: restaurant.fsq_id,
-    //           position: {
-    //             lat: restaurant.geocodes.main.latitude,
-    //             lng: restaurant.geocodes.main.longitude,
-    //           },
-    //           title: restaurant.name,
-    //           info: {
-    //             categories: restaurant.categories,
-    //             address: restaurant.location.address,
-    //             link: restaurant.link,
-    //           },
-    //           options: {
-    //             icon: {
-    //               path: window.google.maps.SymbolPath.CIRCLE,
-    //               fillColor: '#ff6b35', // Color for restaurants
-    //               fillOpacity: 0.7,
-    //               strokeColor: 'white',
-    //               strokeWeight: 1,
-    //               scale: 8,
-    //             },
-    //           },
-    //         }));
-    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //         setMarkers([]); // Clear markers if there's an error
-    //       });
-    //   }
-    // }, [isLoaded]);
 
 
     // fetch restaurants data
@@ -402,8 +619,9 @@ useEffect(() => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
-    <div style={{ margin: '0 50px', color: '#1C2541' }}>
+    <div style={{ margin: '0 0px', color: '#1C2541' }}>
     <div className='fixed-box'>
+    
     <div id="info01">
       <div>
       {weatherData ? (
@@ -454,8 +672,13 @@ useEffect(() => {
       )}
       </div>
       </div>
+      <div style={{display:"flex"}}>
+      <div style={{flex:1}}>
+     <TemporaryDrawer />
+    </div>
+
       {/* map div */}
-      <div style={{ marginTop: '20px', height: '800px' }}>
+      <div style={{ marginTop: '20px', height: '800px' ,flex:"1"}}>
         {!isLoaded ? (
           <div>Loading...</div>
         ) : (
@@ -556,6 +779,7 @@ useEffect(() => {
               ))}
           </GoogleMap>
         )}
+      </div>
       </div>
     </div>
   );
