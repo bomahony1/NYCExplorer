@@ -21,29 +21,31 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 
 
+// add the drawer and plan window
 
-function DateRangePickerComponent() {
+function DateRangePickerComponent({ handleSelect }) {
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection'
   });
 
-  const handleSelect = (ranges) => {
+  const handleChange = (ranges) => {
     setSelectedRange(ranges.selection);
+    handleSelect(ranges.selection);
   };
 
   return (
-    <div style={{width:"100px"}}>
+    <div style={{ width: '100px' }}>
       <DateRangePicker
         ranges={[selectedRange]}
-        onChange={handleSelect}
+        onChange={handleChange}
       />
     </div>
   );
 }
 
-function DateRangePickerDialog() {
+function DateRangePickerDialog({ handleSelect }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -61,10 +63,91 @@ function DateRangePickerDialog() {
         <DialogTitle>Select Date Range</DialogTitle>
         <DialogContent>
           <Paper sx={{ width: '600px' }}>
-            <DateRangePickerComponent />
+            <DateRangePickerComponent handleSelect={handleSelect} />
           </Paper>
         </DialogContent>
       </Dialog>
+    </div>
+  );
+}
+
+function TemporaryDrawer() {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isWindowOpen, setWindowOpen] = useState(false);
+  const [selectedRange, setSelectedRange] = useState(null);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!isDrawerOpen);
+    setWindowOpen(false);
+  };
+
+  const toggleWindow = () => {
+    setWindowOpen(!isWindowOpen);
+  };
+
+  const handleSelectRange = (range) => {
+    setSelectedRange(range);
+  };
+
+  const renderDateRangeContent = () => {
+    if (selectedRange) {
+      const { startDate, endDate } = selectedRange;
+      const start = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const end = endDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+      const dateContent = [];
+      for (let i = 0; i < days; i++) {
+        const currentDate = new Date(startDate.getTime() + i * (1000 * 60 * 60 * 24));
+        const dayString = currentDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        dateContent.push(
+          <div key={i}>
+            <h4>{dayString}</h4>
+            <p>Click to add day notes</p>
+            <p>Drag a place here to add it</p>
+          </div>
+        );
+      }
+
+      return (
+        <>
+          <h3>Selected Date Range</h3>
+          <p>{`${start} - ${end}`}</p>
+          {dateContent}
+        </>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div>
+      <button onClick={toggleDrawer}>Drawer Button</button>
+      {isDrawerOpen && (
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '200px', background: 'white' }}>
+            <h3>New York Trip</h3>
+            <Divider />
+            <button onClick={toggleWindow}>Open Window</button>
+            <Divider />
+            <CustomizedAccordions />
+          </div>
+          {isWindowOpen && (
+            <div
+              style={{
+                width: '200px',
+                marginLeft: '10px',
+                background: 'lightblue',
+              }}
+            >
+              Itinerary
+              <DateRangePickerDialog handleSelect={handleSelectRange} />
+              <div>{renderDateRangeContent()}</div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -177,51 +260,7 @@ function DateRangePickerDialog() {
 
 
 
-// add the drawer
-function TemporaryDrawer(){
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isWindowOpen, setWindowOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!isDrawerOpen);
-    setWindowOpen(false);
-  };
-
-  const toggleWindow = () => {
-    setWindowOpen(!isWindowOpen);
-  };
-
-  return (
-    <div>
-      <button onClick={toggleDrawer}>Drawer Button</button>
-      {isDrawerOpen && (
-        <div style={{ display: 'flex' }}>
-          <div style={{ width: '200px', background: 'white' }}>
-          <h3>New York Trip</h3>
-          <Divider />
-            <button onClick={toggleWindow}>Open Window</button>
-          <Divider />
-          <CustomizedAccordions />
-        
-           
-          </div>
-          {isWindowOpen && (
-            <div
-              style={{
-                width: '200px',
-                marginLeft: '10px',
-                background: 'lightblue',
-              }}
-            >
-              Itinerary
-              <DateRangePickerDialog/>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
 
 
 const Search = styled('div')(({ theme }) => ({
