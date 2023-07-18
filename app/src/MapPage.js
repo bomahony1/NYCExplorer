@@ -7,6 +7,7 @@ import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-map
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Button from '@mui/material/Button';
+import { Dialog, DialogTitle, DialogContent,Paper} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import MuiAccordion from '@mui/material/Accordion';
@@ -14,36 +15,61 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
-import { pickersLayoutClasses } from '@mui/x-date-pickers/PickersLayout';
+
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // Import the styles
+import 'react-date-range/dist/theme/default.css'; // Import the theme
 
 
 
-const licenseKey = 'sqd7o7atrhghtitpk6ksjl5rs';
+function DateRangePickerComponent() {
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection'
+  });
 
+  const handleSelect = (ranges) => {
+    setSelectedRange(ranges.selection);
+  };
 
-
-//  add the CustomizedAccordions
-
-function DateRangePicker() {
-  
-  
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <StaticDateRangePicker
-        defaultValue={[dayjs('2022-04-17'), dayjs('2022-04-21')]}
-        sx={{
-          [`.${pickersLayoutClasses.contentWrapper}`]: {
-            alignItems: 'center',
-          },
-        }}
+    <div style={{width:"100px"}}>
+      <DateRangePicker
+        ranges={[selectedRange]}
+        onChange={handleSelect}
       />
-    </LocalizationProvider>
+    </div>
   );
 }
+
+function DateRangePickerDialog() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button onClick={handleOpen}>Open Date Range Picker</Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Select Date Range</DialogTitle>
+        <DialogContent>
+          <Paper sx={{ width: '600px' }}>
+            <DateRangePickerComponent />
+          </Paper>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -188,7 +214,7 @@ function TemporaryDrawer(){
               }}
             >
               Itinerary
-              <DateRangePicker />
+              <DateRangePickerDialog/>
             </div>
           )}
         </div>
@@ -554,7 +580,7 @@ useEffect(() => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
-    <div style={{ margin: '0 50px', color: '#1C2541' }}>
+    <div style={{ margin: '0 0px', color: '#1C2541' }}>
     <div className='fixed-box'>
     
     <div id="info01">
