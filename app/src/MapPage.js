@@ -21,6 +21,12 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 
 
+
+// add the input function to create itinerary 
+
+
+
+
 // add the drawer and plan window
 
 function DateRangePickerComponent({ handleSelect }) {
