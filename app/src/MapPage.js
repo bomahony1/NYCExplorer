@@ -196,7 +196,10 @@ function TemporaryDrawer() {
     const [suggestions, setSuggestions] = useState([]);
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [selectedRestaurants, setSelectedRestaurants] = useState([]);
-  
+    const [attractionsChecked, setAttractionsChecked] = useState(false);
+    const [restaurantsChecked, setRestaurantsChecked] = useState(false);
+
+    
     useEffect(() => {
       fetch('http://127.0.0.1:8000/api/googleAttractions/')
         .then((response) => response.json())
@@ -251,9 +254,18 @@ function TemporaryDrawer() {
       </div>
     );
   
+    // const handleChange = (panel) => (event, newExpanded) => {
+    //   setExpanded(newExpanded ? panel : false);
+    // };
     const handleChange = (panel) => (event, newExpanded) => {
+      if (panel === 'attractions') {
+        setAttractionsChecked(newExpanded);
+      } else if (panel === 'restaurants') {
+        setRestaurantsChecked(newExpanded);
+      }
       setExpanded(newExpanded ? panel : false);
     };
+    
   
     const handleInputChange = (section) => (event, { newValue }) => {
       if (section === 'attractions') {
@@ -302,13 +314,24 @@ function TemporaryDrawer() {
     return (
       <div>
         <Accordion expanded={expanded === 'attractions'} onChange={handleChange('attractions')}>
-          <AccordionSummary
-            aria-controls="attractions-content"
-            id="attractions-header"
-            expandIcon={<Checkbox color="primary" inputProps={{ 'aria-label': 'checkbox' }} />}
-          >
-            <Typography>Attractions</Typography>
-          </AccordionSummary>
+            <AccordionSummary
+              aria-controls="attractions-content"
+              id="attractions-header"
+              expandIcon={
+                <Checkbox
+                  color="primary"
+                  inputProps={{ 'aria-label': 'checkbox' }}
+                  checked={attractionsChecked}
+                />
+              }
+            >
+              <Typography>Attractions</Typography>
+              <div
+                className="label-circle"
+                style={{ backgroundColor: attractionsChecked ? '#fdffb6' : 'transparent' }}
+              ></div>
+            </AccordionSummary>
+
           <AccordionDetails>
             <Autosuggest
               suggestions={suggestions}
@@ -340,9 +363,19 @@ function TemporaryDrawer() {
           <AccordionSummary
             aria-controls="restaurants-content"
             id="restaurants-header"
-            expandIcon={<Checkbox color="primary" inputProps={{ 'aria-label': 'checkbox' }} />}
-          >
+            expandIcon={
+              <Checkbox
+                color="primary"
+                inputProps={{ 'aria-label': 'checkbox' }}
+                checked={restaurantsChecked}
+              />
+            }
+            >
             <Typography>Restaurants</Typography>
+            <div
+              className="label-circle"
+              style={{ backgroundColor: restaurantsChecked ? '#06d6a0' : 'transparent' }}
+            ></div>
           </AccordionSummary>
           <AccordionDetails>
             <Autosuggest
