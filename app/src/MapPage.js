@@ -15,19 +15,13 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
+import Autosuggest from 'react-autosuggest';
+import './MapPage.css';
 
 
-
-// add the input function to create itinerary 
-
-
-
-
-// add the drawer and plan window
 
 function DateRangePickerComponent({ handleSelect }) {
   const [selectedRange, setSelectedRange] = useState({
@@ -129,13 +123,13 @@ function TemporaryDrawer() {
 
   return (
     <div>
-      <button onClick={toggleDrawer}>Drawer Button</button>
+      <button onClick={toggleDrawer}>Open Itinerary</button>
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
           <div style={{ width: '300px', background: 'white' }}>
             <h3>New York Trip</h3>
             <Divider />
-            <button onClick={toggleWindow}>Open Window</button>
+            <button onClick={toggleWindow}>Open Day Planner</button>
             <Divider />
             <CustomizedAccordions />
           </div>
@@ -192,81 +186,201 @@ function TemporaryDrawer() {
     padding: theme.spacing(2),
     borderTop: '1px solid rgba(0, 0, 0, .125)',
   }));
-  
+
+ 
   function CustomizedAccordions() {
-    const [expanded, setExpanded] = useState('panel1');
-    const [items, setItems] = useState([
-      { label: 'Atrractions', checked: false, iconColor: '#fdffb6', inputValue: '' },
-      { label: 'Food', checked: false, iconColor: '#06d6a0', inputValue: '' },
-      { label: 'Hotels', checked: true, iconColor: '#ff6b35', inputValue: '' },
-    ]);
+    const [expanded, setExpanded] = useState('attractions');
+    const [attractions, setAttractions] = useState([]);
+    const [restaurants, setRestaurants] = useState([]);
+    const [attractionValue, setAttractionValue] = useState('');
+    const [restaurantValue, setRestaurantValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [selectedAttractions, setSelectedAttractions] = useState([]);
+    const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+  
+    useEffect(() => {
+      fetch('http://127.0.0.1:8000/api/googleAttractions/')
+        .then((response) => response.json())
+        .then((data) => setAttractions(data))
+        .catch((error) => console.error(error));
+  
+      fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+        .then((response) => response.json())
+        .then((data) => setRestaurants(data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    const getAttractionSuggestions = (inputValue) => {
+      const inputValueLowerCase = inputValue.toLowerCase();
+      return attractions.filter(
+        (attraction) =>
+          attraction.name.toLowerCase().includes(inputValueLowerCase) ||
+          attraction.address.toLowerCase().includes(inputValueLowerCase)
+      );
+    };
+  
+    const getRestaurantSuggestions = (inputValue) => {
+      const inputValueLowerCase = inputValue.toLowerCase();
+      return restaurants.filter(
+        (restaurant) =>
+          restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
+          restaurant.address.toLowerCase().includes(inputValueLowerCase)
+      );
+    };
+  
+    const getAttractionSuggestionValue = (suggestion) => suggestion.name;
+  
+    const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
+  
+    const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
+      <div
+        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
+        onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
+      >
+        <div>{suggestion.name}</div>
+        <div>Rating: {suggestion.rating}</div>
+      </div>
+    );
+    
+    const renderRestaurantSuggestion = (suggestion, { isHighlighted }) => (
+      <div
+        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
+        onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
+      >
+        <div>{suggestion.name}</div>
+        <div>Rating: {suggestion.rating}</div>
+      </div>
+    );
   
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
   
-    const handleCheckboxChange = (index) => {
-      setItems((prevItems) => {
-        const newItems = [...prevItems];
-        newItems[index] = { ...newItems[index], checked: !newItems[index].checked };
-        return newItems;
-      });
+    const handleInputChange = (section) => (event, { newValue }) => {
+      if (section === 'attractions') {
+        setAttractionValue(newValue);
+      } else if (section === 'restaurants') {
+        setRestaurantValue(newValue);
+      }
     };
   
-    const handleInputChange = (index, value) => {
-      setItems((prevItems) => {
-        const newItems = [...prevItems];
-        newItems[index] = { ...newItems[index], inputValue: value };
-        return newItems;
-      });
+    const handleSelectSuggestion = (suggestion, section) => {
+      if (section === 'attractions') {
+        const isAlreadySelected = selectedAttractions.some((attraction) => attraction.name === suggestion.name);
+        if (!isAlreadySelected) {
+          setSelectedAttractions((prevAttractions) => [...prevAttractions, suggestion]);
+          setAttractionValue('');
+        }
+      } else if (section === 'restaurants') {
+        const isAlreadySelected = selectedRestaurants.some((restaurant) => restaurant.name === suggestion.name);
+        if (!isAlreadySelected) {
+          setSelectedRestaurants((prevRestaurants) => [...prevRestaurants, suggestion]);
+          setRestaurantValue('');
+        }
+      }
+    };
+  
+    const handleRemoveAttraction = (index) => {
+      setSelectedAttractions((prevAttractions) => prevAttractions.filter((_, i) => i !== index));
+    };
+  
+    const handleRemoveRestaurant = (index) => {
+      setSelectedRestaurants((prevRestaurants) => prevRestaurants.filter((_, i) => i !== index));
+    };
+  
+    const attractionInputProps = {
+      placeholder: 'Search attractions',
+      value: attractionValue,
+      onChange: handleInputChange('attractions'),
+    };
+  
+    const restaurantInputProps = {
+      placeholder: 'Search restaurants',
+      value: restaurantValue,
+      onChange: handleInputChange('restaurants'),
     };
   
     return (
       <div>
-        {items.map((item, index) => (
-          <Accordion
-            key={index}
-            expanded={expanded === `panel${index + 1}`}
-            onChange={handleChange(`panel${index + 1}`)}
+        <Accordion expanded={expanded === 'attractions'} onChange={handleChange('attractions')}>
+          <AccordionSummary
+            aria-controls="attractions-content"
+            id="attractions-header"
+            expandIcon={<Checkbox color="primary" inputProps={{ 'aria-label': 'checkbox' }} />}
           >
-            <AccordionSummary
-              aria-controls={`panel${index + 1}d-content`}
-              id={`panel${index + 1}d-header`}
-              expandIcon={
-                <Checkbox
-                  checked={item.checked}
-                  onChange={() => handleCheckboxChange(index)}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'checkbox' }}
-                />
-              }
-            >
-              <Typography>{item.label}</Typography>
-              {item.checked && (
-                <FiberManualRecordIcon style={{ color: item.iconColor, marginLeft: '8px' }} />
-              )}
-            </AccordionSummary>
-            <AccordionDetails>
-              <input
-                type="text"
-                value={item.inputValue}
-                onChange={(e) => handleInputChange(index, e.target.value)}
-              />
-            </AccordionDetails>
-            {item.checked && (
-              <AccordionDetails>
-                <Typography>{item.inputValue}</Typography>
-              </AccordionDetails>
-            )}
-          </Accordion>
-        ))}
+            <Typography>Attractions</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={({ value }) => {
+                setSuggestions(getAttractionSuggestions(value));
+              }}
+              onSuggestionsClearRequested={() => {
+                setSuggestions([]);
+              }}
+              getSuggestionValue={getAttractionSuggestionValue}
+              renderSuggestion={renderAttractionSuggestion}
+              inputProps={attractionInputProps}
+            />
+          </AccordionDetails>
+        </Accordion>
+        <div className='itin-attraction'>
+          {selectedAttractions.map((attraction, index) => (
+            <div key={index} className="attraction-item">
+              <div className="attraction-name">{attraction.name}</div>
+              <div>Rating: {attraction.rating}</div>
+              <div className="photo-container">
+                <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
+                </div>
+                <div><button onClick={() => handleRemoveAttraction(index)}>Remove</button></div>
+            </div>
+          ))}
+        </div>
+        <Accordion expanded={expanded === 'restaurants'} onChange={handleChange('restaurants')}>
+          <AccordionSummary
+            aria-controls="restaurants-content"
+            id="restaurants-header"
+            expandIcon={<Checkbox color="primary" inputProps={{ 'aria-label': 'checkbox' }} />}
+          >
+            <Typography>Restaurants</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={({ value }) => {
+                setSuggestions(getRestaurantSuggestions(value));
+              }}
+              onSuggestionsClearRequested={() => {
+                setSuggestions([]);
+              }}
+              getSuggestionValue={getRestaurantSuggestionValue}
+              renderSuggestion={renderRestaurantSuggestion}
+              inputProps={restaurantInputProps}
+            />
+          </AccordionDetails>
+        </Accordion>
+        <div>
+          {selectedRestaurants.map((restaurant, index) => (
+            <div key={index} className="restaurant-item">
+              <div className="restaurant-name">{restaurant.name}</div>
+              <div>Rating: {restaurant.rating}</div>
+              <div className="photo-container">
+                <img src={restaurant.photos[0]} alt={restaurant.name} className="restaurant-photo" />
+                </div>
+                <div><button onClick={() => handleRemoveRestaurant(index)}>Remove</button></div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
-
-
-
-
+  
+  
+  
+  
+  
+  
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -364,7 +478,6 @@ function MapPage() {
 
 
 
-    // fetch restaurants data
 useEffect(() => {
   if (isLoaded) {
     fetch('http://127.0.0.1:8000/api/googleAttractions/')
