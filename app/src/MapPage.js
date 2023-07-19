@@ -190,9 +190,9 @@ function TemporaryDrawer() {
   function CustomizedAccordions() {
     const [expanded, setExpanded] = useState('panel1');
     const [items, setItems] = useState([
-      { label: 'Atrractions', checked: false, iconColor: 'red', inputValue: '' },
-      { label: 'Food', checked: false, iconColor: 'green', inputValue: '' },
-      { label: 'Hotels', checked: true, iconColor: 'blue', inputValue: '' },
+      { label: 'Atrractions', checked: false, iconColor: '#fdffb6', inputValue: '' },
+      { label: 'Food', checked: false, iconColor: '#06d6a0', inputValue: '' },
+      { label: 'Hotels', checked: true, iconColor: '#ff6b35', inputValue: '' },
     ]);
   
     const handleChange = (panel) => (event, newExpanded) => {
@@ -364,22 +364,22 @@ useEffect(() => {
     fetch('http://127.0.0.1:8000/api/googleAttractions/')
       .then((response) => response.json())
       .then((data) => {
-        const newMarkers = data.map((restaurant) => ({
-          id: restaurant.name,
+        const newMarkers = data.map((attraction) => ({
+          id: attraction.name,
           position: {
-            lat: restaurant.latitude,
-            lng: restaurant.longitude,
+            lat: attraction.latitude,
+            lng: attraction.longitude,
           },
-          title: restaurant.name,
+          title: attraction.name,
           info: {
-            address: restaurant.address,
-            rating: restaurant.rating,
-            photos: restaurant.photos,
+            address: attraction.address,
+            rating: attraction.rating,
+            photos: attraction.photos,
           },
           options: {
             icon: {
               path: window.google.maps.SymbolPath.CIRCLE,
-              fillColor: '#ff6b35', // Color for restaurants
+              fillColor: '#efefd0', // Color for restaurants  黄
               fillOpacity: 0.7,
               strokeColor: 'white',
               strokeWeight: 1,
@@ -397,7 +397,7 @@ useEffect(() => {
 }, [isLoaded]);
 
 
-    // fetch googlehotels data
+// fetch hotel data
     // useEffect(() => {
     //   if (isLoaded) {
     //     fetch('http://127.0.0.1:8000/api/hotels/')
@@ -440,23 +440,23 @@ useEffect(() => {
         fetch('http://127.0.0.1:8000/api/googleHotels')
           .then((response) => response.json())
           .then((data) => {
-            const newMarkers = data.map((restaurant) => ({
-              id: restaurant.name,
+            const newMarkers = data.map((hotel) => ({
+              id: hotel.name,
               position: {
-                lat: restaurant.latitude,
-                lng: restaurant.longitude,
+                lat: hotel.latitude,
+                lng: hotel.longitude,
               },
-              title: restaurant.name,
+              title: hotel.name,
               info: {
-                address: restaurant.address,
-                rating: restaurant.rating,
-                 photos: restaurant.photos,
+                address: hotel.address,
+                rating: hotel.rating,
+                 photos: hotel.photos,
               },
               options: {
                 icon: {
                   path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#f7c59f', // Set the desired color for Google restaurants
-                  fillOpacity: 0.8,
+                  fillColor: '#ff6b35', // Set the desired color for Google restaurants 橘
+                  fillOpacity: 0.9,
                   strokeColor: 'white',
                   strokeWeight: 1,
                   scale: 8,
@@ -495,8 +495,8 @@ useEffect(() => {
               options: {
                 icon: {
                   path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#f7c59f', // Set the desired color for Google restaurants
-                  fillOpacity: 0.8,
+                  fillColor: '#06d6a0', // Set the desired color for Google restaurants 绿
+                  fillOpacity: 0.6,
                   strokeColor: 'white',
                   strokeWeight: 1,
                   scale: 8,
