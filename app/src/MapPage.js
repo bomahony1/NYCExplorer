@@ -19,6 +19,12 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
+import { useDrag } from 'react-dnd';
+
+const handleDragStart = (event, data) => {
+  event.dataTransfer.setData('text/plain', JSON.stringify(data));
+};
+
 
 
 
@@ -28,6 +34,8 @@ function DateRangePickerComponent({ handleSelect }) {
     endDate: new Date(),
     key: 'selection'
   });
+
+  
 
   const handleChange = (ranges) => {
     setSelectedRange(ranges.selection);
@@ -50,6 +58,7 @@ function DateRangePickerDialog({ handleSelect }) {
   const handleOpen = () => {
     setOpen(true);
   };
+
 
   const handleClose = () => {
     setOpen(false);
@@ -74,6 +83,22 @@ function TemporaryDrawer() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
+  const allowDrop = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event, date) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const placeData = JSON.parse(event.dataTransfer.getData('text/plain'));
+    const content = `<div>${placeData.name} - ${placeData.rating}</div>`;
+    event.target.innerHTML += content;
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+  
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -94,16 +119,23 @@ function TemporaryDrawer() {
       const start = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
       const end = endDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
       const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+      
+      
 
       const dateContent = [];
-      for (let i = 0; i < days; i++) {
+      for (let i = 0; i <=days; i++) {
         const currentDate = new Date(startDate.getTime() + i * (1000 * 60 * 60 * 24));
         const dayString = currentDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         dateContent.push(
-          <div key={i}>
+          <div key={i} className="day-container" onDrop={(event) => handleDrop(event, currentDate)} onDragOver={allowDrop}>
             <h4>{dayString}</h4>
-            <p>Click to add day notes</p>
-            <p>Drag a place here to add it</p>
+            <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            style={{ background: "lightgrey", padding: "10px", marginTop: "10px" }}
+          >
+            Drag a place here to add it
+          </div>
           </div>
         );
       }
@@ -125,6 +157,7 @@ function TemporaryDrawer() {
       <button onClick={toggleDrawer}>Open Itinerary</button>
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
+
           <div style={{ width: '300px', background: 'white' }}>
             <h3>New York Trip</h3>
             <Divider />
@@ -198,6 +231,7 @@ function TemporaryDrawer() {
     const [selectedRestaurants, setSelectedRestaurants] = useState([]);
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
+    
 
     
     useEffect(() => {
@@ -234,10 +268,35 @@ function TemporaryDrawer() {
   
     const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
   
+    // const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
+
+      
+    //   <div
+    //     className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
+    //     onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
+    //   >
+    //     <div>{suggestion.name}</div>
+    //     <div>Rating: {suggestion.rating}</div>
+    //   </div>
+    // );
+    
+    // const renderRestaurantSuggestion = (suggestion, { isHighlighted }) => (
+    //   <div
+    //     className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
+    //     onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
+    //   >
+    //     <div>{suggestion.name}</div>
+    //     <div>Rating: {suggestion.rating}</div>
+    //   </div>
+    // );
+
+
     const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
       <div
         className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
         onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
+        draggable
+        onDragStart={(event) => handleDragStart(event, suggestion)}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -248,15 +307,15 @@ function TemporaryDrawer() {
       <div
         className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
         onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
+        draggable
+        onDragStart={(event) => handleDragStart(event, suggestion)}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
       </div>
     );
+    
   
-    // const handleChange = (panel) => (event, newExpanded) => {
-    //   setExpanded(newExpanded ? panel : false);
-    // };
     const handleChange = (panel) => (event, newExpanded) => {
       if (panel === 'attractions') {
         setAttractionsChecked(newExpanded);
