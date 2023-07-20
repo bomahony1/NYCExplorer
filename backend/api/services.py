@@ -45,7 +45,75 @@ def get_weather():
 
 # Foursquare API
 
-def get_venues_restaurant():
+def get_foursquare_hotels():
+    url = "https://api.foursquare.com/v3/places/search"
+
+    headers = {
+        "Accept": "application/json",
+        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+    }
+
+    params = {
+        "query": "hotels",
+        "ll": "40.7831,-73.9712",  # Manhattan coordinates
+        "open_now": "true",
+        "categoryId": "4bf58dd8d48988d1fa931735",  # Category ID for Food (Restaurants)
+        "limit": 50,  # Number of results to retrieve per request
+    }
+
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        results = data.get("results", [])
+
+        extracted_data = []
+
+        for result in results:
+            fsq_id = result.get("fsq_id")
+            name = result.get("name")
+            categories = [category.get("name") for category in result.get("categories", [])]
+            location = result.get("location", {})
+            geocodes = result.get("geocodes", {}).get("main", {})
+
+            url = f"https://api.foursquare.com/v3/places/{fsq_id}"
+
+            r_headers = {
+                "accept": "application/json",
+                "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+            }
+
+            params = {
+                "fields": "rating",
+                "fields": "hours",
+                "fields": "photos",
+            }
+
+            r_response = requests.get(url, params=params, headers=r_headers)
+            r_response.raise_for_status()
+            r_data = r_response.json()
+            rating = r_data.get("rating")
+            hours = r_data.get("hours")
+            phtots = r_data.get("photos")
+
+            extracted_data.append({
+                "fsq_id": fsq_id,
+                "name": name,
+                "categories": categories,
+                "location": location,
+                "geocodes": geocodes,
+                "rating": rating,
+                "hours": hours,
+                "photos": phtots,
+            })
+        return extracted_data
+
+    except requests.exceptions.RequestException as e:
+        print("Error:", e)
+        return None
+
+
+def get_foursquare_restaurants():
     url = "https://api.foursquare.com/v3/places/search"
     headers = {
         "Accept": "application/json",
@@ -57,40 +125,56 @@ def get_venues_restaurant():
         "open_now": "true",
         "categoryId": "4d4b7105d754a06374d81259",  # Category ID for Food (Restaurants)
         "limit": 50,  # Number of results to retrieve per request
-        "richData": "true"  # Include rich data for POIs
     }
 
     try:
         response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
-        venues = response.json()
-        return venues
+        data = response.json()
+        results = data.get("results", [])
+
+        extracted_data = []
+
+        for result in results:
+            fsq_id = result.get("fsq_id")
+            name = result.get("name")
+            categories = [category.get("name") for category in result.get("categories", [])]
+            location = result.get("location", {})
+            geocodes = result.get("geocodes", {}).get("main", {})
+
+            # Additional API call to get rating, hours, and photos for each restaurant
+            r_url = f"https://api.foursquare.com/v3/places/{fsq_id}"
+            r_headers = {
+                "accept": "application/json",
+                "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+            }
+            r_params = {
+                "fields": "rating,hours,photos",
+            }
+            r_response = requests.get(r_url, params=r_params, headers=r_headers)
+            r_response.raise_for_status()
+            r_data = r_response.json()
+            rating = r_data.get("rating")
+            hours = r_data.get("hours")
+            photos = r_data.get("photos")
+
+            extracted_data.append({
+                "fsq_id": fsq_id,
+                "name": name,
+                "categories": categories,
+                "location": location,
+                "geocodes": geocodes,
+                "rating": rating,
+                "hours": hours,
+                "photos": photos,
+            })
+
+        return extracted_data
+
     except requests.exceptions.RequestException as e:
-        print("Error in get_venues:", e)
+        print("Error:", e)
         return None
 
-
-def get_venues_hotels():
-    url = "https://api.foursquare.com/v3/places/search"
-    headers = {
-        "Accept": "application/json",
-        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
-    }
-    params = {
-        "query": "hotels",
-        "ll": "40.7831,-73.9712",  # Manhattan coordinates
-        "open_now": "true",
-        "limit": 50,  # Number of results to retrieve per request
-    }
-
-    try:
-        response = requests.get(url, params=params, headers=headers)
-        response.raise_for_status()
-        venues = response.json()
-        return venues
-    except requests.exceptions.RequestException as e:
-        print("Error in get_venues:", e)
-        return None
 
 # Google Places API
 
@@ -99,7 +183,8 @@ def get_google_restaurants():
     api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
         "query": "restaurants in Manhattan, New York",
-        "key": api_key
+        "key": api_key,
+        "fields": "place_id,name,formatted_address,geometry/location,rating,photos,opening_hours"
     }
     restaurant_data = []
 
@@ -111,6 +196,7 @@ def get_google_restaurants():
             results = data["results"]
 
             for result in results:
+                place_id = result["place_id"]  # Add place ID
                 name = result["name"]
                 address = result["formatted_address"]
                 location = result["geometry"]["location"]
@@ -118,6 +204,7 @@ def get_google_restaurants():
                 lng = location["lng"]
                 rating = result.get("rating")
                 photos = result.get("photos", [])
+                opening_hours = result.get("opening_hours", {}).get("weekday_text", [])
 
                 photo_urls = []
                 for photo in photos:
@@ -126,12 +213,14 @@ def get_google_restaurants():
                     photo_urls.append(photo_url)
 
                 restaurant_data.append({
+                    "place_id": place_id,
                     "name": name,
                     "address": address,
                     "latitude": lat,
                     "longitude": lng,
                     "rating": rating,
-                    "photos": photo_urls
+                    "photos": photo_urls,
+                    "opening_hours": opening_hours
                 })
 
             if "next_page_token" not in data:
@@ -142,7 +231,9 @@ def get_google_restaurants():
 
     except requests.exceptions.RequestException as e:
         print("Error in get_google_restaurants:", e)
+    
     return restaurant_data
+
 
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
@@ -150,7 +241,7 @@ def get_google_attractions():
     params = {
         "query": "tourist attractions in Manhattan, New York",
         "key": api_key,
-        "fields": "name,formatted_address,geometry/location,rating,photos"
+        "fields": "place_id,name,formatted_address,geometry/location,rating,photos,opening_hours"
     }
     attraction_data = []
 
@@ -162,6 +253,7 @@ def get_google_attractions():
             results = data["results"]
 
             for result in results:
+                place_id = result["place_id"]  # Add place ID
                 name = result["name"]
                 address = result["formatted_address"]
                 location = result["geometry"]["location"]
@@ -169,6 +261,7 @@ def get_google_attractions():
                 lng = location["lng"]
                 rating = result.get("rating")
                 photos = result.get("photos")
+                opening_hours = result.get("opening_hours", {}).get("weekday_text", [])
 
                 photo_urls = []
                 if photos:
@@ -178,12 +271,14 @@ def get_google_attractions():
                         photo_urls.append(photo_url)
 
                 attraction_data.append({
+                    "place_id": place_id,
                     "name": name,
                     "address": address,
                     "latitude": lat,
                     "longitude": lng,
                     "rating": rating,
-                    "photos": photo_urls
+                    "photos": photo_urls,
+                    "opening_hours": opening_hours
                 })
 
             if "next_page_token" not in data:
@@ -193,9 +288,12 @@ def get_google_attractions():
             time.sleep(2)  # Delay between API calls as per Google's guidelines
 
     except requests.exceptions.RequestException as e:
-        print("Error in get_attractions:", e)
-        
+        print("Error in get_google_attractions:", e)
+    
     return attraction_data
+
+
+
 
 def get_google_hotels():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
@@ -203,9 +301,9 @@ def get_google_hotels():
     params = {
         "query": "Hotels in Manhattan, New York",
         "key": api_key,
-        "fields": "name,formatted_address,geometry/location,rating,photos"
+        "fields": "place_id,name,formatted_address,geometry/location,rating,photos"
     }
-    attraction_data = []
+    hotel_data = []
 
     try:
         while True:
@@ -215,6 +313,7 @@ def get_google_hotels():
             results = data["results"]
 
             for result in results:
+                place_id = result["place_id"]  # Add place ID
                 name = result["name"]
                 address = result["formatted_address"]
                 location = result["geometry"]["location"]
@@ -230,7 +329,8 @@ def get_google_hotels():
                         photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
                         photo_urls.append(photo_url)
 
-                attraction_data.append({
+                hotel_data.append({
+                    "place_id": place_id,
                     "name": name,
                     "address": address,
                     "latitude": lat,
@@ -246,8 +346,10 @@ def get_google_hotels():
             time.sleep(2)  # Delay between API calls as per Google's guidelines
 
     except requests.exceptions.RequestException as e:
-        print("Error in get_attractions:", e)
-    return attraction_data
+        print("Error in get_google_hotels:", e)
+        
+    return hotel_data
+
 
 # Ticketmaster API
 
