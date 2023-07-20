@@ -20,7 +20,7 @@
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "framer-motion": "^10.12.18",
-    "framer-motion-3d": "^10.12.18",
+    "framer-motion-3d": "^10.12.22",
     "jquery": "^3.7.0",
     "module-name": "^0.0.1-security",
     "popmotion": "^11.0.5",
