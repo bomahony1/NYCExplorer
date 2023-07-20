@@ -154,7 +154,6 @@ function TemporaryDrawer() {
 
   return (
     <div>
-      {/* <button onClick={toggleDrawer}>Open Itinerary</button> */}
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
 
