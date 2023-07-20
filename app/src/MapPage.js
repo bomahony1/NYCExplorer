@@ -551,7 +551,6 @@ function MapPage() {
   const [duration, setDuration] = useState('');
 
 
-
 useEffect(() => {
   if (isLoaded) {
     fetch('http://127.0.0.1:8000/api/googleAttractions/')
@@ -665,8 +664,6 @@ useEffect(() => {
       }
     }, [isLoaded]);
 
-
-
     // fetch googleRestaurants data
     useEffect(() => {
       if (isLoaded) {
@@ -739,7 +736,6 @@ useEffect(() => {
     : '';
 
 
-
       useEffect(() => {
         if (originInput) {
           const handleSelect = async (value) => {
@@ -783,9 +779,6 @@ useEffect(() => {
           handleSelect(destinationInput);
         }
       }, [destinationInput]);
-
-
-
 
 
   const handleMarkerClick = (marker) => {
@@ -865,16 +858,18 @@ useEffect(() => {
         <strong>Loading weather data...</strong>
       )}
     </div>
-      <div>
+      <div style={{maxWidth:"200px"}}>
         <LocationSearchInput
-          placeholder="Enter current location here..."
+          placeholder="Current location "
           value={originInput}
           onChange={setOriginInput}
+          
         />
-        <LocationSearchInput
-          placeholder="Enter destination here..."
+        <LocationSearchInput 
+          placeholder="Destination "
           value={destinationInput}
           onChange={setDestinationInput}
+         
         />
 
         <Button 
@@ -904,13 +899,13 @@ useEffect(() => {
       )}
       </div>
       </div>
-      <div style={{display:"flex"}}>
+      <div style={{display:"flex",height:"750px"}}>
       <div style={{flex:1}}>
      <TemporaryDrawer />
     </div>
 
       {/* map div */}
-      <div style={{ marginTop: '20px', height: '800px' ,flex:"2"}}>
+      <div style={{ height: '750px' ,flex:"2"}}>
         {!isLoaded ? (
           <div>Loading...</div>
         ) : (
