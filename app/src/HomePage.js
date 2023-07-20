@@ -70,7 +70,7 @@ function NestedList({ attractions }) {
               <Button
                 size="small"
                 style={{ color: '#477696' }}
-                onClick={() => handleButtonClick('https://www.esbnyc.com/')}
+                onClick={() => handleButtonClick('https://www.topoftherock.ie/')}
               >
                 Explore
               </Button>
@@ -105,7 +105,7 @@ function NestedList({ attractions }) {
               <Button
                 size="small"
                 style={{ color: '#477696' }}
-                onClick={() => handleButtonClick('https://www.getyourguide.com/wall-street-l3414/tours-tc1/')}
+                onClick={() => handleButtonClick('https://bryantpark.org/')}
               >
                 Explore
               </Button>
@@ -140,7 +140,7 @@ function NestedList({ attractions }) {
               <Button
                 size="small"
                 style={{ color: '#477696' }}
-                onClick={() => handleButtonClick('https://www.timessquarenyc.org/')}
+                onClick={() => handleButtonClick('https://www.rockefellercenter.com/')}
               >
                 Explore
               </Button>
@@ -175,7 +175,7 @@ function NestedList({ attractions }) {
               <Button
                 size="small"
                 style={{ color: '#477696' }}
-                onClick={() => handleButtonClick('https://www.statueoflibertytickets.com/')}
+                onClick={() => handleButtonClick('https://www.oneworldobservatory.com/')}
               >
                 Explore
               </Button>
