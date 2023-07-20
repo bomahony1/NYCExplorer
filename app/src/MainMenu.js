@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import HomePage from './HomePage';
 import MapPage from './MapPage';
-import ItineraryPage from './ItineraryPage';
+import RecommendPage from './RecommendPage';
 import { motion, MotionConfig, useMotionValue } from 'framer-motion';
 import { Shapes } from './Shapes';
 import { transition as transitions} from './settings';
@@ -118,7 +118,7 @@ export default function MainMenu() {
   } else if (value === 1) {
     content = <MapPage />;
   } else if (value === 2) {
-    content = <ItineraryPage />;
+    content = <RecommendPage />;
   }
 
   return (
@@ -159,7 +159,7 @@ export default function MainMenu() {
             sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />
           <Tab
-            label="Itinerary"
+            label="Recommend"
             icon={<StyledTabIcon><PersonPinIcon /></StyledTabIcon>}
             sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />

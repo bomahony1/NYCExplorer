@@ -1,5 +1,8 @@
 #info01 {
     font-size: 14px;
+    width: 320px;
+    margin-top: 120px;
+    max-width: calc(100% - 100px);
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.7); /* 背景色为白色半透明 */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */
@@ -18,4 +21,54 @@
     right: -6vw;
     width: 350px;
     z-index: 1;
+}
+
+.attraction-name,
+.restaurant-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.photo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  margin-top: 10px;
+}
+
+.attraction-photo,
+.restaurant-photo {
+  width: 200px; 
+  height: 150px; 
+  margin-right: 10px;
+  margin-bottom: 10px; 
+}
+
+.button-container {
+  margin-top: 10px;
+}
+.suggestion {
+    cursor: pointer;
+    padding: 8px;
+    list-style-type: none; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}  
+  .suggestion-hover {
+    background-color: lightgray;
+  }
+
+.attraction-item,
+.restaurant-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.label-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-top: 3px;
+  margin-left: 10px;
+  display: inline-block;
 }
