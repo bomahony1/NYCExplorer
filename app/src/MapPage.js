@@ -80,7 +80,7 @@ function DateRangePickerDialog({ handleSelect }) {
 }
 
 function TemporaryDrawer() {
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isDrawerOpen, setDrawerOpen] = useState(true);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const allowDrop = (event) => {
@@ -154,7 +154,7 @@ function TemporaryDrawer() {
 
   return (
     <div>
-      <button onClick={toggleDrawer}>Open Itinerary</button>
+      {/* <button onClick={toggleDrawer}>Open Itinerary</button> */}
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
 
@@ -231,6 +231,11 @@ function TemporaryDrawer() {
     const [selectedRestaurants, setSelectedRestaurants] = useState([]);
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
+    // 
+    
+
+
+
     
 
     
@@ -267,28 +272,7 @@ function TemporaryDrawer() {
     const getAttractionSuggestionValue = (suggestion) => suggestion.name;
   
     const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
-  
-    // const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
-
-      
-    //   <div
-    //     className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
-    //     onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
-    //   >
-    //     <div>{suggestion.name}</div>
-    //     <div>Rating: {suggestion.rating}</div>
-    //   </div>
-    // );
     
-    // const renderRestaurantSuggestion = (suggestion, { isHighlighted }) => (
-    //   <div
-    //     className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
-    //     onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
-    //   >
-    //     <div>{suggestion.name}</div>
-    //     <div>Rating: {suggestion.rating}</div>
-    //   </div>
-    // );
 
 
     const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
@@ -870,8 +854,7 @@ useEffect(() => {
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
   return (
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
-    <div className='fixed-box'>
-    
+    <div className='fixed-box'>   
     <div id="info01">
       <div>
       {weatherData ? (
@@ -1000,14 +983,6 @@ useEffect(() => {
                       position={selectedMarker.position}
                       onCloseClick={handleInfoWindowClose}
                     >
-                      {/* <div>
-                        <h3>{selectedMarker.title}</h3>
-                        <p>Categories: {selectedMarker.info.categories.map(category => category.name).join(', ')}</p>
-                        <p>Address: {selectedMarker.info.address}</p>
-                        <p>
-                          Link: <a href={selectedMarker.info.link}>{selectedMarker.info.link}</a>
-                        </p>
-                      </div> */}
                          <div>
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && ( // Add a check for the existence of info object
@@ -1015,11 +990,11 @@ useEffect(() => {
                             <p>Address: {selectedMarker.info.address}</p>
                             <p>Rating: {selectedMarker.info.rating}</p>
                             {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
-          <img
-            src={selectedMarker.info.photos[0]} // Display the first photo in the photos array
-            alt={selectedMarker.title}
-          />
-        )}
+                              <img
+                                src={selectedMarker.info.photos[0]} // Display the first photo in the photos array
+                                alt={selectedMarker.title}
+                              />
+                            )}
                           </div>
                         )}
                       </div>
