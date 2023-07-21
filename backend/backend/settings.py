@@ -94,7 +94,10 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": "redis://redis:6379/1",
+        "OPTIONS":{
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
@@ -141,3 +144,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+SESSION_CACHE_ALIAS = 'default'
