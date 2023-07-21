@@ -5,6 +5,7 @@ We use Docker as our container, we can
     - website: https://www.docker.com/
 - install Docker on our school Linux Server
 
+```
 NYC_Busyness/
 ├── backend/            # Django project files
 │   ├── Dockerfile
@@ -19,6 +20,7 @@ NYC_Busyness/
 ├── nginx/              # Nginx configuration file
 │   └── nginx-setup.config
 └── docker-compose.yml
+```
 
 
 
