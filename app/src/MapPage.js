@@ -223,16 +223,17 @@ function TemporaryDrawer() {
     const [expanded, setExpanded] = useState('attractions');
     const [attractions, setAttractions] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
+    const [hotels, setHotels] = useState([]); 
     const [attractionValue, setAttractionValue] = useState('');
     const [restaurantValue, setRestaurantValue] = useState('');
+    const [hotelValue, setHotelValue] = useState(''); 
     const [suggestions, setSuggestions] = useState([]);
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+    const [selectedHotels, setSelectedHotels] = useState([]); 
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
-    // 
-    
-
+    const [hotelsChecked, setHotelsChecked] = useState(false); 
 
 
     
@@ -248,7 +249,23 @@ function TemporaryDrawer() {
         .then((response) => response.json())
         .then((data) => setRestaurants(data))
         .catch((error) => console.error(error));
+
+      fetch('http://127.0.0.1:8000/api/googleHotels/')
+        .then((response) => response.json())
+        .then((data) => setHotels(data))
+        .catch((error) => console.error(error));
+
     }, []);
+
+
+    const getHotelSuggestions = (inputValue) => {
+      const inputValueLowerCase = inputValue.toLowerCase();
+      return hotels.filter(
+        (hotel) =>
+          hotel.name.toLowerCase().includes(inputValueLowerCase) ||
+          hotel.address.toLowerCase().includes(inputValueLowerCase)
+      );
+    };
   
     const getAttractionSuggestions = (inputValue) => {
       const inputValueLowerCase = inputValue.toLowerCase();
@@ -271,6 +288,21 @@ function TemporaryDrawer() {
     const getAttractionSuggestionValue = (suggestion) => suggestion.name;
   
     const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
+
+    const getHotelSuggestionValue = (suggestion) => suggestion.name;
+
+
+    const renderHotelSuggestion = (suggestion, { isHighlighted }) => (
+      <div
+        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
+        onClick={() => handleSelectSuggestion(suggestion, 'hotels')} // New handler for hotels
+        draggable
+        onDragStart={(event) => handleDragStart(event, suggestion)}
+      >
+        <div>{suggestion.name}</div>
+        <div>Rating: {suggestion.rating}</div>
+      </div>
+    );
     
 
 
@@ -304,6 +336,8 @@ function TemporaryDrawer() {
         setAttractionsChecked(newExpanded);
       } else if (panel === 'restaurants') {
         setRestaurantsChecked(newExpanded);
+      } else if (panel === 'hotels') { // New handler for hotels
+        setHotelsChecked(newExpanded);
       }
       setExpanded(newExpanded ? panel : false);
     };
@@ -314,6 +348,8 @@ function TemporaryDrawer() {
         setAttractionValue(newValue);
       } else if (section === 'restaurants') {
         setRestaurantValue(newValue);
+      } else if (section === 'hotels') { // New handler for hotels
+        setHotelValue(newValue);
       }
     };
   
@@ -331,6 +367,15 @@ function TemporaryDrawer() {
           setRestaurantValue('');
         }
       }
+
+      else if (section === 'hotels') {
+        const isAlreadySelected = selectedRestaurants.some((hotel) => hotel.name === suggestion.name);
+        if (!isAlreadySelected) {
+          setSelectedHotels((prevHotels) => [...prevHotels, suggestion]);
+          setHotelValue('');
+        }
+      }
+
     };
   
     const handleRemoveAttraction = (index) => {
@@ -340,6 +385,10 @@ function TemporaryDrawer() {
     const handleRemoveRestaurant = (index) => {
       setSelectedRestaurants((prevRestaurants) => prevRestaurants.filter((_, i) => i !== index));
     };
+    const handleRemoveHotel = (index) => { // New handler for removing hotels
+      setSelectedHotels((prevHotels) => prevHotels.filter((_, i) => i !== index));
+    };
+  
   
     const attractionInputProps = {
       placeholder: 'Search attractions',
@@ -351,6 +400,12 @@ function TemporaryDrawer() {
       placeholder: 'Search restaurants',
       value: restaurantValue,
       onChange: handleInputChange('restaurants'),
+    };
+
+    const hotelInputProps = { // New input props for hotel
+      placeholder: 'Search hotels',
+      value: hotelValue,
+      onChange: handleInputChange('hotels'),
     };
   
     return (
@@ -446,6 +501,53 @@ function TemporaryDrawer() {
             </div>
           ))}
         </div>
+        <Accordion expanded={expanded === 'hotels'} onChange={handleChange('hotels')}>
+        <AccordionSummary
+          aria-controls="hotels-content"
+          id="hotels-header"
+          expandIcon={
+            <Checkbox
+              color="primary"
+              inputProps={{ 'aria-label': 'checkbox' }}
+              checked={hotelsChecked}
+            />
+          }
+        >
+          <Typography>Hotels</Typography>
+          <div
+            className="label-circle"
+            style={{ backgroundColor: hotelsChecked ? '#ff6b35' : 'transparent' }}
+          ></div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={({ value }) => {
+              setSuggestions(getHotelSuggestions(value));
+            }}
+            onSuggestionsClearRequested={() => {
+              setSuggestions([]);
+            }}
+            getSuggestionValue={getHotelSuggestionValue}
+            renderSuggestion={renderHotelSuggestion}
+            inputProps={hotelInputProps}
+          />
+        </AccordionDetails>
+      </Accordion>
+      <div>
+        {selectedHotels.map((hotel, index) => (
+          <div key={index} className="hotel-item">
+            <div className="hotel-name">{hotel.name}</div>
+            <div>Rating: {hotel.rating}</div>
+            <div className="photo-container">
+              <img src={hotel.photos[0]} alt={hotel.name} className="hotel-photo" />
+            </div>
+            <div>
+              <button onClick={() => handleRemoveHotel(index)}>Remove</button>
+            </div>
+          </div>
+        ))}
+      </div>
       </div>
     );
   }
