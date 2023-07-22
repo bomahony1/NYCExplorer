@@ -26,8 +26,6 @@ const handleDragStart = (event, data) => {
 };
 
 
-
-
 function DateRangePickerComponent({ handleSelect }) {
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(),
@@ -182,8 +180,6 @@ function TemporaryDrawer() {
     </div>
   );
 }
-
-
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -552,12 +548,6 @@ function TemporaryDrawer() {
     );
   }
   
-  
-  
-  
-  
-  
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -651,161 +641,12 @@ function MapPage() {
   const [showMarkers, setShowMarkers] = useState(true);
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState([]);
 
-
-useEffect(() => {
-  if (isLoaded) {
-    fetch('http://127.0.0.1:8000/api/googleAttractions/')
-      .then((response) => response.json())
-      .then((data) => {
-        const newMarkers = data.map((attraction) => ({
-          id: attraction.name,
-          position: {
-            lat: attraction.latitude,
-            lng: attraction.longitude,
-          },
-          title: attraction.name,
-          info: {
-            address: attraction.address,
-            rating: attraction.rating,
-            photos: attraction.photos,
-          },
-          options: {
-            icon: {
-              path: window.google.maps.SymbolPath.CIRCLE,
-              fillColor: '#efefd0', // Color for restaurants  黄
-              fillOpacity: 0.7,
-              strokeColor: 'white',
-              strokeWeight: 1,
-              scale: 8,
-            },
-          },
-        }));
-        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-      })
-      .catch((error) => {
-        console.error(error);
-        setMarkers([]); // Clear markers if there's an error
-      });
-  }
-}, [isLoaded]);
-
-
-// fetch hotel data
-    // useEffect(() => {
-    //   if (isLoaded) {
-    //     fetch('http://127.0.0.1:8000/api/hotels/')
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         const newMarkers = data.results.map((hotel) => ({
-    //           id: hotel.fsq_id,
-    //           position: {
-    //             lat: hotel.geocodes.main.latitude,
-    //             lng: hotel.geocodes.main.longitude,
-    //           },
-    //           title: hotel.name,
-    //           info: {
-    //             categories: hotel.categories,
-    //             address: hotel.location.address,
-    //             link: hotel.link,
-    //           },
-    //           options: {
-    //             icon: {
-    //               path: window.google.maps.SymbolPath.CIRCLE,
-    //               fillColor: '#efefd0', // Color for hotels
-    //               fillOpacity: 0.7,
-    //               strokeColor: 'white',
-    //               strokeWeight: 1,
-    //               scale: 8,
-    //             },
-    //           },
-    //         }));
-    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //         setMarkers([]); // Clear markers if there's an error
-    //       });
-    //   }
-    // }, [isLoaded]);
-
-    useEffect(() => {
-      if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/googleHotels')
-          .then((response) => response.json())
-          .then((data) => {
-            const newMarkers = data.map((hotel) => ({
-              id: hotel.name,
-              position: {
-                lat: hotel.latitude,
-                lng: hotel.longitude,
-              },
-              title: hotel.name,
-              info: {
-                address: hotel.address,
-                rating: hotel.rating,
-                 photos: hotel.photos,
-              },
-              options: {
-                icon: {
-                  path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#ff6b35', // Set the desired color for Google restaurants 橘
-                  fillOpacity: 0.9,
-                  strokeColor: 'white',
-                  strokeWeight: 1,
-                  scale: 8,
-                },
-              },
-            }));
-            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setMarkers([]); // Clear markers if there's an error
-          });
-      }
-    }, [isLoaded]);
-
-    // fetch googleRestaurants data
-    useEffect(() => {
-      if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/googleRestaurants/')
-          .then((response) => response.json())
-          .then((data) => {
-            const newMarkers = data.map((restaurant) => ({
-              id: restaurant.name,
-              position: {
-                lat: restaurant.latitude,
-                lng: restaurant.longitude,
-              },
-              title: restaurant.name,
-              info: {
-                address: restaurant.address,
-                rating: restaurant.rating,
-                 photos: restaurant.photos,
-              },
-              options: {
-                icon: {
-                  path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#06d6a0', // Set the desired color for Google restaurants 绿
-                  fillOpacity: 0.6,
-                  strokeColor: 'white',
-                  strokeWeight: 1,
-                  scale: 8,
-                },
-              },
-            }));
-            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setMarkers([]); // Clear markers if there's an error
-          });
-      }
-    }, [isLoaded]);
-
-    //  fetch the  real time weather data
-    const [weatherData, setWeatherData] = useState(null);
+  useEffect(() => {
+    setSelectedPlace(selectedPlace);
+  }, [selectedPlace]);
 
   useEffect(() => {
     // Fetch weather data from the API
@@ -815,73 +656,183 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 
-  function getImageUrl(weatherType) {
-    if (weatherType === "Thunderstorm") {
-      return "https://openweathermap.org/img/wn/11d@2x.png";
-    } else if (weatherType === "Drizzle") {
-      return "https://openweathermap.org/img/wn/09d@2x.png";
-    } else if (weatherType === "Rain") {
-      return "https://openweathermap.org/img/wn/10d@2x.png";
-    } else if (weatherType === "Snow") {
-      return "https://openweathermap.org/img/wn/13d@2x.png";
-    } else if (weatherType === "Clear") {
-      return "https://openweathermap.org/img/wn/01d@2x.png";
-    } else if (weatherType === "Clouds") {
-      return "https://openweathermap.org/img/wn/02d@2x.png";
-    } else {
-      return "https://openweathermap.org/img/wn/50d@2x.png";
+  useEffect(() => {
+    if (isLoaded) {
+      fetch('http://127.0.0.1:8000/api/googleAttractions/')
+        .then((response) => response.json())
+        .then((data) => {
+          const newMarkers = data.map((attraction) => ({
+            id: attraction.name,
+            position: {
+              lat: attraction.latitude,
+              lng: attraction.longitude,
+            },
+            title: attraction.name,
+            info: {
+              address: attraction.address,
+              rating: attraction.rating,
+              photos: attraction.photos,
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#efefd0', // Color for attractions (黄)
+                fillOpacity: 0.7,
+                strokeColor: 'white',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMarkers([]); // Clear markers if there's an error
+        });
     }
-  }
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      fetch('http://127.0.0.1:8000/api/googleHotels')
+        .then((response) => response.json())
+        .then((data) => {
+          const newMarkers = data.map((hotel) => ({
+            id: hotel.name,
+            position: {
+              lat: hotel.latitude,
+              lng: hotel.longitude,
+            },
+            title: hotel.name,
+            info: {
+              address: hotel.address,
+              rating: hotel.rating,
+              photos: hotel.photos,
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#ff6b35', // Set the desired color for Google hotels (橘)
+                fillOpacity: 0.9,
+                strokeColor: 'white',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMarkers([]); // Clear markers if there's an error
+        });
+    }
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+        .then((response) => response.json())
+        .then((data) => {
+          const newMarkers = data.map((restaurant) => ({
+            id: restaurant.name,
+            position: {
+              lat: restaurant.latitude,
+              lng: restaurant.longitude,
+            },
+            title: restaurant.name,
+            info: {
+              address: restaurant.address,
+              rating: restaurant.rating,
+              photos: restaurant.photos,
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#06d6a0', // Set the desired color for Google restaurants (绿)
+                fillOpacity: 0.6,
+                strokeColor: 'white',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMarkers([]); // Clear markers if there's an error
+        });
+    }
+  }, [isLoaded]);
+
+  const getImageUrl = (weatherType) => {
+    if (weatherType === 'Thunderstorm') {
+      return 'https://openweathermap.org/img/wn/11d@2x.png';
+    } else if (weatherType === 'Drizzle') {
+      return 'https://openweathermap.org/img/wn/09d@2x.png';
+    } else if (weatherType === 'Rain') {
+      return 'https://openweathermap.org/img/wn/10d@2x.png';
+    } else if (weatherType === 'Snow') {
+      return 'https://openweathermap.org/img/wn/13d@2x.png';
+    } else if (weatherType === 'Clear') {
+      return 'https://openweathermap.org/img/wn/01d@2x.png';
+    } else if (weatherType === 'Clouds') {
+      return 'https://openweathermap.org/img/wn/02d@2x.png';
+    } else {
+      return 'https://openweathermap.org/img/wn/50d@2x.png';
+    }
+  };
+
 
   const formattedDate = weatherData
     ? new Date(weatherData.timestamp * 1000).toLocaleDateString()
     : '';
 
-
-      useEffect(() => {
-        if (originInput) {
-          const handleSelect = async (value) => {
-            try {
-              const results = await geocodeByAddress(value, {
-                circle: {
-                  lat: center.lat,
-                  lng: center.lng,
-                  radius: 40000, // 40 km radius
-                },
-              });
-              const latLng = await getLatLng(results[0]);
-              setOrigin(latLng);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-
-          handleSelect(originInput);
+  useEffect(() => {
+    if (originInput) {
+      const handleSelect = async (value) => {
+        try {
+          const results = await geocodeByAddress(value, {
+            circle: {
+              lat: center.lat,
+              lng: center.lng,
+              radius: 40000, // 40 km radius
+            },
+          });
+          const latLng = await getLatLng(results[0]);
+          setOrigin(latLng);
+        } catch (error) {
+          console.log(error);
         }
-      }, [originInput]);
+      };
 
-      useEffect(() => {
-        if (destinationInput) {
-          const handleSelect = async (value) => {
-            try {
-              const results = await geocodeByAddress(value, {
-                circle: {
-                  lat: center.lat,
-                  lng: center.lng,
-                  radius: 40000, // 40 km radius
-                },
-              });
-              const latLng = await getLatLng(results[0]);
-              setDestination(latLng);
-            } catch (error) {
-              console.log(error);
-            }
-          };
+      handleSelect(originInput);
+    }
+  }, [originInput]);
 
-          handleSelect(destinationInput);
+  useEffect(() => {
+    if (destinationInput) {
+      const handleSelect = async (value) => {
+        try {
+          const results = await geocodeByAddress(value, {
+            circle: {
+              lat: center.lat,
+              lng: center.lng,
+              radius: 40000, // 40 km radius
+            },
+          });
+          const latLng = await getLatLng(results[0]);
+          setDestination(latLng);
+        } catch (error) {
+          console.log(error);
         }
-      }, [destinationInput]);
+      };
 
+      handleSelect(destinationInput);
+    }
+  }, [destinationInput]);
 
   const handleMarkerClick = (marker) => {
     if (origin === null) {
@@ -898,11 +849,10 @@ useEffect(() => {
     setDestination(null);
     setDirections(null);
   };
-
-  const handleDirectionsResponse = (response) => {
+const handleDirectionsResponse = (response) => {
     if (response !== null) {
       setDirections(response);
-  
+
       const leg = response.routes[0]?.legs[0];
       if (leg) {
         setDistance(leg.distance?.text || '');
@@ -913,18 +863,8 @@ useEffect(() => {
       }
     }
   };
-
   const handleSearch = () => {
     if (origin && destination) {
-      setShowMarkers(false);
-      handleSearchii();
-    }
-  };
-
-  const handleSearchii = () => {
-    if (origin && destination) {
-      setShowMarkers(false);
-  
       // Perform routing using DirectionsService
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
@@ -935,7 +875,16 @@ useEffect(() => {
         },
         (response, status) => {
           if (status === 'OK') {
+            // Set the directions in the state
             setDirections(response);
+            const leg = response.routes[0]?.legs[0];
+            if (leg) {
+              setDistance(leg.distance?.text || '');
+              setDuration(leg.duration?.text || '');
+            } else {
+              setDistance('');
+              setDuration('');
+            }
           } else {
             console.error('Error:', status);
           }
@@ -944,127 +893,111 @@ useEffect(() => {
     }
   };
 
+  const handleToggleMarkers = () => {
+    setShowMarkers((prevShowMarkers) => !prevShowMarkers);
+  };
+
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
+
   return (
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
-    <div className='fixed-box'>   
-    <div id="info01">
-      <div>
-      {weatherData ? (
-        <div>
-          <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
-          <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
-        </div>
-      ) : (
-        <strong>Loading weather data...</strong>
-      )}
-    </div>
-      <div style={{maxWidth:"200px"}}>
-        <LocationSearchInput
-          placeholder="Current location "
-          value={originInput}
-          onChange={setOriginInput}
-          
-        />
-        <LocationSearchInput 
-          placeholder="Destination "
-          value={destinationInput}
-          onChange={setDestinationInput}
-         
-        />
-
-        <Button 
-          variant="outlined" 
-          size="medium" 
-          onClick={handleSearch} 
-          disabled={!origin || !destination} 
-          style={{ marginTop: '20px' }}
-        >
-          Toggle Markers
-        </Button>
-        <Button 
-          variant="outlined" 
-          size="medium" 
-          onClick={handleSearchii} 
-          disabled={!origin || !destination} 
-          style={{ marginTop: '20px' }}
-        >
-          Search
-        </Button>
-      </div>
-      {origin && destination && !directions &&  (
-        <div style={{ marginTop: '20px' }}>
-          <p>Distance: {distanceText}</p>
-          <p>Time to walk: {durationText}</p>
-        </div>
-      )}
-      </div>
-      </div>
-      <div style={{display:"flex",height:"750px"}}>
-      <div style={{flex:1}}>
-     <TemporaryDrawer />
-    </div>
-
-      {/* map div */}
-      <div style={{ height: '750px' ,flex:"2"}}>
-        {!isLoaded ? (
-          <div>Loading...</div>
-        ) : (
-          <GoogleMap
-            mapContainerStyle={{ height: '100%' }}
-            center={center}
-            zoom={13}
-            mapId="MAPS_API_KEY"
-            options={{
-              styles: [
-                {
-                  featureType: 'all',
-                  stylers: [
-                    { saturation: 0 },
-                    { hue: '#e3f2fd' },
-                  ],
-                },
-                {
-                  featureType: 'road',
-                  stylers: [{ saturation: -70 }],
-                },
-                {
-                  featureType: 'transit',
-                  stylers: [{ visibility: 'off' }],
-                },
-                {
-                  featureType: 'poi',
-                  stylers: [{ visibility: 'off' }],
-                },
-                {
-                  featureType: 'water',
-                  stylers: [
-                    { visibility: 'simplified' },
-                    { saturation: -60 },
-                  ],
-                },
-              ],
-            }}
-          >
-            {origin && destination && !directions && showMarkers && (
-              <DirectionsService
-                options={{
-                  origin: origin,
-                  destination: destination,
-                  travelMode: 'DRIVING',
-                }}
-                callback={handleDirectionsResponse}
-              />
+      <div className='fixed-box'>
+        <div id="info01">
+          <div>
+            {weatherData ? (
+              <div>
+                <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
+                <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
+              </div>
+            ) : (
+              <strong>Loading weather data...</strong>
             )}
-            {directions && (
-              <DirectionsRenderer
-                options={{
-                  directions: directions,
-                }}
-              />
-            )}
-            {showMarkers &&
+          </div>
+          <div style={{ maxWidth: "200px" }}>
+            <LocationSearchInput
+              placeholder="Current location "
+              value={originInput}
+              onChange={setOriginInput}
+            />
+            <LocationSearchInput
+              placeholder="Destination "
+              value={destinationInput}
+              onChange={setDestinationInput}
+            />
+
+            <Button
+              variant="outlined"
+              size="medium"
+              onClick={handleToggleMarkers}
+              disabled={!origin || !destination}
+              style={{ marginTop: '20px' }}
+            >
+              Toggle Markers
+            </Button>
+            <Button
+              variant="outlined"
+              size="medium"
+              onClick={handleSearch}
+              disabled={!origin || !destination}
+              style={{ marginTop: '20px' }}
+            >
+              Search
+            </Button>
+          </div>
+          {origin && destination && directions && (
+            <div style={{ marginTop: '20px' }}>
+              <p>Distance: {distanceText}</p>
+              <p>Time to walk: {durationText}</p>
+            </div>
+          )}
+        </div>
+      </div>
+      <div style={{ display: "flex", height: "750px" }}>
+        <div style={{ flex: 1 }}>
+          <TemporaryDrawer />
+        </div>
+        <div style={{ height: '750px', flex: "2" }}>
+          {!isLoaded ? (
+            <div>Loading...</div>
+          ) : (
+            <GoogleMap
+              mapContainerStyle={{ height: '100%' }}
+              center={center}
+              zoom={13}
+              mapId="MAPS_API_KEY"
+              options={{
+                styles: [
+                  {
+                    featureType: 'all',
+                    stylers: [
+                      { saturation: 0 },
+                      { hue: '#e3f2fd' },
+                    ],
+                  },
+                  {
+                    featureType: 'road',
+                    stylers: [{ saturation: -70 }],
+                  },
+                  {
+                    featureType: 'transit',
+                    stylers: [{ visibility: 'off' }],
+                  },
+                  {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }],
+                  },
+                  {
+                    featureType: 'water',
+                    stylers: [
+                      { visibility: 'simplified' },
+                      { saturation: -60 },
+                    ],
+                  },
+                ],
+              }}
+            >
+              {showMarkers &&
               markers.map((marker) => (
                 <Marker
                   key={marker.id}
@@ -1072,22 +1005,21 @@ useEffect(() => {
                   title={marker.title}
                   onClick={() => handleMarkerClick(marker)}
                   options={marker.options}
-                  
                 >
                   {selectedMarker === marker && (
                     <InfoWindow
                       position={selectedMarker.position}
                       onCloseClick={handleInfoWindowClose}
                     >
-                         <div>
+                      <div>
                         <h3>{selectedMarker.title}</h3>
-                        {selectedMarker.info && ( // Add a check for the existence of info object
+                        {selectedMarker.info && (
                           <div>
                             <p>Address: {selectedMarker.info.address}</p>
                             <p>Rating: {selectedMarker.info.rating}</p>
                             {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
                               <img
-                                src={selectedMarker.info.photos[0]} // Display the first photo in the photos array
+                                src={selectedMarker.info.photos[0]}
                                 alt={selectedMarker.title}
                               />
                             )}
@@ -1098,12 +1030,19 @@ useEffect(() => {
                   )}
                 </Marker>
               ))}
+            {directions && (
+              <DirectionsRenderer
+                options={{
+                  directions: directions,
+                }}
+              />
+            )}
           </GoogleMap>
         )}
       </div>
-      </div>
     </div>
-  );
-}
+  </div>
+);
+};
 
 export default MapPage;
