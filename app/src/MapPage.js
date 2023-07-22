@@ -21,6 +21,10 @@ import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
 import { useDrag } from 'react-dnd';
 
+
+
+
+
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
 };
@@ -627,7 +631,7 @@ function MapPage() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: MAPS_API_KEY,
-    libraries: ['places'],
+    libraries: ['places',],
   });
 
   const center = useMemo(() => ({ lat: 40.7484, lng: -73.9857 }), []);
@@ -644,9 +648,166 @@ function MapPage() {
   const [weatherData, setWeatherData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState([]);
 
+<<<<<<< HEAD
   useEffect(() => {
     setSelectedPlace(selectedPlace);
   }, [selectedPlace]);
+=======
+
+useEffect(() => {
+  if (isLoaded) {
+    fetch('http://127.0.0.1:8000/api/googleAttractions/')
+      .then((response) => response.json())
+      .then((data) => {
+        const newMarkers = data.map((attraction) => ({
+          id: attraction.name,
+          position: {
+            lat: attraction.latitude,
+            lng: attraction.longitude,
+          },
+          title: attraction.name,
+          info: {
+            address: attraction.address,
+            rating: attraction.rating,
+            photos: attraction.photos,
+          },
+          options: {
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              fillColor: '#efefd0', // Color for restaurants  黄
+              fillOpacity: 0.7,
+              strokeColor: 'white',
+              strokeWeight: 1,
+              scale: 8,
+            },
+          },
+        }));
+        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMarkers([]); // Clear markers if there's an error
+      });
+  }
+}, [isLoaded]);
+
+
+// fetch hotel data
+    // useEffect(() => {
+    //   if (isLoaded) {
+    //     fetch('http://127.0.0.1:8000/api/hotels/')
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         const newMarkers = data.results.map((hotel) => ({
+    //           id: hotel.fsq_id,
+    //           position: {
+    //             lat: hotel.geocodes.main.latitude,
+    //             lng: hotel.geocodes.main.longitude,
+    //           },
+    //           title: hotel.name,
+    //           info: {
+    //             categories: hotel.categories,
+    //             address: hotel.location.address,
+    //             link: hotel.link,
+    //           },
+    //           options: {
+    //             icon: {
+    //               path: window.google.maps.SymbolPath.CIRCLE,
+    //               fillColor: '#efefd0', // Color for hotels
+    //               fillOpacity: 0.7,
+    //               strokeColor: 'white',
+    //               strokeWeight: 1,
+    //               scale: 8,
+    //             },
+    //           },
+    //         }));
+    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //         setMarkers([]); // Clear markers if there's an error
+    //       });
+    //   }
+    // }, [isLoaded]);
+
+    useEffect(() => {
+      if (isLoaded) {
+        fetch('http://127.0.0.1:8000/api/googleHotels')
+          .then((response) => response.json())
+          .then((data) => {
+            const newMarkers = data.map((hotel) => ({
+              id: hotel.name,
+              position: {
+                lat: hotel.latitude,
+                lng: hotel.longitude,
+              },
+              title: hotel.name,
+              info: {
+                address: hotel.address,
+                rating: hotel.rating,
+                photos: hotel.photos,
+              },
+              options: {
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  fillColor: '#ff6b35', // Set the desired color for Google restaurants 橘
+                  fillOpacity: 0.9,
+                  strokeColor: 'white',
+                  strokeWeight: 1,
+                  scale: 8,
+                },
+              },
+            }));
+            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+          })
+          .catch((error) => {
+            console.error(error);
+            setMarkers([]); // Clear markers if there's an error
+          });
+      }
+    }, [isLoaded]);
+
+    // fetch googleRestaurants data
+    useEffect(() => {
+      if (isLoaded) {
+        fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+          .then((response) => response.json())
+          .then((data) => {
+            const newMarkers = data.map((restaurant) => ({
+              id: restaurant.name,
+              position: {
+                lat: restaurant.latitude,
+                lng: restaurant.longitude,
+              },
+              title: restaurant.name,
+              info: {
+                address: restaurant.address,
+                rating: restaurant.rating,
+                 photos: restaurant.photos,
+              },
+              options: {
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  fillColor: '#06d6a0', // Set the desired color for Google restaurants 绿
+                  fillOpacity: 0.6,
+                  strokeColor: 'white',
+                  strokeWeight: 1,
+                  scale: 8,
+                },
+              },
+            }));
+            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+          })
+          .catch((error) => {
+            console.error(error);
+            setMarkers([]); // Clear markers if there's an error
+          });
+      }
+    }, [isLoaded]);
+
+    //  fetch the  real time weather data
+    const [weatherData, setWeatherData] = useState(null);
+>>>>>>> 7b5b1b15 (merge)
 
   useEffect(() => {
     // Fetch weather data from the API
@@ -1040,6 +1201,11 @@ const handleDirectionsResponse = (response) => {
           </GoogleMap>
         )}
       </div>
+<<<<<<< HEAD
+=======
+      
+      </div>
+>>>>>>> 7b5b1b15 (merge)
     </div>
   </div>
 );
