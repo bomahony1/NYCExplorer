@@ -20,6 +20,7 @@ import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
 import { useDrag } from 'react-dnd';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -874,13 +875,16 @@ const handleDirectionsResponse = (response) => {
   };
   const handleSearch = () => {
     if (origin && destination) {
+      // Clear the previous directions before performing a new search
+      setDirections(null);
+  
       // Perform routing using DirectionsService
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
         {
           origin: origin,
           destination: destination,
-          travelMode: 'DRIVING',
+          travelMode: modeOfTransport, // Use the selected mode of transport
         },
         (response, status) => {
           if (status === 'OK') {
@@ -901,9 +905,15 @@ const handleDirectionsResponse = (response) => {
       );
     }
   };
+  
 
   const handleToggleMarkers = () => {
     setShowMarkers((prevShowMarkers) => !prevShowMarkers);
+  };
+  const [modeOfTransport, setModeOfTransport] = useState('DRIVING');
+
+  const handleModeOfTransportChange = (event) => {
+    setModeOfTransport(event.target.value);
   };
 
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
@@ -954,10 +964,27 @@ const handleDirectionsResponse = (response) => {
               Search
             </Button>
           </div>
+          <div>
+            <FormControl variant="outlined" style={{ marginTop: '20px' }}>
+                <InputLabel id="mode-of-transport-label">Mode of Transport</InputLabel>
+                <Select
+                  labelId="mode-of-transport-label"
+                  id="mode-of-transport"
+                  value={modeOfTransport}
+                  onChange={handleModeOfTransportChange}
+                  label="Mode of Transport"
+                >
+                  <MenuItem value="DRIVING">Driving</MenuItem>
+                  <MenuItem value="WALKING">Walking</MenuItem>
+                  <MenuItem value="BICYCLING">Cycling</MenuItem>
+                  <MenuItem value="TRANSIT">Public Transport</MenuItem>
+                </Select>
+              </FormControl>
+              </div>
           {origin && destination && directions && (
             <div style={{ marginTop: '20px' }}>
               <p>Distance: {distanceText}</p>
-              <p>Time to walk: {durationText}</p>
+              <p>Time: {durationText}</p>
             </div>
           )}
         </div>
