@@ -591,9 +591,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const searchOptions = {
+  componentRestrictions: { country: ['us'] }
+}
+
 function LocationSearchInput({ placeholder, value, onChange }) {
   return (
-    <PlacesAutocomplete value={value} onChange={onChange}>
+    <PlacesAutocomplete
+      searchOptions={searchOptions}
+      value={value}
+      onChange={onChange}
+      options={{}}
+    >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <Search>
           <SearchIconWrapper>
