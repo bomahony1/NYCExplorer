@@ -180,11 +180,12 @@ def get_foursquare_restaurants():
 
 def get_google_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    details_url = "https://maps.googleapis.com/maps/api/place/details/json"
     api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
         "query": "restaurants in Manhattan, New York",
         "key": api_key,
-        "fields": "place_id,name,formatted_address,geometry/location,rating,photos,opening_hours"
+        "fields": "place_id,name,formatted_address,geometry/location,rating,photos"
     }
     restaurant_data = []
 
@@ -204,8 +205,20 @@ def get_google_restaurants():
                 lng = location["lng"]
                 rating = result.get("rating")
                 photos = result.get("photos", [])
-                opening_hours = result.get("opening_hours", {}).get("open_now", [])
 
+                # Make a separate API call to get details
+                details_params = {
+                    "place_id": place_id,
+                    "fields": "opening_hours",
+                    "key": api_key
+                }
+                details_response = requests.get(details_url, params=details_params)
+                details_response.raise_for_status()
+                details_data = details_response.json()
+                
+                # Get the opening hours if available, or an empty list if not present
+                opening_hours = details_data["result"]
+                
                 photo_urls = []
                 for photo in photos:
                     photo_reference = photo.get("photo_reference")
@@ -220,7 +233,7 @@ def get_google_restaurants():
                     "longitude": lng,
                     "rating": rating,
                     "photos": photo_urls,
-                    "opening_now": opening_hours
+                    "opening_hours": opening_hours
                 })
 
             if "next_page_token" not in data:
@@ -231,7 +244,7 @@ def get_google_restaurants():
 
     except requests.exceptions.RequestException as e:
         print("Error in get_google_restaurants:", e)
-    
+
     return restaurant_data
 
 def get_google_attractions():
