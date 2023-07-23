@@ -204,7 +204,7 @@ def get_google_restaurants():
                 lng = location["lng"]
                 rating = result.get("rating")
                 photos = result.get("photos", [])
-                opening_hours = result.get("opening_hours", {}).get("weekday_text", [])
+                opening_hours = result.get("opening_hours", {}).get("open_now", [])
 
                 photo_urls = []
                 for photo in photos:
@@ -220,7 +220,7 @@ def get_google_restaurants():
                     "longitude": lng,
                     "rating": rating,
                     "photos": photo_urls,
-                    "opening_hours": opening_hours
+                    "opening_now": opening_hours
                 })
 
             if "next_page_token" not in data:
@@ -233,7 +233,6 @@ def get_google_restaurants():
         print("Error in get_google_restaurants:", e)
     
     return restaurant_data
-
 
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
@@ -423,7 +422,7 @@ def get_predictions(hour, day, month, latitude, longitude):
     """Returns prediction of busyness in Area."""
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
-        with open('/Users/billomahony/Developer/Tourism App/git/NYC_Busyness/data/taxi_zones.json', 'r') as file:
+        with open('api/taxi_zones.json', 'r') as file:
             data = json.load(file)
         latitude, longitude = str(latitude), str(longitude)
         zone = None
@@ -432,7 +431,7 @@ def get_predictions(hour, day, month, latitude, longitude):
                 zone = data['data'][0][13]
         return zone
         
-    with open('/Users/billomahony/Developer/Tourism App/git/NYC_Busyness/data/small_model.pkl', 'rb') as file:
+    with open('api/small_model.pkl', 'rb') as file:
         model = pickle.load(file)
     location_id = get_location_id(latitude, longitude)
 
