@@ -77,7 +77,7 @@ function DateRangePickerDialog({ handleSelect }) {
   );
 }
 
-function TemporaryDrawer() {
+function TemporaryDrawer({tmp}) {
   const [isDrawerOpen, setDrawerOpen] = useState(true);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
@@ -111,10 +111,10 @@ function TemporaryDrawer() {
     setSelectedRange(range);
   };
   const [selectedPlaces, setSelectedPlaces] = useState([]);
-  const handleMarkerSelection = (place) => {
-    setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
+  const handleMarkerSelection = async (place) => {
+    await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
+    tmp(selectedPlaces);
   };
-
 
   const renderDateRangeContent = () => {
     if (selectedRange) {
@@ -372,6 +372,7 @@ function TemporaryDrawer() {
         if (!isAlreadySelected) {
           setSelectedRestaurants((prevRestaurants) => [...prevRestaurants, suggestion]);
           setRestaurantValue('');
+          onMarkerSelect(suggestion);
         }
       }
 
@@ -380,6 +381,7 @@ function TemporaryDrawer() {
         if (!isAlreadySelected) {
           setSelectedHotels((prevHotels) => [...prevHotels, suggestion]);
           setHotelValue('');
+          onMarkerSelect(suggestion);
         }
       }
 
@@ -658,38 +660,48 @@ function MapPage() {
 
   const handleMarkerSelection = (place) => {
     setSelectedPlace((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
+    console.log('Updating Selected Place:', place);
   };
 
+  const tmp = (place) => {
+    setSelectedPlace(place);
+  }
+
+
+
   useEffect(() => {
-    // Add marker on Google Map when selectedPlace changes
-    if (selectedPlace) {
-      const marker = {
-        id: selectedPlace.name,
+    // Add markers on Google Map when selectedPlace changes
+    if (selectedPlace && selectedPlace.length > 0) {
+      const newMarkers = selectedPlace.map((place) => ({
+        id: place.id,
         position: {
-          lat: Number(selectedPlace.latitude),
-          lng:  Number(selectedPlace.longitude),
+          lat: Number(place.latitude),
+          lng: Number(place.longitude),
         },
-        title: selectedPlace.name,
+        title: place.name,
         info: {
-          address: selectedPlace.address,
-          rating: selectedPlace.rating,
-          photos: selectedPlace.photos,
+          address: place.address,
+          rating: place.rating,
+          photos: place.photos,
         },
         options: {
           icon: {
             path: window.google.maps.SymbolPath.CIRCLE,
-            fillColor: '#011c0b', // Custom color for the marker
+            fillColor: '#0000000', // Custom color for the marker
             fillOpacity: 1,
             strokeColor: 'white',
             strokeWeight: 1,
             scale: 8,
           },
         },
-      };
-
-      setMarkers((prevMarkers) => [...prevMarkers, marker]);
+      }));
+  
+      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
     }
   }, [selectedPlace]);
+  
+
+  
 
   useEffect(() => {
     setSelectedPlace(selectedPlace);
@@ -1002,7 +1014,7 @@ const handleDirectionsResponse = (response) => {
       </div>
       <div style={{ display: "flex", height: "750px" }}>
         <div style={{ flex: 1 }}>
-        <TemporaryDrawer onMarkerSelect={handleMarkerSelection} />
+        <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         </div>
         <div style={{ height: '750px', flex: "2" }}>
           {!isLoaded ? (
