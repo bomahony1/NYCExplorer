@@ -701,7 +701,7 @@ function MapPage() {
             fillOpacity: 1,
             strokeColor: 'white',
             strokeWeight: 1,
-            scale: 8,
+            scale: 13,
           },
         },
       }));
