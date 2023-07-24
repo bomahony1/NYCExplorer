@@ -249,6 +249,7 @@ def get_google_restaurants():
 
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    details_url = "https://maps.googleapis.com/maps/api/place/details/json"
     api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
     params = {
         "query": "tourist attractions in Manhattan, New York",
