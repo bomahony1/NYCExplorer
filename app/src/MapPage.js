@@ -113,7 +113,7 @@ function TemporaryDrawer({tmp}) {
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const handleMarkerSelection = async (place) => {
     await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
-    tmp(selectedPlaces);
+    tmp([...selectedPlaces, place]);
   };
 
   const renderDateRangeContent = () => {
