@@ -273,7 +273,19 @@ def get_google_attractions():
                 lng = location["lng"]
                 rating = result.get("rating")
                 photos = result.get("photos")
-                opening_hours = result.get("opening_hours", {}).get("weekday_text", [])
+
+                # Make a separate API call to get details
+                details_params = {
+                    "place_id": place_id,
+                    "fields": "opening_hours",
+                    "key": api_key
+                }
+                details_response = requests.get(details_url, params=details_params)
+                details_response.raise_for_status()
+                details_data = details_response.json()
+
+                # Get the opening hours if available, or an empty list if not present
+                opening_hours = details_data["result"]
 
                 photo_urls = []
                 if photos:
