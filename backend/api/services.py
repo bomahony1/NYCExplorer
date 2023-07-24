@@ -444,26 +444,93 @@ def get_events():
 
 # ML Model 
 
-def get_predictions(hour, day, month, latitude, longitude):
+def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float, heatmap: bool = False) -> float:
     """Returns prediction of busyness in Area."""
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
         with open('api/taxi_zones.json', 'r') as file:
             data = json.load(file)
         latitude, longitude = str(latitude), str(longitude)
-        zone = None
+        zone = None 
         for _ in data:
             if latitude and longitude in data['data'][0][10]:
                 zone = data['data'][0][13]
         return zone
+    
+    def get_weather():
+        """Get weather for API call."""
+        try:
+            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=-74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+            # Need to get Temperature, Wind Speed, Wind direction, Clouds 
+            text = requests.get(WEATHERAPI).text
+            forecast = json.loads(text)['list']
+            for i in forecast:
+                temp = i['main']['temp']
+                humidity = i['main']['humidity']
+                wind_speed = i['wind']['speed']
+                pressure = i['main']['pressure']
+                # Don't think this is in forecast
+                # Will double check then remove if necessary 
+                precipitation = 0 
+                weather = [temp, humidity, wind_speed, pressure, precipitation]
+                return weather
         
-    with open('api/small_model.pkl', 'rb') as file:
+        # Bill will need you to help with correct error handling
+        except Exception as e:
+            return "Error in getting weather: " + str(e), 404
+    
+    zone = get_location_id(latitude, longitude)    
+    with open(f'pickles/zone_{zone}.pkl', 'rb') as file:
         model = pickle.load(file)
-    location_id = get_location_id(latitude, longitude)
 
-    feature_names = ['hour', 'day_of_week', 'month', 'pulocationid']
-    prediction_data = [[hour, month, day, location_id]]
+    feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
+    prediction_data = get_weather()
+    prediction_data += [day, month, hour]
+    prediction_data = [prediction_data]
     prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
 
     prediction_data = model.predict(prediction_data_df)
     return prediction_data[0]
+
+def get_heat_map(hour: float, day: float, month:float = 8):
+    # This will be the heat map function
+    # Ideally weather function will be called here, but when I moved
+    # it outside of get_prediction it wasn't working :/
+    try:
+        WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=-74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+        # Need to get Temperature, Wind Speed, Wind direction, Clouds 
+        text = requests.get(WEATHERAPI).text
+        forecast = json.loads(text)['list']
+        for i in forecast:
+            temp = i['main']['temp']
+            humidity = i['main']['humidity']
+            wind_speed = i['wind']['speed']
+            pressure = i['main']['pressure']
+            precipitation = 0 
+            weather = [temp, humidity, wind_speed, pressure, precipitation]
+    except Exception as e:
+        return "Error in getting weather: " + str(e), 404
+    
+    # Need to get points to plot 
+    """with open('heat_map.json', 'r') as file:
+        heat_points = json.load(file)"""
+    heat_data = {}
+
+    weather += [day, month, hour]
+    prediction_data = [weather]
+    heat_points = ['Array of points to plot']
+    for i in heat_points:
+        with open('taxi_zones.json', 'r') as file:
+            data = json.load(file)
+        zone = None 
+        for _ in data:
+            if i['lat'] and i['lon'] in data['data'][0][10]:
+                zone = data['data'][0][13]
+
+        with open(f'pickles/zone_{zone}.pkl', 'rb') as file:
+            model = pickle.load(file)
+
+        coordinate = i['lat'] + i['lon']
+        feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
+        prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
+        heat_data[coordinate] = model.predict[prediction_data_df] 
