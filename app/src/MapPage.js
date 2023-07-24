@@ -797,8 +797,13 @@ function MapPage() {
 
 
   const formattedDate = weatherData
-    ? new Date(weatherData.timestamp * 1000).toLocaleDateString()
-    : '';
+  ? new Date(weatherData.timestamp * 1000).toLocaleString('en-US', {
+      weekday: 'short',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
+  : '';
 
   useEffect(() => {
     if (originInput) {
@@ -923,16 +928,17 @@ const handleDirectionsResponse = (response) => {
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
       <div className='fixed-box'>
         <div id="info01">
-          <div>
-            {weatherData ? (
+        <div className="weather-data">
+          {weatherData ? (
+            <div>
+              <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
               <div>
-                <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
-                <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
-              </div>
-            ) : (
-              <strong>Loading weather data...</strong>
-            )}
-          </div>
+              <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
+            </div></div>
+          ) : (
+            <strong>Loading weather data...</strong>
+          )}
+        </div>
           <div style={{ maxWidth: "200px" }}>
             <LocationSearchInput
               placeholder="Current location "

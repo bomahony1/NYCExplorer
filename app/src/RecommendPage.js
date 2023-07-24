@@ -260,7 +260,7 @@
 // export default ItineraryPage;
 
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform} from "framer-motion";
 import { Button, Box, ButtonGroup,Link } from "@mui/material";
 import "./RecommendPage.css"
@@ -409,9 +409,15 @@ function Buttons({ setSelectedTab }) {
 
 
 function Pop() {
+  const [containerHeight, setContainerHeight] = useState(0);
   const count = useRef(0);
   const [items, setItems] = useState([]);
   const [popLayout, setPopLayout] = useState(false);
+
+  useEffect(() => {
+    const newHeight = items.length * 220; // Adjust the height 
+    setContainerHeight(newHeight);
+  }, [items]);
   
 
   const customTexts = [
@@ -437,7 +443,8 @@ function Pop() {
                         "Ellis Island Roundtrip Ferry Tour",
                         "New York Historical Society Museum and Library"]; // Add your custom texts here
 
-  return (
+
+return (
     <div className="example">
       <div className="controls">
         <label className="enable">
@@ -457,7 +464,7 @@ function Pop() {
             setItems([...items, newItem]);
           }}
         >
-          Add Recommends
+          Add Recommendations
         </motion.button>
       </div>
       <ul>

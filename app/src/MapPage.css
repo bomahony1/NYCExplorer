@@ -24,7 +24,8 @@
 }
 
 .attraction-name,
-.restaurant-name {
+.restaurant-name,
+.hotel-name {
   font-weight: bold;
   margin-bottom: 8px;
 }
@@ -37,7 +38,8 @@
 }
 
 .attraction-photo,
-.restaurant-photo {
+.restaurant-photo,
+.hotel-photo {
   width: 200px; 
   height: 150px; 
   margin-right: 10px;
@@ -58,7 +60,8 @@
   }
 
 .attraction-item,
-.restaurant-item {
+.restaurant-item,
+.hotel-item {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
