@@ -453,7 +453,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         latitude, longitude = str(latitude), str(longitude)
         zone = None 
         for _ in data:
-            if latitude and longitude in data['data'][0][10]:
+            if latitude[:7] and longitude[:7] in data['data'][0][10]:
                 zone = data['data'][0][13]
         return zone
     
@@ -524,7 +524,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
             data = json.load(file)
         zone = None 
         for _ in data:
-            if i['lat'] and i['lon'] in data['data'][0][10]:
+            if i['lat'][:7] and i['lon'][:7] in data['data'][0][10]:
                 zone = data['data'][0][13]
 
         with open(f'pickles/zone_{zone}.pkl', 'rb') as file:
