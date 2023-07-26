@@ -13,13 +13,12 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { libraries } from './libraries'; 
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
-import { libraries } from './libraries';
 import { useDrag } from 'react-dnd';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
@@ -697,8 +696,8 @@ function MapPage() {
         },
         options: {
           icon: {
-            path: window.google.maps.SymbolPath.CIRCLE,
-            fillColor: '#0000000', // Custom color for the marker
+            path: window.google.maps.SymbolPath.SQUARE, //
+            fillColor: '#7EB6E0', // Custom color for the marker
             fillOpacity: 1,
             strokeColor: 'white',
             strokeWeight: 1,
