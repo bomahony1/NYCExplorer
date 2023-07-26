@@ -468,11 +468,10 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
-                if is_point_inside_polygon((latitude, longitude), data[str(i)]):
+                if is_point_inside_polygon((float(latitude), float(longitude)), data[str(i)]):
                     zone = i
                     break
              except:
-                  zone = 1
                   continue
         return zone
     
