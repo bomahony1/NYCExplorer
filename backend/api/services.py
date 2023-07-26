@@ -464,7 +464,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
 
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
-        with open('taxi_zones.json', 'r') as file:
+        with open('api/taxi_zones.json', 'r') as file:
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
@@ -536,7 +536,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
 
 
     heat_point_flag = False
-    with open('taxi_zones.json', 'r') as file:
+    with open('api/taxi_zones.json', 'r') as file:
             zone_data = json.load(file)
     for i in heat_points:
 
