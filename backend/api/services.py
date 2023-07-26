@@ -1,12 +1,14 @@
 import requests
 import json
 import time
-import datetime
-from datetime import timedelta, datetime
+from datetime import date, timedelta, datetime
+import datetime 
 from django.http import JsonResponse
 from django.utils import timezone
 import pickle
-import pandas as pd 
+import pandas as pd
+
+import re
 from shapely.geometry import MultiPolygon, Point, Polygon
 
 # OpenWeather API
@@ -382,8 +384,8 @@ def get_google_hotels():
 def get_events():
     API_KEY = "q62LGBfQCP3kg9gVyUlveTeq2BayJuLL"
     url = "https://app.ticketmaster.com/discovery/v2/events.json"
-    today = datetime.date.today()
-    end_date = today + timedelta(days=30)
+    today = datetime.date.today()  # Remove the "datetime" before ".date()"
+    end_date = today + datetime.timedelta(days=30)
     event_data = []
 
     params = {
@@ -460,9 +462,8 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
-                if is_point_inside_polygon((float(latitude), float(longitude)), data[str(i)]):
+                if is_point_inside_polygon((latitude, longitude), data[str(i)]):
                     zone = i
-                    break
              except:
                   continue
         return zone
@@ -470,7 +471,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
     def get_weather():
         """Get weather for API call."""
         try:
-            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
             # Need to get Temperature, Wind Speed, Wind direction, Clouds 
             text = requests.get(WEATHERAPI).text
             forecast = json.loads(text)['list']
