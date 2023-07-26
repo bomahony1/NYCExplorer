@@ -91,7 +91,7 @@ class GoogleAttractionsAPIView(generics.ListAPIView):
 
 
 class EventsAPIView(views.APIView):
-    @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
+    # @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
     def get(self, request, format=None):
         event_data = get_events()
         return Response(event_data)
