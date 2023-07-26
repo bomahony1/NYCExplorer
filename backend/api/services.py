@@ -527,7 +527,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         return "Error in getting weather: " + str(e), 404
     
     # Need to get points to plot 
-    with open('sample_heat_map_points.json', 'r') as file:
+    with open('heat_map_points.json', 'r') as file:
         heat_points = json.load(file)
     heat_data = {}
 
@@ -544,7 +544,6 @@ def get_heat_map(hour: float, day: float, month:float = 8):
             heat_point_flag = False
             continue
         i[0], i[1] = round(i[0], 4), round(i[1], 4)
-        print('Heat point:', i)
         for j in range(1, len(zone_data) + 1):
              try:
                 if is_point_inside_polygon((i[0], i[1]), zone_data[str(j)]):
