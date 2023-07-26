@@ -4,9 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
 import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
-import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
+import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { Dialog, DialogTitle, DialogContent,Paper,Button, Box, Link} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import MuiAccordion from '@mui/material/Accordion';
@@ -19,7 +19,6 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
-import { useDrag } from 'react-dnd';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
 const handleDragStart = (event, data) => {
@@ -98,11 +97,6 @@ function TemporaryDrawer({tmp}) {
     event.preventDefault();
   };
   
-
-  const toggleDrawer = () => {
-    setDrawerOpen(!isDrawerOpen);
-    setWindowOpen(false);
-  };
 
   const toggleWindow = () => {
     setWindowOpen(!isWindowOpen);
@@ -697,12 +691,14 @@ function MapPage() {
         animation: window.google.maps.Animation.DROP,
         options: {
           icon: {
-            path: window.google.maps.SymbolPath.SQUARE, //
-            fillColor: '#7EB6E0', // Custom color for the marker
+            path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+            fillColor: "#1a659e",
             fillOpacity: 1,
-            strokeColor: 'white',
-            strokeWeight: 1,
-            scale: 13,
+            strokeWeight: 0,
+            rotation: 0,
+            scale: 2,
+            anchor: new window.google.maps.Point(0, 20),
+           
           },
         },
       }));
@@ -750,7 +746,7 @@ function MapPage() {
                 fillOpacity: 0.7,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 8,
+                scale: 7.5,
               },
             },
           }));
@@ -784,10 +780,10 @@ function MapPage() {
               icon: {
                 path: window.google.maps.SymbolPath.CIRCLE,
                 fillColor: '#ff6b35', // Set the desired color for Google hotels (橘)
-                fillOpacity: 0.9,
+                fillOpacity: 0.7,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 8,
+                scale: 7.5,
               },
             },
           }));
@@ -824,7 +820,7 @@ function MapPage() {
                 fillOpacity: 0.6,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 8,
+                scale: 7.5,
               },
             },
           }));
@@ -1107,6 +1103,7 @@ const handleDirectionsResponse = (response) => {
                   title={marker.title}
                   onClick={() => handleMarkerClick(marker)}
                   options={marker.options}
+                  label={marker.label}
                   animation= {marker.animation}
                 >
                   {selectedMarker === marker && (
