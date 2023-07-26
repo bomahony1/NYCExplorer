@@ -501,8 +501,8 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         model = pickle.load(file)
 
     feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
-    prediction_data = get_weather()
-    prediction_data += [day, month, hour]
+    prediction_data = list(get_weather())
+    prediction_data += list([day, month, hour])
     prediction_data = [prediction_data]
     prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
 
