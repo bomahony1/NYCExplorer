@@ -2,11 +2,12 @@ import requests
 import json
 import time
 import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.http import JsonResponse
 from django.utils import timezone
 import pickle
-import pandas as pd
+import pandas as pd 
+from shapely.geometry import MultiPolygon, Point, Polygon
 
 # OpenWeather API
 
@@ -443,15 +444,6 @@ def get_events():
 
 
 # ML Model 
-
-import pickle 
-import pandas as pd
-import json
-import time
-import requests
-from datetime import datetime
-import re
-from shapely.geometry import MultiPolygon, Point, Polygon
 
 def is_point_inside_polygon(point, polygon_coords):
         """Checks if point is inside a polygon"""
