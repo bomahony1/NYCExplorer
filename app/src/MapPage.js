@@ -694,7 +694,7 @@ function MapPage() {
           rating: place.rating,
           photos: place.photos,
         },
-        animation:{path:window.google.maps.Animation.DROP,},
+        animation: window.google.maps.Animation.DROP,
         options: {
           icon: {
             path: window.google.maps.SymbolPath.SQUARE, //
