@@ -497,7 +497,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
             return "Error in getting weather: " + str(e), 404
     
     zone = get_location_id(latitude, longitude)    
-    with open(f'pickles/zone_{zone}.pkl', 'rb') as file:
+    with open(f'api/pickles/zone_{zone}.pkl', 'rb') as file:
         model = pickle.load(file)
 
     feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
