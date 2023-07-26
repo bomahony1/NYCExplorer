@@ -19,6 +19,7 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
+import { libraries } from './libraries';
 import { useDrag } from 'react-dnd';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
@@ -650,7 +651,7 @@ function MapPage() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: MAPS_API_KEY,
-    libraries: ['places'],
+    libraries: libraries,
   });
 
   const center = useMemo(() => ({ lat: 40.7484, lng: -73.9857 }), []);
