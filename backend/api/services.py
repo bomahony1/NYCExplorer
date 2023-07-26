@@ -479,7 +479,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
     def get_weather():
         """Get weather for API call."""
         try:
-            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
             # Need to get Temperature, Wind Speed, Wind direction, Clouds 
             text = requests.get(WEATHERAPI).text
             forecast = json.loads(text)['list']
