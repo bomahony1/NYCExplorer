@@ -694,6 +694,7 @@ function MapPage() {
           rating: place.rating,
           photos: place.photos,
         },
+        animation:{path:window.google.maps.Animation.DROP,},
         options: {
           icon: {
             path: window.google.maps.SymbolPath.SQUARE, //
@@ -1106,6 +1107,7 @@ const handleDirectionsResponse = (response) => {
                   title={marker.title}
                   onClick={() => handleMarkerClick(marker)}
                   options={marker.options}
+                  animation= {marker.animation}
                 >
                   {selectedMarker === marker && (
                     <InfoWindow
