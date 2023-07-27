@@ -1,6 +1,6 @@
 #info01 {
   font-size: 14px;
-  width: 320px;
+  width: 330px;
   margin-top: 120px;
   max-width: calc(100% - 20px);
   border-radius: 10px;
@@ -17,18 +17,20 @@
   align-items: center;
   position: fixed;
   top: 10px;
-  right: 2px; /* 将固定到页面的右上角，可以根据需要调整距离右边的距离 */
-  max-width: 320px;
+  right: 2px;
+  max-width: 330px;
   z-index: 1;
 }
 
-/* 添加媒体查询，适应不同屏幕宽度 */
-@media (max-width: 320px) {
+
+@media (max-width: 340px) {
   .fixed-box {
-    width: 90%; /* 在较小屏幕上设置宽度为90% */
-    right: 5px; /* 根据需要调整距离右边的距离 */
+    width: 30%; 
+    right: 5px;
   }
 }
+
+
 
 .attraction-name,
 .restaurant-name,

@@ -1114,40 +1114,47 @@ const handleDirectionsResponse = (response) => {
             <strong>Loading weather data...</strong>
           )}
         </div>
+       
+        <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
         variant="outlined"
-        size="medium"
+        size="small"
         onClick={handleToggleMarkers}
-        style={{ margin: '5px' }}
+        style={{ margin: '2px' }}
       >
         {showMarkers ? 'Show Select Plan' : 'Hide Select Plan'}
         </Button>
-          <Button
-            variant="outlined"
-            size="medium"
-            onClick={() => setShowAttractions(!showAttractions)}
-            style={{ margin: '5px' }}
-          >
-             All Attractions
-          </Button>
-          <Button
-            variant="outlined"
-            size="medium"
-            onClick={() => setShowRestaurants(!showRestaurants)}
-            style={{ margin: '5px' }}
-          >
-             All Restaurants
-          </Button>
-          <Button
-            variant="outlined"
-            size="medium"
-            onClick={() => setShowHotels(!showHotels)}
-            style={{ margin: '5px' }}
-          >
-            All Hotels
-          </Button>
 
-          <div style={{ maxWidth: "200px" }}>
+        <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setShowHotels(!showHotels)}
+            style={{ margin: '2px' }}
+          >
+            {showHotels ? 'Show All Hotels' : 'Hide All Hotels'}
+           
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setShowAttractions(!showAttractions)}
+            style={{ margin: '2px' }}
+          >
+             {showAttractions ? 'Show All Attractions' : 'Hide All Attractions'}
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setShowRestaurants(!showRestaurants)}
+            style={{ margin: '2px' }}
+          >
+              {showRestaurants ? 'Show All Restaurants' : 'Hide All Restaurants'}
+             
+          </Button>
+         
+          </div>
+
+          <div style={{ maxWidth: "250px" }}>
             <LocationSearchInput
               placeholder="Current location "
               value={originInput}
@@ -1161,16 +1168,16 @@ const handleDirectionsResponse = (response) => {
 
             <Button
               variant="outlined"
-              size="medium"
+              size="small"
               onClick={handleToggleMarkers}
               disabled={!origin || !destination}
-              style={{ marginTop: '20px' }}
+              style={{ marginTop: '20px',marginRight:"20px" }}
             >
               Toggle Markers
             </Button>
             <Button
               variant="outlined"
-              size="medium"
+              size="small"
               onClick={handleSearch}
               disabled={!origin || !destination}
               style={{ marginTop: '20px' }}
@@ -1178,9 +1185,10 @@ const handleDirectionsResponse = (response) => {
               Search
             </Button>
           </div>
-          <div>
-            <FormControl variant="outlined" style={{ marginTop: '20px' }}>
-                <InputLabel id="mode-of-transport-label">Mode of Transport</InputLabel>
+          <div style={{ margin: '25px,20px',display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{flex:1,marginRight: '20px'}}>
+            <FormControl variant="outlined" style={{marginTop:"20px",width:"100px" ,height:"60px"} }>
+                <InputLabel id="mode-of-transport-label">Transport Mode</InputLabel>
                 <Select
                   labelId="mode-of-transport-label"
                   id="mode-of-transport"
@@ -1196,11 +1204,12 @@ const handleDirectionsResponse = (response) => {
               </FormControl>
               </div>
           {origin && destination && directions && (
-            <div style={{ marginTop: '20px' }}>
+            <div style={{marginRight:"10px",marginLeft: 'auto', textAlign: 'left' }}>
               <p>Distance: {distanceText}</p>
               <p>Time: {durationText}</p>
             </div>
           )}
+        </div>
         </div>
       </div>
       <div style={{ display: "flex", height: "750px" }}>
