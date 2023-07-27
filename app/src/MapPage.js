@@ -19,6 +19,7 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
+import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
 const handleDragStart = (event, data) => {
@@ -985,7 +986,8 @@ const handleDirectionsResponse = (response) => {
   return (
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
       <div className='fixed-box'>
-        <div id="info01">
+      <Draggable>
+        <div id="info01" style={{ cursor: 'move' }}>
         <div className="weather-data">
           {weatherData ? (
             <div>
@@ -1095,6 +1097,7 @@ const handleDirectionsResponse = (response) => {
           )}
         </div>
         </div>
+        </Draggable>
       </div>
       <div style={{ display: "flex", height: "750px" }}>
         <div style={{ flex: 1 }}>
