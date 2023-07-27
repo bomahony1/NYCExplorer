@@ -435,6 +435,28 @@ function TemporaryDrawer({tmp}) {
       value: hotelValue,
       onChange: handleInputChange('hotels'),
     };
+    const getOpeningHoursForToday = (attraction) => {
+      const today = new Date().getDay();
+      if (
+        attraction.opening_hours &&
+        attraction.opening_hours.opening_hours &&
+        attraction.opening_hours.opening_hours.periods
+      ) {
+        const openingHoursForToday = attraction.opening_hours.opening_hours.periods.find(
+          (period) => period.open.day === today
+        );
+        return openingHoursForToday;
+      }
+      return null;
+    };
+  
+    const formatTime = (time) => {
+      const hours = parseInt(time.slice(0, 2), 10);
+      const minutes = time.slice(2);
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12;
+      return `${formattedHours}:${minutes} ${ampm}`;
+    };
   
     return (
       <div>
@@ -479,6 +501,28 @@ function TemporaryDrawer({tmp}) {
               <div>Rating: {attraction.rating}</div>
               <div className="photo-container">
                 <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
+                </div>
+                <div className="opening-hours">
+                  {attraction.opening_hours?.opening_hours ? (
+                    <>
+                      <h3>Opening Hours Today:</h3>
+                      {getOpeningHoursForToday(attraction) ? (
+                        <div>
+                          {formatTime(getOpeningHoursForToday(attraction).open.time)} –{' '}
+                          {formatTime(getOpeningHoursForToday(attraction).close.time)}
+                        </div>
+                      ) : (
+                        <div>No opening hours information available for today.</div>
+                      )}
+                      {attraction.opening_hours?.opening_hours.open_now !== undefined ? (
+                        <div>
+                          {attraction.opening_hours.open_now ? 'Currently Open' : 'Currently Closed'}
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div>No opening hours information available.</div>
+                  )}
                 </div>
                 <div>
                 <Button
@@ -534,6 +578,28 @@ function TemporaryDrawer({tmp}) {
               <div>Rating: {restaurant.rating}</div>
               <div className="photo-container">
                 <img src={restaurant.photos[0]} alt={restaurant.name} className="restaurant-photo" />
+                </div>
+                <div className="opening-hours">
+                  {restaurant.opening_hours?.opening_hours ? (
+                    <>
+                      <h3>Opening Hours Today:</h3>
+                      {getOpeningHoursForToday(restaurant) ? (
+                        <div>
+                          {formatTime(getOpeningHoursForToday(restaurant).open.time)} –{' '}
+                          {formatTime(getOpeningHoursForToday(restaurant).close.time)}
+                        </div>
+                      ) : (
+                        <div>No opening hours information available for today.</div>
+                      )}
+                      {restaurant.opening_hours?.opening_hours.open_now !== undefined ? (
+                        <div>
+                          {restaurant.opening_hours.open_now ? 'Currently Open' : 'Currently Closed'}
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div>No opening hours information available.</div>
+                  )}
                 </div>
                 <div>
                 <Button
@@ -809,6 +875,8 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
               address: attraction.address,
               rating: attraction.rating,
               photos: attraction.photos,
+              open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+              close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',
             },
             options: {
               icon: {
@@ -859,6 +927,8 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
               address: restaurant.address,
               rating: restaurant.rating,
               photos: restaurant.photos,
+              open: restaurant.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+              close: restaurant.opening_hours?.opening_hours?.periods[0]?.close?.time || '',
             },
             options: {
               icon: {
