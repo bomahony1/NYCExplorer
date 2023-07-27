@@ -77,3 +77,15 @@
     font-weight: 700;
     z-index: 1;
   }
+
+
+.custom-info-window {
+  max-width: 300px; 
+  max-height: 320px;
+}
+
+
+.custom-info-window img {
+  max-width: 100%; 
+  height: auto; 
+}

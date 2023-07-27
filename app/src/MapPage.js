@@ -874,10 +874,10 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
               icon: {
                 path: window.google.maps.SymbolPath.CIRCLE,
                 fillColor: '#efefd0',
-                fillOpacity: 0.7,
+                fillOpacity: 1,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 7.5,
+                scale: 8,
               },
             },
           }));
@@ -902,7 +902,7 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
                 fillOpacity: 0.7,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 7.5,
+                scale: 8,
               },
             },
           }));
@@ -927,7 +927,7 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
                 fillOpacity: 0.6,
                 strokeColor: 'white',
                 strokeWeight: 1,
-                scale: 7.5,
+                scale: 8,
               },
             },
           }));
@@ -1020,14 +1020,14 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
       setDestination(marker.position);
     }
     setSelectedMarker(marker);
+    
   };
 
   const handleInfoWindowClose = () => {
     setSelectedMarker(null);
-    setOrigin(null);
-    setDestination(null);
-    setDirections(null);
+    
   };
+  
 const handleDirectionsResponse = (response) => {
     if (response !== null) {
       setDirections(response);
@@ -1076,9 +1076,6 @@ const handleDirectionsResponse = (response) => {
   };
   
 
-  // const handleToggleMarkers = () => {
-  //   setShowMarkers((prevShowMarkers) => !prevShowMarkers);
-  // };
   const handleToggleMarkers = () => {
     setShowMarkers((prevShowMarkers) => !prevShowMarkers);
     setShowAttractions(false);
@@ -1262,13 +1259,16 @@ const handleDirectionsResponse = (response) => {
                 onClick={() => handleMarkerClick(marker)}
                 options={marker.options}
                 animation={marker.animation}
+                
               >
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
                     onCloseClick={handleInfoWindowClose}
+
+                  
                   >
-                   <div>
+                   <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
@@ -1302,6 +1302,7 @@ const handleDirectionsResponse = (response) => {
                   <InfoWindow
                     position={selectedMarker.position}
                     onCloseClick={handleInfoWindowClose}
+                    
                   >
                   <div>
                         <h3>{selectedMarker.title}</h3>
