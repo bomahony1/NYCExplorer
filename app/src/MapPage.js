@@ -19,6 +19,9 @@ import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DeleteIcon from '@mui/icons-material/Delete';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 
@@ -65,7 +68,22 @@ function DateRangePickerDialog({ handleSelect }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open Date Range Picker</Button>
+       <Button
+              variant="outlined"
+              size="media"
+              onClick={handleOpen}
+              startIcon={<CalendarMonthIcon />}
+              style={{
+                margin: '10px',
+                backgroundColor: '#1C2541',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                borderColor: '#ffffff',
+              }}
+            >
+              Date Range Picker
+            </Button>
+    
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Select Date Range</DialogTitle>
         <DialogContent>
@@ -157,9 +175,17 @@ function TemporaryDrawer({tmp}) {
         <div style={{ display: 'flex' }}>
 
           <div style={{ width: '300px', background: 'white' }}>
-            <h3>New York Trip</h3>
+            <h2>New York Trip</h2>
             <Divider />
-            <button onClick={toggleWindow}>Open Day Planner</button>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={toggleWindow}
+              endIcon={<OpenInNewIcon  sx={{ fontSize: 26,}}/>}
+              style={{ margin: '10px',backgroundColor: '#1C2541', color: '#ffffff',fontWeight: 'bold' }}
+            >
+              Open Day Planner
+            </Button>
             <Divider />
             <CustomizedAccordions onMarkerSelect={handleMarkerSelection} />
           </div>
@@ -168,10 +194,11 @@ function TemporaryDrawer({tmp}) {
               style={{
                 width: '300px',
                 marginLeft: '10px',
-                background: 'lightblue',
+                background: '#1C2541',
+                color:"#ffffff",
               }}
             >
-              Itinerary
+             <h2> Itinerary</h2>
               <DateRangePickerDialog handleSelect={handleSelectRange} />
               <div>{renderDateRangeContent()}</div>
             </div>
@@ -453,7 +480,17 @@ function TemporaryDrawer({tmp}) {
               <div className="photo-container">
                 <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
                 </div>
-                <div><button onClick={() => handleRemoveAttraction(index)}>Remove</button></div>
+                <div>
+                <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveAttraction(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
+              </div>
             </div>
           ))}
         </div>
@@ -498,7 +535,17 @@ function TemporaryDrawer({tmp}) {
               <div className="photo-container">
                 <img src={restaurant.photos[0]} alt={restaurant.name} className="restaurant-photo" />
                 </div>
-                <div><button onClick={() => handleRemoveRestaurant(index)}>Remove</button></div>
+                <div>
+                <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveRestaurant(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
+                </div>
             </div>
           ))}
         </div>
@@ -544,7 +591,15 @@ function TemporaryDrawer({tmp}) {
               <img src={hotel.photos[0]} alt={hotel.name} className="hotel-photo" />
             </div>
             <div>
-              <button onClick={() => handleRemoveHotel(index)}>Remove</button>
+            <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveHotel(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
             </div>
           </div>
         ))}
