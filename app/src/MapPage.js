@@ -279,6 +279,8 @@ function TemporaryDrawer({tmp}) {
 
     }, []);
 
+    
+
 
     const getHotelSuggestions = (inputValue) => {
       const inputValueLowerCase = inputValue.toLowerCase();
