@@ -230,6 +230,8 @@ function TemporaryDrawer({tmp}) {
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
+    const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
+
 
     
 
@@ -660,6 +662,15 @@ function MapPage() {
   const [duration, setDuration] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState([]);
+  const [showAttractions, setShowAttractions] = useState(false);
+const [showRestaurants, setShowRestaurants] = useState(false);
+const [showHotels, setShowHotels] = useState(false);
+const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
+
+
+
+  
+  
 
 
   const handleMarkerSelection = (place) => {
@@ -722,18 +733,138 @@ function MapPage() {
       .catch((error) => console.error(error));
   }, []);
 
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     fetch('http://127.0.0.1:8000/api/googleAttractions/')
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         const newMarkers = data.map((attraction) => ({
+  //           id: attraction.id,
+  //           position: {
+  //             lat: attraction.latitude,
+  //             lng: attraction.longitude,
+  //           },
+  //           title: attraction.name,
+  //           type:'googleAttractions',
+  //           info: {
+  //             address: attraction.address,
+  //             rating: attraction.rating,
+  //             photos: attraction.photos,
+  //           },
+  //           options: {
+  //             icon: {
+  //               path: window.google.maps.SymbolPath.CIRCLE,
+  //               fillColor: '#efefd0', // Color for attractions (黄)
+  //               fillOpacity: 0.7,
+  //               strokeColor: 'white',
+  //               strokeWeight: 1,
+  //               scale: 7.5,
+  //             },
+  //           },
+  //         }));
+  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         setMarkers([]); // Clear markers if there's an error
+  //       });
+  //   }
+  // }, [isLoaded]);
+
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     fetch('http://127.0.0.1:8000/api/googleHotels')
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         const newMarkers = data.map((hotel) => ({
+  //           id: hotel.id,
+  //           position: {
+  //             lat: hotel.latitude,
+  //             lng: hotel.longitude,
+  //           },
+  //           title: hotel.name,
+  //           type:'googleHotels',
+  //           info: {
+  //             address: hotel.address,
+  //             rating: hotel.rating,
+  //             photos: hotel.photos,
+  //           },
+  //           options: {
+  //             icon: {
+  //               path: window.google.maps.SymbolPath.CIRCLE,
+  //               fillColor: '#ff6b35', // Set the desired color for Google hotels (橘)
+  //               fillOpacity: 0.7,
+  //               strokeColor: 'white',
+  //               strokeWeight: 1,
+  //               scale: 7.5,
+  //             },
+  //           },
+  //         }));
+  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         setMarkers([]); // Clear markers if there's an error
+  //       });
+  //   }
+  // }, [isLoaded]);
+
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         const newMarkers = data.map((restaurant) => ({
+  //           id: restaurant.id,
+  //           position: {
+  //             lat: restaurant.latitude,
+  //             lng: restaurant.longitude,
+  //           },
+  //           title: restaurant.name,
+  //           type:'googleRestaurants',
+  //           info: {
+  //             address: restaurant.address,
+  //             rating: restaurant.rating,
+  //             photos: restaurant.photos,
+  //           },
+  //           options: {
+  //             icon: {
+  //               path: window.google.maps.SymbolPath.CIRCLE,
+  //               fillColor: '#06d6a0', // Set the desired color for Google restaurants (绿)
+  //               fillOpacity: 0.6,
+  //               strokeColor: 'white',
+  //               strokeWeight: 1,
+  //               scale: 7.5,
+  //             },
+  //           },
+  //         }));
+  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         setMarkers([]); // Clear markers if there's an error
+  //       });
+  //   }
+  // }, [isLoaded]);
   useEffect(() => {
     if (isLoaded) {
-      fetch('http://127.0.0.1:8000/api/googleAttractions/')
-        .then((response) => response.json())
-        .then((data) => {
-          const newMarkers = data.map((attraction) => ({
+      Promise.all([
+        fetch('http://127.0.0.1:8000/api/googleAttractions/')
+          .then((response) => response.json()),
+        fetch('http://127.0.0.1:8000/api/googleHotels')
+          .then((response) => response.json()),
+        fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+          .then((response) => response.json())
+      ])
+        .then(([attractionsData, hotelsData, restaurantsData]) => {
+          const attractionsMarkers = attractionsData.map((attraction) => ({
             id: attraction.id,
             position: {
               lat: attraction.latitude,
               lng: attraction.longitude,
             },
             title: attraction.name,
+            type: 'googleAttractions',
             info: {
               address: attraction.address,
               rating: attraction.rating,
@@ -742,7 +873,7 @@ function MapPage() {
             options: {
               icon: {
                 path: window.google.maps.SymbolPath.CIRCLE,
-                fillColor: '#efefd0', // Color for attractions (黄)
+                fillColor: '#efefd0',
                 fillOpacity: 0.7,
                 strokeColor: 'white',
                 strokeWeight: 1,
@@ -750,27 +881,15 @@ function MapPage() {
               },
             },
           }));
-          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-        })
-        .catch((error) => {
-          console.error(error);
-          setMarkers([]); // Clear markers if there's an error
-        });
-    }
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      fetch('http://127.0.0.1:8000/api/googleHotels')
-        .then((response) => response.json())
-        .then((data) => {
-          const newMarkers = data.map((hotel) => ({
+  
+          const hotelsMarkers = hotelsData.map((hotel) => ({
             id: hotel.id,
             position: {
               lat: hotel.latitude,
               lng: hotel.longitude,
             },
             title: hotel.name,
+            type: 'googleHotels',
             info: {
               address: hotel.address,
               rating: hotel.rating,
@@ -779,7 +898,7 @@ function MapPage() {
             options: {
               icon: {
                 path: window.google.maps.SymbolPath.CIRCLE,
-                fillColor: '#ff6b35', // Set the desired color for Google hotels (橘)
+                fillColor: '#ff6b35',
                 fillOpacity: 0.7,
                 strokeColor: 'white',
                 strokeWeight: 1,
@@ -787,27 +906,15 @@ function MapPage() {
               },
             },
           }));
-          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-        })
-        .catch((error) => {
-          console.error(error);
-          setMarkers([]); // Clear markers if there's an error
-        });
-    }
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      fetch('http://127.0.0.1:8000/api/googleRestaurants/')
-        .then((response) => response.json())
-        .then((data) => {
-          const newMarkers = data.map((restaurant) => ({
+  
+          const restaurantsMarkers = restaurantsData.map((restaurant) => ({
             id: restaurant.id,
             position: {
               lat: restaurant.latitude,
               lng: restaurant.longitude,
             },
             title: restaurant.name,
+            type: 'googleRestaurants',
             info: {
               address: restaurant.address,
               rating: restaurant.rating,
@@ -816,7 +923,7 @@ function MapPage() {
             options: {
               icon: {
                 path: window.google.maps.SymbolPath.CIRCLE,
-                fillColor: '#06d6a0', // Set the desired color for Google restaurants (绿)
+                fillColor: '#06d6a0',
                 fillOpacity: 0.6,
                 strokeColor: 'white',
                 strokeWeight: 1,
@@ -824,15 +931,17 @@ function MapPage() {
               },
             },
           }));
-          setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+  
+          const newMarkers = [...attractionsMarkers, ...hotelsMarkers, ...restaurantsMarkers];
+          setMarkers(newMarkers);
         })
         .catch((error) => {
           console.error(error);
-          setMarkers([]); // Clear markers if there's an error
+          setMarkers([]);
         });
     }
   }, [isLoaded]);
-
+  
   const getImageUrl = (weatherType) => {
     if (weatherType === 'Thunderstorm') {
       return 'https://openweathermap.org/img/wn/11d@2x.png';
@@ -967,9 +1076,23 @@ const handleDirectionsResponse = (response) => {
   };
   
 
+  // const handleToggleMarkers = () => {
+  //   setShowMarkers((prevShowMarkers) => !prevShowMarkers);
+  // };
   const handleToggleMarkers = () => {
     setShowMarkers((prevShowMarkers) => !prevShowMarkers);
+    setShowAttractions(false);
+    setShowRestaurants(false);
+    setShowHotels(false);
+    // If markers are hidden, reset the manuallyAddedMarkers to an empty array
+  if (!showMarkers) {
+    setManuallyAddedMarkers([]);
+  } else {
+    // If markers are shown, add the manually added markers to the state
+    setMarkers((prevMarkers) => [...prevMarkers, ...manuallyAddedMarkers]);
+  }
   };
+  
   const [modeOfTransport, setModeOfTransport] = useState('DRIVING');
 
   const handleModeOfTransportChange = (event) => {
@@ -994,6 +1117,39 @@ const handleDirectionsResponse = (response) => {
             <strong>Loading weather data...</strong>
           )}
         </div>
+        <Button
+        variant="outlined"
+        size="medium"
+        onClick={handleToggleMarkers}
+        style={{ margin: '5px' }}
+      >
+        {showMarkers ? 'Show Select Plan' : 'Hide Select Plan'}
+        </Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={() => setShowAttractions(!showAttractions)}
+            style={{ margin: '5px' }}
+          >
+             All Attractions
+          </Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={() => setShowRestaurants(!showRestaurants)}
+            style={{ margin: '5px' }}
+          >
+             All Restaurants
+          </Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={() => setShowHotels(!showHotels)}
+            style={{ margin: '5px' }}
+          >
+            All Hotels
+          </Button>
+
           <div style={{ maxWidth: "200px" }}>
             <LocationSearchInput
               placeholder="Current location "
@@ -1094,23 +1250,25 @@ const handleDirectionsResponse = (response) => {
                 ],
               }}
             >
-              {showMarkers &&
-              markers.map((marker) => (
-                <Marker
-                  key={marker.id}
-                  position={marker.position}
-                  title={marker.title}
-                  onClick={() => handleMarkerClick(marker)}
-                  options={marker.options}
-                  label={marker.label}
-                  animation= {marker.animation}
-                >
-                  {selectedMarker === marker && (
-                    <InfoWindow
-                      position={selectedMarker.position}
-                      onCloseClick={handleInfoWindowClose}
-                    >
-                      <div>
+
+            {showMarkers && markers
+            .filter((marker) => !marker.type) 
+            .map((marker) => (
+              // Render all markers when showMarkers is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                   <div>
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
@@ -1125,10 +1283,116 @@ const handleDirectionsResponse = (response) => {
                           </div>
                         )}
                       </div>
-                    </InfoWindow>
-                  )}
-                </Marker>
-              ))}
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+            {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
+              // Render googleAttractions markers when showAttractions is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                  <div>
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+            {showRestaurants && markers.filter((marker) => marker.type === 'googleRestaurants').map((marker) => (
+              // Render googleRestaurants markers when showRestaurants is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                   <div>
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+            {showHotels && markers.filter((marker) => marker.type === 'googleHotels').map((marker) => (
+              // Render googleHotels markers when showHotels is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                  <div>
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
             {directions && (
               <DirectionsRenderer
                 options={{
