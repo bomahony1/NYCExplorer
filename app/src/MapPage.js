@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -24,6 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
+
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -432,6 +433,8 @@ function TemporaryDrawer({tmp}) {
       onChange: handleInputChange('restaurants'),
     };
 
+    
+
     const hotelInputProps = { // New input props for hotel
       placeholder: 'Search hotels',
       value: hotelValue,
@@ -782,9 +785,10 @@ function MapPage() {
   const [weatherData, setWeatherData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState([]);
   const [showAttractions, setShowAttractions] = useState(false);
-const [showRestaurants, setShowRestaurants] = useState(false);
-const [showHotels, setShowHotels] = useState(false);
-const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
+  const [showRestaurants, setShowRestaurants] = useState(false);
+  const [showHotels, setShowHotels] = useState(false);
+  const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
+  const draggableRef = useRef(null);
 
 
 
@@ -1111,11 +1115,12 @@ const handleDirectionsResponse = (response) => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
 
+
   return (
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
       <div className='fixed-box'>
-      <Draggable>
-        <div id="info01" style={{ cursor: 'move' }}>
+      <Draggable nodeRef={draggableRef}>
+      <div id="info01" style={{ cursor: 'move' }} ref={draggableRef}>
         <div className="weather-data">
           {weatherData ? (
             <div>
