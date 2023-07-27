@@ -149,7 +149,7 @@ function TemporaryDrawer({tmp}) {
             <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            style={{ background: "lightgrey", padding: "10px", marginTop: "10px" }}
+            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" }}
           >
             Drag a place here to add it
           </div>
@@ -472,7 +472,7 @@ function TemporaryDrawer({tmp}) {
             />
           </AccordionDetails>
         </Accordion>
-        <div className='itin-attraction'>
+        <div >
           {selectedAttractions.map((attraction, index) => (
             <div key={index} className="attraction-item">
               <div className="attraction-name">{attraction.name}</div>
@@ -1253,7 +1253,7 @@ const handleDirectionsResponse = (response) => {
                     onCloseClick={handleInfoWindowClose}
                     
                   >
-                  <div>
+                  <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
@@ -1288,7 +1288,7 @@ const handleDirectionsResponse = (response) => {
                     position={selectedMarker.position}
                     onCloseClick={handleInfoWindowClose}
                   >
-                   <div>
+                   <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
@@ -1323,7 +1323,7 @@ const handleDirectionsResponse = (response) => {
                     position={selectedMarker.position}
                     onCloseClick={handleInfoWindowClose}
                   >
-                  <div>
+                  <div className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
