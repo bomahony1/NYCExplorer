@@ -1265,8 +1265,6 @@ const handleDirectionsResponse = (response) => {
                   <InfoWindow
                     position={selectedMarker.position}
                     onCloseClick={handleInfoWindowClose}
-
-                  
                   >
                    <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
