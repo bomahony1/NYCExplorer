@@ -674,6 +674,7 @@ function LocationSearchInput({ placeholder, value, onChange }) {
               className: 'location-search-input',
             })}
             inputProps={{ 'aria-label': 'search' }}
+            style={{width: "100%",Maxwidth:" 100px"}}
           />
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
