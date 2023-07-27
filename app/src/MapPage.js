@@ -230,13 +230,7 @@ function TemporaryDrawer({tmp}) {
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
-    const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
-
-
-    
-
-
-    
+   
 
     
     useEffect(() => {
@@ -562,9 +556,9 @@ function TemporaryDrawer({tmp}) {
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha('#3f5a68', 0.15),
+  backgroundColor: alpha('#1a659e', 0.05),
   '&:hover': {
-    backgroundColor: alpha('#3f5a68', 0.25),
+    backgroundColor: alpha('#1a659e', 0.15),
   },
   marginLeft: 0,
   marginTop: 10,
@@ -586,7 +580,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: '#477b96',
+  color: '#1a659e',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 2),
     paddingLeft: theme.spacing(6),
@@ -733,119 +727,8 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
       .catch((error) => console.error(error));
   }, []);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     fetch('http://127.0.0.1:8000/api/googleAttractions/')
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         const newMarkers = data.map((attraction) => ({
-  //           id: attraction.id,
-  //           position: {
-  //             lat: attraction.latitude,
-  //             lng: attraction.longitude,
-  //           },
-  //           title: attraction.name,
-  //           type:'googleAttractions',
-  //           info: {
-  //             address: attraction.address,
-  //             rating: attraction.rating,
-  //             photos: attraction.photos,
-  //           },
-  //           options: {
-  //             icon: {
-  //               path: window.google.maps.SymbolPath.CIRCLE,
-  //               fillColor: '#efefd0', // Color for attractions (黄)
-  //               fillOpacity: 0.7,
-  //               strokeColor: 'white',
-  //               strokeWeight: 1,
-  //               scale: 7.5,
-  //             },
-  //           },
-  //         }));
-  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         setMarkers([]); // Clear markers if there's an error
-  //       });
-  //   }
-  // }, [isLoaded]);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     fetch('http://127.0.0.1:8000/api/googleHotels')
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         const newMarkers = data.map((hotel) => ({
-  //           id: hotel.id,
-  //           position: {
-  //             lat: hotel.latitude,
-  //             lng: hotel.longitude,
-  //           },
-  //           title: hotel.name,
-  //           type:'googleHotels',
-  //           info: {
-  //             address: hotel.address,
-  //             rating: hotel.rating,
-  //             photos: hotel.photos,
-  //           },
-  //           options: {
-  //             icon: {
-  //               path: window.google.maps.SymbolPath.CIRCLE,
-  //               fillColor: '#ff6b35', // Set the desired color for Google hotels (橘)
-  //               fillOpacity: 0.7,
-  //               strokeColor: 'white',
-  //               strokeWeight: 1,
-  //               scale: 7.5,
-  //             },
-  //           },
-  //         }));
-  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         setMarkers([]); // Clear markers if there's an error
-  //       });
-  //   }
-  // }, [isLoaded]);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     fetch('http://127.0.0.1:8000/api/googleRestaurants/')
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         const newMarkers = data.map((restaurant) => ({
-  //           id: restaurant.id,
-  //           position: {
-  //             lat: restaurant.latitude,
-  //             lng: restaurant.longitude,
-  //           },
-  //           title: restaurant.name,
-  //           type:'googleRestaurants',
-  //           info: {
-  //             address: restaurant.address,
-  //             rating: restaurant.rating,
-  //             photos: restaurant.photos,
-  //           },
-  //           options: {
-  //             icon: {
-  //               path: window.google.maps.SymbolPath.CIRCLE,
-  //               fillColor: '#06d6a0', // Set the desired color for Google restaurants (绿)
-  //               fillOpacity: 0.6,
-  //               strokeColor: 'white',
-  //               strokeWeight: 1,
-  //               scale: 7.5,
-  //             },
-  //           },
-  //         }));
-  //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         setMarkers([]); // Clear markers if there's an error
-  //       });
-  //   }
-  // }, [isLoaded]);
   useEffect(() => {
     if (isLoaded) {
       Promise.all([
@@ -875,7 +758,7 @@ const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
                 path: window.google.maps.SymbolPath.CIRCLE,
                 fillColor: '#efefd0',
                 fillOpacity: 1,
-                strokeColor: 'white',
+                strokeColor: '#ffffff',
                 strokeWeight: 1,
                 scale: 8,
               },
@@ -1120,7 +1003,7 @@ const handleDirectionsResponse = (response) => {
         variant="outlined"
         size="small"
         onClick={handleToggleMarkers}
-        style={{ margin: '2px' }}
+        style={{ margin: '2px',backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
       >
         {showMarkers ? 'Show Select Plan' : 'Hide Select Plan'}
         </Button>
@@ -1129,7 +1012,7 @@ const handleDirectionsResponse = (response) => {
             variant="outlined"
             size="small"
             onClick={() => setShowHotels(!showHotels)}
-            style={{ margin: '2px' }}
+            style={{ margin: '2px' ,backgroundColor: '#ff6b35', color: '#ffffff' ,fontWeight: 'bold'}}
           >
             {showHotels ? 'Show All Hotels' : 'Hide All Hotels'}
            
@@ -1138,7 +1021,7 @@ const handleDirectionsResponse = (response) => {
             variant="outlined"
             size="small"
             onClick={() => setShowAttractions(!showAttractions)}
-            style={{ margin: '2px' }}
+            style={{ margin: '2px',backgroundColor: '#efefd0', color: '#ffffff' ,fontWeight: 'bold'}}
           >
              {showAttractions ? 'Show All Attractions' : 'Hide All Attractions'}
           </Button>
@@ -1146,7 +1029,7 @@ const handleDirectionsResponse = (response) => {
             variant="outlined"
             size="small"
             onClick={() => setShowRestaurants(!showRestaurants)}
-            style={{ margin: '2px' }}
+            style={{ margin: '2px',backgroundColor: '#06d6a0', color: '#ffffff',fontWeight: 'bold' }}
           >
               {showRestaurants ? 'Show All Restaurants' : 'Hide All Restaurants'}
              
@@ -1159,6 +1042,7 @@ const handleDirectionsResponse = (response) => {
               placeholder="Current location "
               value={originInput}
               onChange={setOriginInput}
+              
             />
             <LocationSearchInput
               placeholder="Destination "
@@ -1171,7 +1055,7 @@ const handleDirectionsResponse = (response) => {
               size="small"
               onClick={handleToggleMarkers}
               disabled={!origin || !destination}
-              style={{ marginTop: '20px',marginRight:"20px" }}
+              style={{ marginTop: '20px',marginRight:"20px",backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
             >
               Toggle Markers
             </Button>
@@ -1180,14 +1064,14 @@ const handleDirectionsResponse = (response) => {
               size="small"
               onClick={handleSearch}
               disabled={!origin || !destination}
-              style={{ marginTop: '20px' }}
+              style={{ marginTop: '20px',backgroundColor: '#1a659e', color: '#ffffff',fontWeight: 'bold' }}
             >
               Search
             </Button>
           </div>
-          <div style={{ margin: '25px,20px',display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ margin: '25px,20px',display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' ,color:"#1C2541"}}>
           <div style={{flex:1,marginRight: '20px'}}>
-            <FormControl variant="outlined" style={{marginTop:"20px",width:"100px" ,height:"60px"} }>
+            <FormControl variant="outlined" style={{marginLeft:"25px",marginTop:"20px",width:"98px" ,height:"60px"} }>
                 <InputLabel id="mode-of-transport-label">Transport Mode</InputLabel>
                 <Select
                   labelId="mode-of-transport-label"
@@ -1204,7 +1088,7 @@ const handleDirectionsResponse = (response) => {
               </FormControl>
               </div>
           {origin && destination && directions && (
-            <div style={{marginRight:"10px",marginLeft: 'auto', textAlign: 'left' }}>
+            <div style={{marginLeft: '2px', textAlign: 'left',marginTop:"9px" }}>
               <p>Distance: {distanceText}</p>
               <p>Time: {durationText}</p>
             </div>
