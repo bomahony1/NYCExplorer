@@ -67,6 +67,11 @@ function NestedList({ attractions }) {
               )}
             </div>
             <div>
+            <div>
+              <b>Opening Hours:</b> {attractions.length > 0 &&(attractions[0].open)} AM - {attractions.length > 0 && (attractions[0].close)} PM
+            </div>
+            </div>
+            <div>
               <Button
                 size="small"
                 style={{ color: '#477696' }}
@@ -100,6 +105,9 @@ function NestedList({ attractions }) {
               {attractions.length > 1 && attractions[1].photos && (
                 <img src={attractions[1].photos[0]} alt={attractions[1].name} style={{ maxWidth: '300px', maxHeight: '200px' }} />
               )}
+            </div>
+            <div>
+              <b>Opening Hours:</b> {attractions.length > 1 &&(attractions[1].open)} AM - {attractions.length > 1 && (attractions[1].close)} PM
             </div>
             <div>
               <Button
@@ -137,6 +145,9 @@ function NestedList({ attractions }) {
               )}
             </div>
             <div>
+              <b>Opening Hours:</b> {attractions.length > 2 &&(attractions[2].open)} AM - {attractions.length > 2 && (attractions[2].close)} PM
+            </div>
+            <div>
               <Button
                 size="small"
                 style={{ color: '#477696' }}
@@ -170,6 +181,9 @@ function NestedList({ attractions }) {
               {attractions.length > 3 && attractions[3].photos && (
                 <img src={attractions[3].photos[0]} alt={attractions[3].name} style={{ maxWidth: '300px', maxHeight: '200px' }} />
               )}
+            </div>
+            <div>
+              <b>Opening Hours:</b> {attractions.length > 3 &&(attractions[3].open)} AM - {attractions.length > 3 && (attractions[3].close)} PM
             </div>
             <div>
               <Button
@@ -259,6 +273,8 @@ function HomePage() {
           longitude: attraction.longitude,
           rating: attraction.rating,
           photos: attraction.photos,
+          open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+          close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',   
         }));
         setAttractions(newAttractions);
       })
