@@ -175,7 +175,7 @@ function TemporaryDrawer({tmp}) {
       {isDrawerOpen && (
         <div style={{ display: 'flex' }}>
 
-          <div style={{ width: '300px', background: 'white' }}>
+          <div style={{ width: '60%', height: '100%', background: 'white' }}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
