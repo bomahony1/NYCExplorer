@@ -3,7 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
@@ -24,6 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
+import Heatmap from './Heatmap'; 
 
 
 const handleDragStart = (event, data) => {
@@ -789,11 +790,8 @@ function MapPage() {
   const [showHotels, setShowHotels] = useState(false);
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
+  const [heatmapData, setHeatmapData] = useState([]);
 
-
-
-  
-  
 
 
   const handleMarkerSelection = (place) => {
@@ -1115,8 +1113,19 @@ const handleDirectionsResponse = (response) => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
 
+  const handleHeatmapDataReceived = (data) => {
+    setHeatmapData(data);
+  };
+  const [heatmapVisible, setHeatmapVisible] = useState(false);
+  const handleToggleHeatmap = () => {
+    setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
+  };
+  
+
+
 
   return (
+    
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
       <div className='fixed-box'>
       <Draggable nodeRef={draggableRef}>
@@ -1236,10 +1245,22 @@ const handleDirectionsResponse = (response) => {
         <div style={{ flex: 1 }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         </div>
+        <div>
+      {/* Other components */}
+      <Heatmap
+        onHeatmapDataReceived={handleHeatmapDataReceived}
+        heatmapVisible={heatmapVisible}
+        onToggleHeatmap={handleToggleHeatmap}
+      />
+      {/* Rest of your MapPage component */}
+    </div>
+        
         <div style={{ height: '750px', flex: "2" }}>
+    
           {!isLoaded ? (
             <div>Loading...</div>
           ) : (
+        
             <GoogleMap
               mapContainerStyle={{ height: '100%' }}
               center={center}
@@ -1276,7 +1297,14 @@ const handleDirectionsResponse = (response) => {
                 ],
               }}
             >
-
+            {heatmapVisible && heatmapData && (
+             <HeatmapLayer
+             data={heatmapData.map((data) => ({
+               location: new window.google.maps.LatLng(data.lat, data.lng),
+               weight: data.weight,
+             }))}
+           />
+          )}
             {showMarkers && markers
             .filter((marker) => !marker.type) 
             .map((marker) => (
@@ -1429,6 +1457,9 @@ const handleDirectionsResponse = (response) => {
               />
             )}
           </GoogleMap>
+      
+
+         
         )}
       </div>
     </div>
