@@ -47,7 +47,7 @@ function NestedList({ attractions }) {
     >
       <ListItemButton onClick={handleClick1} sx={{ borderTop: '1px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 0 && attractions[0].name}</span>}
+          primary={<span style={{ fontWeight: 'bold',color: 'white', fontSize: '1.1rem' }}>{attractions.length > 0 && attractions[0].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open1 ? <ExpandLess /> : <ExpandMore />}
@@ -87,7 +87,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick2} sx={{ borderTop: '1.3px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 1 && attractions[1].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 1 && attractions[1].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open2 ? <ExpandLess /> : <ExpandMore />}
@@ -125,7 +125,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick3} sx={{ borderTop: '1.6px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 2 && attractions[2].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 2 && attractions[2].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open3 ? <ExpandLess /> : <ExpandMore />}
@@ -163,7 +163,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick4} sx={{ borderTop: '1.8px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 3 && attractions[3].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 3 && attractions[3].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open4 ? <ExpandLess /> : <ExpandMore />}
