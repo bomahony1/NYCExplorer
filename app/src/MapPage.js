@@ -1135,7 +1135,7 @@ const handleDirectionsResponse = (response) => {
        
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
-        variant="outlined"
+       variant="contained"
         size="small"
         onClick={handleToggleMarkers}
         style={{ margin: '2px',backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
@@ -1144,7 +1144,7 @@ const handleDirectionsResponse = (response) => {
         </Button>
 
         <Button
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={() => setShowHotels(!showHotels)}
             style={{ margin: '2px' ,backgroundColor: '#ff6b35', color: '#ffffff' ,fontWeight: 'bold'}}
@@ -1153,7 +1153,7 @@ const handleDirectionsResponse = (response) => {
            
           </Button>
           <Button
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={() => setShowAttractions(!showAttractions)}
             style={{ margin: '2px',backgroundColor: '#efefd0', color: '#ffffff' ,fontWeight: 'bold'}}
@@ -1161,7 +1161,7 @@ const handleDirectionsResponse = (response) => {
              {showAttractions ? 'Show All Attractions' : 'Hide All Attractions'}
           </Button>
           <Button
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={() => setShowRestaurants(!showRestaurants)}
             style={{ margin: '2px',backgroundColor: '#06d6a0', color: '#ffffff',fontWeight: 'bold' }}
@@ -1174,7 +1174,7 @@ const handleDirectionsResponse = (response) => {
 
           <div style={{ maxWidth: "250px" }}>
             <LocationSearchInput
-              placeholder="Current location "
+              placeholder="Start point "
               value={originInput}
               onChange={setOriginInput}
               
@@ -1186,7 +1186,7 @@ const handleDirectionsResponse = (response) => {
             />
 
             <Button
-              variant="outlined"
+              variant="contained"
               size="small"
               onClick={handleToggleMarkers}
               disabled={!origin || !destination}
@@ -1195,7 +1195,7 @@ const handleDirectionsResponse = (response) => {
               Toggle Markers
             </Button>
             <Button
-              variant="outlined"
+              variant="contained"
               size="small"
               onClick={handleSearch}
               disabled={!origin || !destination}

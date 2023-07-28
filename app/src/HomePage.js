@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
+import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse ,} from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
@@ -284,11 +285,18 @@ function HomePage() {
       });
   }, []);
 
+
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
       <div>
         <div style={{ textAlign: 'center', marginTop: '6px' }}>
           <Carousel
+            autoPlay={true}
+            interval={5000}
+            infiniteLoop={true} // Keeps the carousel looping indefinitely
+            showStatus={false} // Hides the status indicator (e.g., slide x of y)
+            showThumbs={false} // Hides the thumbnail navigation
             selectedItem={activeSlide}
             onChange={setActiveSlide}
             renderIndicator={(onClickHandler, isSelected, index) => (
