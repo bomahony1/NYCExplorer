@@ -522,7 +522,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         return "Error in getting weather: " + str(e), 404
     
     # Need to get points to plot 
-    with open('heat_map_points.json', 'r') as file:
+    with open('api/heat_map_points.json', 'r') as file:
         heat_points = json.load(file)
     heat_data = {}
 
@@ -546,11 +546,18 @@ def get_heat_map(hour: float, day: float, month:float = 8):
              except:
                   continue
 
-        with open(f'pickles/zone_{zone}.pkl', 'rb') as file:
+        with open(f'api/pickles/zone_{zone}.pkl', 'rb') as file:
             model = pickle.load(file)
 
         coordinate = (i[0], i[1])
         feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
         prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
         heat_data[coordinate] = model.predict(prediction_data_df)[0]
-    return heat_data
+        heat_data_str_keys = {}
+        for coordinate, value in heat_data.items():
+            # Convert coordinate tuple to string key
+            str_coordinate = ",".join(str(coord) for coord in coordinate)
+            heat_data_str_keys[str_coordinate] = value
+
+    return heat_data_str_keys
+    
