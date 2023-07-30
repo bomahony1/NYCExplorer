@@ -1120,8 +1120,6 @@ const handleDirectionsResponse = (response) => {
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
   };
-  
-
 
 
   return (
@@ -1254,7 +1252,6 @@ const handleDirectionsResponse = (response) => {
       />
       {/* Rest of your MapPage component */}
     </div>
-        
         <div style={{ height: '750px', flex: "2" }}>
     
           {!isLoaded ? (
