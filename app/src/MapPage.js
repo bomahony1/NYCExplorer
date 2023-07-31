@@ -1120,8 +1120,16 @@ const handleDirectionsResponse = (response) => {
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
   };
-  
-
+  // Define the custom gradient colors for different weight ranges
+const heatmapGradient = [
+  'rgba(220, 218, 216, 0)',   // Weight 0: Transparent (#dcdad8)
+  'rgba(180, 223, 187, 1)', // Weight 1-60: Light green (#b4dfbb)
+  'rgba(216, 209, 224, 1)', // Weight 61-150: Light purple (#d8d1e0)
+  'rgba(246, 244, 198, 1)', // Weight 151-300: Light yellow (#f6f4c6)
+  'rgba(246, 217, 190,1)', // Weight 301-450: Light orange (#f6d9be)
+  'rgba(158, 185, 215, 1)', // Weight 451-600: Light blue (#9eb9d7)
+  'rgba(253, 136, 194, 1)', // Weight > 600: Light pink (#fd88c2)
+];
 
 
   return (
@@ -1141,7 +1149,13 @@ const handleDirectionsResponse = (response) => {
             <strong>Loading weather data...</strong>
           )}
         </div>
-       
+          {/*heat map */}
+      <Heatmap
+        onHeatmapDataReceived={handleHeatmapDataReceived}
+        heatmapVisible={heatmapVisible}
+        onToggleHeatmap={handleToggleHeatmap}
+      />
+  
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
        variant="contained"
@@ -1246,15 +1260,8 @@ const handleDirectionsResponse = (response) => {
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         </div>
         <div>
-      {/* Other components */}
-      <Heatmap
-        onHeatmapDataReceived={handleHeatmapDataReceived}
-        heatmapVisible={heatmapVisible}
-        onToggleHeatmap={handleToggleHeatmap}
-      />
-      {/* Rest of your MapPage component */}
+    
     </div>
-        
         <div style={{ height: '750px', flex: "2" }}>
     
           {!isLoaded ? (
@@ -1303,6 +1310,9 @@ const handleDirectionsResponse = (response) => {
                location: new window.google.maps.LatLng(data.lat, data.lng),
                weight: data.weight,
              }))}
+             options={{
+              gradient: heatmapGradient,
+            }}
            />
           )}
             {showMarkers && markers

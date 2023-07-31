@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
+import { Button} from '@mui/material';
 
 const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [lastSelectedDate, setLastSelectedDate] = useState(null);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -16,12 +18,22 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
       return;
     }
     
-    // Fetch heatmap data for the selected date
-    fetchHeatmapData(selectedDate);
-
+    if (selectedDate !== lastSelectedDate) {
+        // Fetch heatmap data for the selected date
+        fetchHeatmapData(selectedDate);
+  
+        // Update the last selected date
+        setLastSelectedDate(selectedDate);
+      }
     // Toggle heatmap visibility
     onToggleHeatmap();
   };
+
+  useEffect(() => {
+    if (!heatmapVisible) {
+      setLastSelectedDate(null);
+    }
+  }, [heatmapVisible]);
 
   const fetchHeatmapData = (selectedDate) => {
     // Format the selected date to match the API's query string format
@@ -53,20 +65,31 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
       });
   };
 
+  
+
   return (
-    <div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <div style={{ marginTop: '20px',clor:"#1C2541"}}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} >
         <DateTimePicker
-          label="Select month, day, and hour"
+          label="Select month,day,hour"
           value={selectedDate}
           onChange={handleDateChange}
           renderInput={(params) => <TextField {...params} />}
           ampm={false} // Use 24-hour format
           minutes={false} // Hide the minutes component
           seconds={false} // Hide the seconds component
+          
         />
       </LocalizationProvider>
-      <button onClick={handleSubmit}>Predict Busyness</button>
+      <Button
+              variant="contained"
+              size="media"
+              onClick={handleSubmit}
+              style={{ marginTop: '20px',backgroundColor: '#E0d5ec', color: '#ffffff' ,fontWeight: 'bold'}}
+            >
+            {heatmapVisible ? 'Hide Heatmap' : 'Predict Busyness'}
+        </Button>
+ 
     </div>
   );
 };
