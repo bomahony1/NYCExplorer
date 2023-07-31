@@ -7,6 +7,7 @@ import { Button} from '@mui/material';
 const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [lastSelectedDate, setLastSelectedDate] = useState(null);
+  
 
   const handleDateChange = (date) => {
     setSelectedDate(date);

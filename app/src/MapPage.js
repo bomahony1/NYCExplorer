@@ -69,7 +69,7 @@ function DateRangePickerDialog({ handleSelect }) {
   };
 
   return (
-    <div>
+    <div>   
        <Button
               variant="outlined"
               size="media"
@@ -85,6 +85,7 @@ function DateRangePickerDialog({ handleSelect }) {
             >
               Date Range Picker
             </Button>
+            {/* <Divider style={{border: '1px solid white',marginTop:"6px"}} /> */}
     
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Select Date Range</DialogTitle>
@@ -161,8 +162,9 @@ function TemporaryDrawer({tmp}) {
 
       return (
         <>
-          <h3>Selected Date Range</h3>
-          <p>{`${start} - ${end}`}</p>
+     
+          {/* <h3>Selected Date Range</h3> */}
+          <h3>{`${start} - ${end}`}</h3>
           {dateContent}
         </>
       );
@@ -172,18 +174,17 @@ function TemporaryDrawer({tmp}) {
   };
 
   return (
-    <div>
+    <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
       {isDrawerOpen && (
-        <div style={{ display: 'flex' }}>
-
-          <div style={{ width: '60%', height: '100%', background: 'white' }}>
+        <div style={{ display: 'flex'}}>
+          <div style={{background: 'white',border: '1px solid #1C2541', height:"100%", width: '100%', }}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
               variant="outlined"
-              size="large"
+              size="media"
               onClick={toggleWindow}
-              endIcon={<OpenInNewIcon  sx={{ fontSize: 26,}}/>}
+              endIcon={<OpenInNewIcon  sx={{ fontSize: 28,}}/>}
               style={{ margin: '10px',backgroundColor: '#1C2541', color: '#ffffff',fontWeight: 'bold' }}
             >
               Open Day Planner
@@ -194,8 +195,8 @@ function TemporaryDrawer({tmp}) {
           {isWindowOpen && (
             <div
               style={{
-                width: '300px',
-                marginLeft: '10px',
+                width: '90%',
+                border: '1px solid #1C2541',
                 background: '#1C2541',
                 color:"#ffffff",
               }}
@@ -478,7 +479,7 @@ function TemporaryDrawer({tmp}) {
                 />
               }
             >
-              <Typography>Attractions</Typography>
+              <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Attractions</Typography>
               <div
                 className="label-circle"
                 style={{ backgroundColor: attractionsChecked ? '#fdffb6' : 'transparent' }}
@@ -556,7 +557,7 @@ function TemporaryDrawer({tmp}) {
               />
             }
             >
-            <Typography>Restaurants</Typography>
+            <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Restaurants</Typography>
             <div
               className="label-circle"
               style={{ backgroundColor: restaurantsChecked ? '#06d6a0' : 'transparent' }}
@@ -633,7 +634,7 @@ function TemporaryDrawer({tmp}) {
             />
           }
         >
-          <Typography>Hotels</Typography>
+          <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Hotels</Typography>
           <div
             className="label-circle"
             style={{ backgroundColor: hotelsChecked ? '#ff6b35' : 'transparent' }}
@@ -1255,14 +1256,14 @@ const heatmapGradient = [
         </div>
         </Draggable>
       </div>
-      <div style={{ display: "flex", height: "750px" }}>
-        <div style={{ flex: 1 }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1.6,height:"750px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         </div>
         <div>
     
     </div>
-        <div style={{ height: '750px', flex: "2" }}>
+        <div style={{ height: '750px', flex: "3" }}>
     
           {!isLoaded ? (
             <div>Loading...</div>
