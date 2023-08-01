@@ -453,12 +453,12 @@ def is_point_inside_polygon(point, polygon_coords):
         point = Point(point)
         return polygon.contains(point)
 
-def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float, heatmap: bool = False) -> float:
+def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
     """Returns prediction of busyness in Area."""
 
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
-        with open('api/taxi_zones.json', 'r') as file:
+        with open('taxi_zones.json', 'r') as file:
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
@@ -468,40 +468,47 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
                   continue
         return zone
     
-    def get_weather():
-        """Get weather for API call."""
-        try:
-            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
-            # Need to get Temperature, Wind Speed, Wind direction, Clouds 
-            text = requests.get(WEATHERAPI).text
-            forecast = json.loads(text)['list']
-            for i in forecast:
-                temp = i['main']['temp']
-                humidity = i['main']['humidity']
-                wind_speed = i['wind']['speed']
-                pressure = i['main']['pressure']
-                # Don't think this is in forecast
-                # Will double check then remove if necessary 
-                precipitation = 0 
-                weather = [temp, humidity, wind_speed, pressure, precipitation]
-                return weather
-        
-        # Bill will need you to help with correct error handling
-        except Exception as e:
-            weather = [283.5, 43, 2.28, 1012, 0]
-            return weather
+    if day < 5:
+        is_weekday, is_weekend = 1, 0
+    else:
+        is_weekday, is_weekend = 0, 1
+    
+    try:
+        WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+        # Need to get Temperature, Wind Speed, Wind direction, Clouds 
+        text = requests.get(WEATHERAPI).text
+        forecast = json.loads(text)['list']
+        for i in forecast:
+            temp = i['main']['temp']
+            humidity = i['main']['humidity']
+            wind_speed = i['wind']['speed']
+            pressure = i['main']['pressure']
+            # Don't think this is in forecast
+            # Will double check then remove if necessary 
+            precipitation = 0 
+    
+    # Bill will need you to help with correct error handling
+    except Exception as e:
+        temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
     zone = get_location_id(latitude, longitude)    
-    with open(f'api/pickles/zone_{zone}.pkl', 'rb') as file:
+    with open('xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
-    prediction_data = list(get_weather())
-    prediction_data += list([day, month, hour])
-    prediction_data = [prediction_data]
-    prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
+    prediction_data = pd.DataFrame({
+        'Hour': [hour],
+        'is_weekday': [is_weekday],
+        'is_weekend': [is_weekend],
+        'PULocationID': [0],
+        'Temperature': [temp],
+        'Precip.': [precipitation],
+        'Pressure': [pressure],
+        'Wind Speed': [wind_speed],
+        'Humidity': [humidity],
+        'Month': [month]
+    })
 
-    prediction_data = model.predict(prediction_data_df)
+    prediction_data = model.predict(prediction_data)
     return prediction_data[0]
 
 def get_heat_map(hour: float, day: float, month:float = 8):
@@ -525,14 +532,10 @@ def get_heat_map(hour: float, day: float, month:float = 8):
             wind_speed = i['wind']['speed']
             pressure = i['main']['pressure']
             precipitation = 0 
-            weather = [temp, humidity, wind_speed, pressure, precipitation]
     except Exception as e:
         weather = [283.5, 43, 2.28, 1012, 0]
         return weather
     
-
-
-    weather += [day, month, hour]
     prediction_data = pd.DataFrame({
         'Hour': [hour],
         'is_weekday': [is_weekday],
