@@ -1,31 +1,35 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
-import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript,Polygon} from "@react-google-maps/api";
+import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { Dialog, DialogTitle, DialogContent,Paper,Button, Box, Link} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { libraries } from './libraries'; 
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
 import Autosuggest from 'react-autosuggest';
 import './MapPage.css';
-import { useDrag } from 'react-dnd';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DeleteIcon from '@mui/icons-material/Delete';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import Draggable from 'react-draggable';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
+import Heatmap from './Heatmap'; 
+import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
 };
-
-
 
 
 function DateRangePickerComponent({ handleSelect }) {
@@ -65,8 +69,24 @@ function DateRangePickerDialog({ handleSelect }) {
   };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Open Date Range Picker</Button>
+    <div>   
+       <Button
+              variant="outlined"
+              size="media"
+              onClick={handleOpen}
+              startIcon={<CalendarMonthIcon />}
+              style={{
+                margin: '10px',
+                backgroundColor: '#1C2541',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                borderColor: '#ffffff',
+              }}
+            >
+              Date Range Picker
+            </Button>
+            {/* <Divider style={{border: '1px solid white',marginTop:"6px"}} /> */}
+    
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Select Date Range</DialogTitle>
         <DialogContent>
@@ -79,7 +99,7 @@ function DateRangePickerDialog({ handleSelect }) {
   );
 }
 
-function TemporaryDrawer() {
+function TemporaryDrawer({tmp}) {
   const [isDrawerOpen, setDrawerOpen] = useState(true);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
@@ -100,17 +120,17 @@ function TemporaryDrawer() {
   };
   
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!isDrawerOpen);
-    setWindowOpen(false);
-  };
-
   const toggleWindow = () => {
     setWindowOpen(!isWindowOpen);
   };
 
   const handleSelectRange = (range) => {
     setSelectedRange(range);
+  };
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
+  const handleMarkerSelection = async (place) => {
+    await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
+    tmp([...selectedPlaces, place]);
   };
 
   const renderDateRangeContent = () => {
@@ -132,7 +152,7 @@ function TemporaryDrawer() {
             <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            style={{ background: "lightgrey", padding: "10px", marginTop: "10px" }}
+            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" }}
           >
             Drag a place here to add it
           </div>
@@ -142,8 +162,9 @@ function TemporaryDrawer() {
 
       return (
         <>
-          <h3>Selected Date Range</h3>
-          <p>{`${start} - ${end}`}</p>
+     
+          {/* <h3>Selected Date Range</h3> */}
+          <h3>{`${start} - ${end}`}</h3>
           {dateContent}
         </>
       );
@@ -153,26 +174,34 @@ function TemporaryDrawer() {
   };
 
   return (
-    <div>
+    <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
       {isDrawerOpen && (
-        <div style={{ display: 'flex' }}>
-
-          <div style={{ width: '300px', background: 'white' }}>
-            <h3>New York Trip</h3>
+        <div style={{ display: 'flex'}}>
+          <div style={{background: 'white',border: '1px solid #1C2541', height:"100%", width: '100%', }}>
+            <h2>New York Trip</h2>
             <Divider />
-            <button onClick={toggleWindow}>Open Day Planner</button>
+            <Button
+              variant="outlined"
+              size="media"
+              onClick={toggleWindow}
+              endIcon={<OpenInNewIcon  sx={{ fontSize: 28,}}/>}
+              style={{ margin: '10px',backgroundColor: '#1C2541', color: '#ffffff',fontWeight: 'bold' }}
+            >
+              Open Day Planner
+            </Button>
             <Divider />
-            <CustomizedAccordions />
+            <CustomizedAccordions onMarkerSelect={handleMarkerSelection} />
           </div>
           {isWindowOpen && (
             <div
               style={{
-                width: '300px',
-                marginLeft: '10px',
-                background: 'lightblue',
+                width: '90%',
+                border: '1px solid #1C2541',
+                background: '#1C2541',
+                color:"#ffffff",
               }}
             >
-              Itinerary
+             <h2> Itinerary</h2>
               <DateRangePickerDialog handleSelect={handleSelectRange} />
               <div>{renderDateRangeContent()}</div>
             </div>
@@ -182,8 +211,6 @@ function TemporaryDrawer() {
     </div>
   );
 }
-
-
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -219,7 +246,7 @@ function TemporaryDrawer() {
   }));
 
  
-  function CustomizedAccordions() {
+  function CustomizedAccordions({ onMarkerSelect }) {
     const [expanded, setExpanded] = useState('attractions');
     const [attractions, setAttractions] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
@@ -234,9 +261,7 @@ function TemporaryDrawer() {
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
-
-
-    
+   
 
     
     useEffect(() => {
@@ -256,6 +281,8 @@ function TemporaryDrawer() {
         .catch((error) => console.error(error));
 
     }, []);
+
+    
 
 
     const getHotelSuggestions = (inputValue) => {
@@ -352,6 +379,8 @@ function TemporaryDrawer() {
         setHotelValue(newValue);
       }
     };
+
+  
   
     const handleSelectSuggestion = (suggestion, section) => {
       if (section === 'attractions') {
@@ -359,12 +388,15 @@ function TemporaryDrawer() {
         if (!isAlreadySelected) {
           setSelectedAttractions((prevAttractions) => [...prevAttractions, suggestion]);
           setAttractionValue('');
+          onMarkerSelect(suggestion);
         }
+
       } else if (section === 'restaurants') {
         const isAlreadySelected = selectedRestaurants.some((restaurant) => restaurant.name === suggestion.name);
         if (!isAlreadySelected) {
           setSelectedRestaurants((prevRestaurants) => [...prevRestaurants, suggestion]);
           setRestaurantValue('');
+          onMarkerSelect(suggestion);
         }
       }
 
@@ -373,6 +405,7 @@ function TemporaryDrawer() {
         if (!isAlreadySelected) {
           setSelectedHotels((prevHotels) => [...prevHotels, suggestion]);
           setHotelValue('');
+          onMarkerSelect(suggestion);
         }
       }
 
@@ -402,11 +435,39 @@ function TemporaryDrawer() {
       onChange: handleInputChange('restaurants'),
     };
 
+    
+
     const hotelInputProps = { // New input props for hotel
       placeholder: 'Search hotels',
       value: hotelValue,
       onChange: handleInputChange('hotels'),
     };
+    const getOpeningHoursForToday = (attraction) => {
+      const today = new Date().getDay();
+      if (
+        attraction.opening_hours &&
+        attraction.opening_hours.opening_hours &&
+        attraction.opening_hours.opening_hours.periods
+      ) {
+        const openingHoursForToday = attraction.opening_hours.opening_hours.periods.find(
+          (period) => period.open.day === today
+        );
+        return openingHoursForToday;
+      }
+      return null;
+    };
+  
+    const formatTime = (time) => {
+      const hours = parseInt(time.slice(0, 2), 10);
+      const minutes = time.slice(2);
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12;
+      return `${formattedHours}:${minutes} ${ampm}`;
+    };
+
+
+  
+
   
     return (
       <div>
@@ -422,7 +483,7 @@ function TemporaryDrawer() {
                 />
               }
             >
-              <Typography>Attractions</Typography>
+              <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Attractions</Typography>
               <div
                 className="label-circle"
                 style={{ backgroundColor: attractionsChecked ? '#fdffb6' : 'transparent' }}
@@ -444,7 +505,7 @@ function TemporaryDrawer() {
             />
           </AccordionDetails>
         </Accordion>
-        <div className='itin-attraction'>
+        <div >
           {selectedAttractions.map((attraction, index) => (
             <div key={index} className="attraction-item">
               <div className="attraction-name">{attraction.name}</div>
@@ -452,7 +513,39 @@ function TemporaryDrawer() {
               <div className="photo-container">
                 <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
                 </div>
-                <div><button onClick={() => handleRemoveAttraction(index)}>Remove</button></div>
+                <div className="opening-hours">
+                  {attraction.opening_hours?.opening_hours ? (
+                    <>
+                      <h3>Opening Hours Today:</h3>
+                      {getOpeningHoursForToday(attraction) ? (
+                        <div>
+                          {formatTime(getOpeningHoursForToday(attraction).open.time)} –{' '}
+                          {formatTime(getOpeningHoursForToday(attraction).close.time)}
+                        </div>
+                      ) : (
+                        <div>No opening hours information available for today.</div>
+                      )}
+                      {attraction.opening_hours?.opening_hours.open_now !== undefined ? (
+                        <div>
+                          {attraction.opening_hours.open_now ? 'Currently Open' : 'Currently Closed'}
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div>No opening hours information available.</div>
+                  )}
+                </div>
+                <div>
+                <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveAttraction(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
+              </div>
             </div>
           ))}
         </div>
@@ -468,7 +561,7 @@ function TemporaryDrawer() {
               />
             }
             >
-            <Typography>Restaurants</Typography>
+            <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Restaurants</Typography>
             <div
               className="label-circle"
               style={{ backgroundColor: restaurantsChecked ? '#06d6a0' : 'transparent' }}
@@ -497,7 +590,39 @@ function TemporaryDrawer() {
               <div className="photo-container">
                 <img src={restaurant.photos[0]} alt={restaurant.name} className="restaurant-photo" />
                 </div>
-                <div><button onClick={() => handleRemoveRestaurant(index)}>Remove</button></div>
+                <div className="opening-hours">
+                  {restaurant.opening_hours?.opening_hours ? (
+                    <>
+                      <h3>Opening Hours Today:</h3>
+                      {getOpeningHoursForToday(restaurant) ? (
+                        <div>
+                          {formatTime(getOpeningHoursForToday(restaurant).open.time)} –{' '}
+                          {formatTime(getOpeningHoursForToday(restaurant).close.time)}
+                        </div>
+                      ) : (
+                        <div>No opening hours information available for today.</div>
+                      )}
+                      {restaurant.opening_hours?.opening_hours.open_now !== undefined ? (
+                        <div>
+                          {restaurant.opening_hours.open_now ? 'Currently Open' : 'Currently Closed'}
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div>No opening hours information available.</div>
+                  )}
+                </div>
+                <div>
+                <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveRestaurant(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
+                </div>
             </div>
           ))}
         </div>
@@ -513,7 +638,7 @@ function TemporaryDrawer() {
             />
           }
         >
-          <Typography>Hotels</Typography>
+          <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Hotels</Typography>
           <div
             className="label-circle"
             style={{ backgroundColor: hotelsChecked ? '#ff6b35' : 'transparent' }}
@@ -543,7 +668,15 @@ function TemporaryDrawer() {
               <img src={hotel.photos[0]} alt={hotel.name} className="hotel-photo" />
             </div>
             <div>
-              <button onClick={() => handleRemoveHotel(index)}>Remove</button>
+            <Button
+                variant="text"
+                  size="small"
+                  onClick={() => handleRemoveHotel(index)}
+                  startIcon={<DeleteIcon />}
+                  style={{ margin: '10px', color: '#1C2541',fontWeight: 'bold' }}
+                >
+              Remove
+              </Button>
             </div>
           </div>
         ))}
@@ -552,19 +685,13 @@ function TemporaryDrawer() {
     );
   }
   
-  
-  
-  
-  
-  
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha('#3f5a68', 0.15),
+  backgroundColor: alpha('#1a659e', 0.05),
   '&:hover': {
-    backgroundColor: alpha('#3f5a68', 0.25),
+    backgroundColor: alpha('#1a659e', 0.15),
   },
   marginLeft: 0,
   marginTop: 10,
@@ -586,7 +713,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: '#477b96',
+  color: '#1a659e',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 2),
     paddingLeft: theme.spacing(6),
@@ -601,9 +728,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const searchOptions = {
+  componentRestrictions: { country: ['us'] }
+}
+
 function LocationSearchInput({ placeholder, value, onChange }) {
   return (
-    <PlacesAutocomplete value={value} onChange={onChange}>
+    <PlacesAutocomplete
+      searchOptions={searchOptions}
+      value={value}
+      onChange={onChange}
+      options={{}}
+    >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <Search>
           <SearchIconWrapper>
@@ -615,6 +751,7 @@ function LocationSearchInput({ placeholder, value, onChange }) {
               className: 'location-search-input',
             })}
             inputProps={{ 'aria-label': 'search' }}
+            style={{width: "100%",Maxwidth:" 100px"}}
           />
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
@@ -637,7 +774,7 @@ function MapPage() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: MAPS_API_KEY,
-    libraries: ['places'],
+    libraries: libraries,
   });
 
   const center = useMemo(() => ({ lat: 40.7484, lng: -73.9857 }), []);
@@ -651,161 +788,68 @@ function MapPage() {
   const [showMarkers, setShowMarkers] = useState(true);
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState([]);
+  const [showAttractions, setShowAttractions] = useState(false);
+  const [showRestaurants, setShowRestaurants] = useState(false);
+  const [showHotels, setShowHotels] = useState(false);
+  const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
+  const draggableRef = useRef(null);
+  const [heatmapData, setHeatmapData] = useState([]);
 
 
-useEffect(() => {
-  if (isLoaded) {
-    fetch('http://127.0.0.1:8000/api/googleAttractions/')
-      .then((response) => response.json())
-      .then((data) => {
-        const newMarkers = data.map((attraction) => ({
-          id: attraction.name,
-          position: {
-            lat: attraction.latitude,
-            lng: attraction.longitude,
-          },
-          title: attraction.name,
-          info: {
-            address: attraction.address,
-            rating: attraction.rating,
-            photos: attraction.photos,
-          },
-          options: {
-            icon: {
-              path: window.google.maps.SymbolPath.CIRCLE,
-              fillColor: '#efefd0', // Color for restaurants  黄
-              fillOpacity: 0.7,
-              strokeColor: 'white',
-              strokeWeight: 1,
-              scale: 8,
-            },
-          },
-        }));
-        setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-      })
-      .catch((error) => {
-        console.error(error);
-        setMarkers([]); // Clear markers if there's an error
-      });
+
+  const handleMarkerSelection = (place) => {
+    setSelectedPlace((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
+    console.log('Updating Selected Place:', place);
+  };
+
+  const tmp = (place) => {
+    setSelectedPlace(place);
   }
-}, [isLoaded]);
 
 
-// fetch hotel data
-    // useEffect(() => {
-    //   if (isLoaded) {
-    //     fetch('http://127.0.0.1:8000/api/hotels/')
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         const newMarkers = data.results.map((hotel) => ({
-    //           id: hotel.fsq_id,
-    //           position: {
-    //             lat: hotel.geocodes.main.latitude,
-    //             lng: hotel.geocodes.main.longitude,
-    //           },
-    //           title: hotel.name,
-    //           info: {
-    //             categories: hotel.categories,
-    //             address: hotel.location.address,
-    //             link: hotel.link,
-    //           },
-    //           options: {
-    //             icon: {
-    //               path: window.google.maps.SymbolPath.CIRCLE,
-    //               fillColor: '#efefd0', // Color for hotels
-    //               fillOpacity: 0.7,
-    //               strokeColor: 'white',
-    //               strokeWeight: 1,
-    //               scale: 8,
-    //             },
-    //           },
-    //         }));
-    //         setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //         setMarkers([]); // Clear markers if there's an error
-    //       });
-    //   }
-    // }, [isLoaded]);
 
-    useEffect(() => {
-      if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/googleHotels')
-          .then((response) => response.json())
-          .then((data) => {
-            const newMarkers = data.map((hotel) => ({
-              id: hotel.name,
-              position: {
-                lat: hotel.latitude,
-                lng: hotel.longitude,
-              },
-              title: hotel.name,
-              info: {
-                address: hotel.address,
-                rating: hotel.rating,
-                 photos: hotel.photos,
-              },
-              options: {
-                icon: {
-                  path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#ff6b35', // Set the desired color for Google restaurants 橘
-                  fillOpacity: 0.9,
-                  strokeColor: 'white',
-                  strokeWeight: 1,
-                  scale: 8,
-                },
-              },
-            }));
-            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setMarkers([]); // Clear markers if there's an error
-          });
-      }
-    }, [isLoaded]);
+  useEffect(() => {
+    // Add markers on Google Map when selectedPlace changes
+    if (selectedPlace && selectedPlace.length > 0) {
+      const newMarkers = selectedPlace.map((place) => ({
+        id: place.id,
+        position: {
+          lat: Number(place.latitude),
+          lng: Number(place.longitude),
+        },
+        title: place.name,
+        info: {
+          address: place.address,
+          rating: place.rating,
+          photos: place.photos,
+        },
+        animation: window.google.maps.Animation.DROP,
+        options: {
+          icon: {
+            path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+            fillColor: "#1a659e",
+            fillOpacity: 1,
+            strokeWeight: 0,
+            rotation: 0,
+            scale: 2,
+            anchor: new window.google.maps.Point(0, 20),
+           
+          },
+        },
+      }));
+  
+      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+    }
+  }, [selectedPlace]);
+  
 
-    // fetch googleRestaurants data
-    useEffect(() => {
-      if (isLoaded) {
-        fetch('http://127.0.0.1:8000/api/googleRestaurants/')
-          .then((response) => response.json())
-          .then((data) => {
-            const newMarkers = data.map((restaurant) => ({
-              id: restaurant.name,
-              position: {
-                lat: restaurant.latitude,
-                lng: restaurant.longitude,
-              },
-              title: restaurant.name,
-              info: {
-                address: restaurant.address,
-                rating: restaurant.rating,
-                 photos: restaurant.photos,
-              },
-              options: {
-                icon: {
-                  path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#06d6a0', // Set the desired color for Google restaurants 绿
-                  fillOpacity: 0.6,
-                  strokeColor: 'white',
-                  strokeWeight: 1,
-                  scale: 8,
-                },
-              },
-            }));
-            setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-          })
-          .catch((error) => {
-            console.error(error);
-            setMarkers([]); // Clear markers if there's an error
-          });
-      }
-    }, [isLoaded]);
+  
 
-    //  fetch the  real time weather data
-    const [weatherData, setWeatherData] = useState(null);
+  useEffect(() => {
+    setSelectedPlace(selectedPlace);
+  }, [selectedPlace]);
 
   useEffect(() => {
     // Fetch weather data from the API
@@ -815,73 +859,178 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 
-  function getImageUrl(weatherType) {
-    if (weatherType === "Thunderstorm") {
-      return "https://openweathermap.org/img/wn/11d@2x.png";
-    } else if (weatherType === "Drizzle") {
-      return "https://openweathermap.org/img/wn/09d@2x.png";
-    } else if (weatherType === "Rain") {
-      return "https://openweathermap.org/img/wn/10d@2x.png";
-    } else if (weatherType === "Snow") {
-      return "https://openweathermap.org/img/wn/13d@2x.png";
-    } else if (weatherType === "Clear") {
-      return "https://openweathermap.org/img/wn/01d@2x.png";
-    } else if (weatherType === "Clouds") {
-      return "https://openweathermap.org/img/wn/02d@2x.png";
-    } else {
-      return "https://openweathermap.org/img/wn/50d@2x.png";
+
+
+  useEffect(() => {
+    if (isLoaded) {
+      Promise.all([
+        fetch('http://127.0.0.1:8000/api/googleAttractions/')
+          .then((response) => response.json()),
+        fetch('http://127.0.0.1:8000/api/googleHotels')
+          .then((response) => response.json()),
+        fetch('http://127.0.0.1:8000/api/googleRestaurants/')
+          .then((response) => response.json())
+      ])
+        .then(([attractionsData, hotelsData, restaurantsData]) => {
+          const attractionsMarkers = attractionsData.map((attraction) => ({
+            id: attraction.id,
+            position: {
+              lat: attraction.latitude,
+              lng: attraction.longitude,
+            },
+            title: attraction.name,
+            type: 'googleAttractions',
+            info: {
+              address: attraction.address,
+              rating: attraction.rating,
+              photos: attraction.photos,
+              open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+              close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#efefd0',
+                fillOpacity: 1,
+                strokeColor: '#ffffff',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+  
+          const hotelsMarkers = hotelsData.map((hotel) => ({
+            id: hotel.id,
+            position: {
+              lat: hotel.latitude,
+              lng: hotel.longitude,
+            },
+            title: hotel.name,
+            type: 'googleHotels',
+            info: {
+              address: hotel.address,
+              rating: hotel.rating,
+              photos: hotel.photos,
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#ff6b35',
+                fillOpacity: 0.7,
+                strokeColor: 'white',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+  
+          const restaurantsMarkers = restaurantsData.map((restaurant) => ({
+            id: restaurant.id,
+            position: {
+              lat: restaurant.latitude,
+              lng: restaurant.longitude,
+            },
+            title: restaurant.name,
+            type: 'googleRestaurants',
+            info: {
+              address: restaurant.address,
+              rating: restaurant.rating,
+              photos: restaurant.photos,
+              open: restaurant.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+              close: restaurant.opening_hours?.opening_hours?.periods[0]?.close?.time || '',
+            },
+            options: {
+              icon: {
+                path: window.google.maps.SymbolPath.CIRCLE,
+                fillColor: '#06d6a0',
+                fillOpacity: 0.6,
+                strokeColor: 'white',
+                strokeWeight: 1,
+                scale: 8,
+              },
+            },
+          }));
+  
+          const newMarkers = [...attractionsMarkers, ...hotelsMarkers, ...restaurantsMarkers];
+          setMarkers(newMarkers);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMarkers([]);
+        });
     }
-  }
+  }, [isLoaded]);
+  
+  const getImageUrl = (weatherType) => {
+    if (weatherType === 'Thunderstorm') {
+      return 'https://openweathermap.org/img/wn/11d@2x.png';
+    } else if (weatherType === 'Drizzle') {
+      return 'https://openweathermap.org/img/wn/09d@2x.png';
+    } else if (weatherType === 'Rain') {
+      return 'https://openweathermap.org/img/wn/10d@2x.png';
+    } else if (weatherType === 'Snow') {
+      return 'https://openweathermap.org/img/wn/13d@2x.png';
+    } else if (weatherType === 'Clear') {
+      return 'https://openweathermap.org/img/wn/01d@2x.png';
+    } else if (weatherType === 'Clouds') {
+      return 'https://openweathermap.org/img/wn/02d@2x.png';
+    } else {
+      return 'https://openweathermap.org/img/wn/50d@2x.png';
+    }
+  };
+
 
   const formattedDate = weatherData
-    ? new Date(weatherData.timestamp * 1000).toLocaleDateString()
-    : '';
+  ? new Date(weatherData.timestamp * 1000).toLocaleString('en-US', {
+      weekday: 'short',
+      day: '2-digit',
+      month: '2-digit',
+    })
+  : '';
 
-
-      useEffect(() => {
-        if (originInput) {
-          const handleSelect = async (value) => {
-            try {
-              const results = await geocodeByAddress(value, {
-                circle: {
-                  lat: center.lat,
-                  lng: center.lng,
-                  radius: 40000, // 40 km radius
-                },
-              });
-              const latLng = await getLatLng(results[0]);
-              setOrigin(latLng);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-
-          handleSelect(originInput);
+  useEffect(() => {
+    if (originInput) {
+      const handleSelect = async (value) => {
+        try {
+          const results = await geocodeByAddress(value, {
+            circle: {
+              lat: center.lat,
+              lng: center.lng,
+              radius: 40000, // 40 km radius
+            },
+          });
+          const latLng = await getLatLng(results[0]);
+          setOrigin(latLng);
+        } catch (error) {
+          console.log(error);
         }
-      }, [originInput]);
+      };
 
-      useEffect(() => {
-        if (destinationInput) {
-          const handleSelect = async (value) => {
-            try {
-              const results = await geocodeByAddress(value, {
-                circle: {
-                  lat: center.lat,
-                  lng: center.lng,
-                  radius: 40000, // 40 km radius
-                },
-              });
-              const latLng = await getLatLng(results[0]);
-              setDestination(latLng);
-            } catch (error) {
-              console.log(error);
-            }
-          };
+      handleSelect(originInput);
+    }
+  }, [originInput]);
 
-          handleSelect(destinationInput);
+  useEffect(() => {
+    if (destinationInput) {
+      const handleSelect = async (value) => {
+        try {
+          const results = await geocodeByAddress(value, {
+            circle: {
+              lat: center.lat,
+              lng: center.lng,
+              radius: 40000, // 40 km radius
+            },
+          });
+          const latLng = await getLatLng(results[0]);
+          setDestination(latLng);
+        } catch (error) {
+          console.log(error);
         }
-      }, [destinationInput]);
+      };
 
+      handleSelect(destinationInput);
+    }
+  }, [destinationInput]);
 
   const handleMarkerClick = (marker) => {
     if (origin === null) {
@@ -890,19 +1039,18 @@ useEffect(() => {
       setDestination(marker.position);
     }
     setSelectedMarker(marker);
+    
   };
 
   const handleInfoWindowClose = () => {
     setSelectedMarker(null);
-    setOrigin(null);
-    setDestination(null);
-    setDirections(null);
+    
   };
-
-  const handleDirectionsResponse = (response) => {
+  
+const handleDirectionsResponse = (response) => {
     if (response !== null) {
       setDirections(response);
-  
+
       const leg = response.routes[0]?.legs[0];
       if (leg) {
         setDistance(leg.distance?.text || '');
@@ -913,17 +1061,10 @@ useEffect(() => {
       }
     }
   };
-
   const handleSearch = () => {
     if (origin && destination) {
-      setShowMarkers(false);
-      handleSearchii();
-    }
-  };
-
-  const handleSearchii = () => {
-    if (origin && destination) {
-      setShowMarkers(false);
+      // Clear the previous directions before performing a new search
+      setDirections(null);
   
       // Perform routing using DirectionsService
       const directionsService = new window.google.maps.DirectionsService();
@@ -931,11 +1072,20 @@ useEffect(() => {
         {
           origin: origin,
           destination: destination,
-          travelMode: 'DRIVING',
+          travelMode: modeOfTransport, // Use the selected mode of transport
         },
         (response, status) => {
           if (status === 'OK') {
+            // Set the directions in the state
             setDirections(response);
+            const leg = response.routes[0]?.legs[0];
+            if (leg) {
+              setDistance(leg.distance?.text || '');
+              setDuration(leg.duration?.text || '');
+            } else {
+              setDistance('');
+              setDuration('');
+            }
           } else {
             console.error('Error:', status);
           }
@@ -943,120 +1093,408 @@ useEffect(() => {
       );
     }
   };
+  
+
+  const handleToggleMarkers = () => {
+    setShowMarkers((prevShowMarkers) => !prevShowMarkers);
+    setShowAttractions(false);
+    setShowRestaurants(false);
+    setShowHotels(false);
+    // If markers are hidden, reset the manuallyAddedMarkers to an empty array
+  if (!showMarkers) {
+    setManuallyAddedMarkers([]);
+  } else {
+    // If markers are shown, add the manually added markers to the state
+    setMarkers((prevMarkers) => [...prevMarkers, ...manuallyAddedMarkers]);
+  }
+  };
+  
+  const [modeOfTransport, setModeOfTransport] = useState('DRIVING');
+
+  const handleModeOfTransportChange = (event) => {
+    setModeOfTransport(event.target.value);
+  };
 
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
+
+  const handleHeatmapDataReceived = (data) => {
+    setHeatmapData(data);
+  };
+  const [heatmapVisible, setHeatmapVisible] = useState(false);
+  const handleToggleHeatmap = () => {
+    setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
+  };
+  // Define the custom gradient colors for different weight ranges
+const heatmapGradient = [
+  'rgba(220, 218, 216, 0)',   // Weight 0: Transparent (#dcdad8)
+  'rgba(180, 223, 187, 1)', // Weight 1-60: Light green (#b4dfbb)
+  'rgba(216, 209, 224, 1)', // Weight 61-150: Light purple (#d8d1e0)
+  'rgba(246, 244, 198, 1)', // Weight 151-300: Light yellow (#f6f4c6)
+  'rgba(246, 217, 190,1)', // Weight 301-450: Light orange (#f6d9be)
+  'rgba(158, 185, 215, 1)', // Weight 451-600: Light blue (#9eb9d7)
+  'rgba(253, 136, 194, 1)', // Weight > 600: Light pink (#fd88c2)
+];
+
+
+const [showPolygons, setShowPolygons] = useState(true);
+
+const handleTogglePolygons = () => {
+  setShowPolygons((prevShowPolygons) => !prevShowPolygons);
+};
+
+const polygons = zonesData.zones.map((zoneData) => ({
+  zoneNumber: zoneData.zoneNumber,
+  coordinates: zoneData.coordinates.map(([lat, lng]) => ({ lat, lng })),
+}));
+
+
+
   return (
+    
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
-    <div className='fixed-box'>   
-    <div id="info01">
-      <div>
-      {weatherData ? (
-        <div>
-          <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
-          <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
+      <div className='fixed-box'>
+      <Draggable nodeRef={draggableRef}>
+      <div id="info01" style={{ cursor: 'move' }} ref={draggableRef}>
+        <div className="weather-data">
+          {weatherData ? (
+            <div>
+              <img src={getImageUrl(weatherData.main_weather)} alt={weatherData.main_weather} />
+              <div>
+              <strong>{formattedDate}: {weatherData.main_weather}, {Math.round(weatherData.temperature - 273.15)}°C</strong>
+            </div></div>
+          ) : (
+            <strong>Loading weather data...</strong>
+          )}
         </div>
-      ) : (
-        <strong>Loading weather data...</strong>
-      )}
-    </div>
-      <div style={{maxWidth:"200px"}}>
-        <LocationSearchInput
-          placeholder="Current location "
-          value={originInput}
-          onChange={setOriginInput}
-          
-        />
-        <LocationSearchInput 
-          placeholder="Destination "
-          value={destinationInput}
-          onChange={setDestinationInput}
-         
-        />
-
-        <Button 
-          variant="outlined" 
-          size="medium" 
-          onClick={handleSearch} 
-          disabled={!origin || !destination} 
-          style={{ marginTop: '20px' }}
-        >
-          Toggle Markers
+          {/*heat map */}
+      <Heatmap
+        onHeatmapDataReceived={handleHeatmapDataReceived}
+        heatmapVisible={heatmapVisible}
+        onToggleHeatmap={handleToggleHeatmap}
+      />
+       <button onClick={handleTogglePolygons}>
+        {showPolygons ? 'Hide Polygons' : 'Show Polygons'}
+      </button>
+  
+        <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
+        <Button
+       variant="contained"
+        size="small"
+        onClick={handleToggleMarkers}
+        style={{ margin: '2px',backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
+      >
+        {showMarkers ? 'Show Select Plan' : 'Hide Select Plan'}
         </Button>
-        <Button 
-          variant="outlined" 
-          size="medium" 
-          onClick={handleSearchii} 
-          disabled={!origin || !destination} 
-          style={{ marginTop: '20px' }}
-        >
-          Search
-        </Button>
-      </div>
-      {origin && destination && !directions &&  (
-        <div style={{ marginTop: '20px' }}>
-          <p>Distance: {distanceText}</p>
-          <p>Time to walk: {durationText}</p>
-        </div>
-      )}
-      </div>
-      </div>
-      <div style={{display:"flex",height:"750px"}}>
-      <div style={{flex:1}}>
-     <TemporaryDrawer />
-    </div>
 
-      {/* map div */}
-      <div style={{ height: '750px' ,flex:"2"}}>
-        {!isLoaded ? (
-          <div>Loading...</div>
-        ) : (
-          <GoogleMap
-            mapContainerStyle={{ height: '100%' }}
-            center={center}
-            zoom={13}
-            mapId="MAPS_API_KEY"
-            options={{
-              styles: [
-                {
-                  featureType: 'all',
-                  stylers: [
-                    { saturation: 0 },
-                    { hue: '#e3f2fd' },
-                  ],
-                },
-                {
-                  featureType: 'road',
-                  stylers: [{ saturation: -70 }],
-                },
-                {
-                  featureType: 'transit',
-                  stylers: [{ visibility: 'off' }],
-                },
-                {
-                  featureType: 'poi',
-                  stylers: [{ visibility: 'off' }],
-                },
-                {
-                  featureType: 'water',
-                  stylers: [
-                    { visibility: 'simplified' },
-                    { saturation: -60 },
-                  ],
-                },
-              ],
-            }}
+        <Button
+            variant="contained"
+            size="small"
+            onClick={() => setShowHotels(!showHotels)}
+            style={{ margin: '2px' ,backgroundColor: '#ff6b35', color: '#ffffff' ,fontWeight: 'bold'}}
           >
-            {origin && destination && !directions && showMarkers && (
-              <DirectionsService
+            {showHotels ? 'Show All Hotels' : 'Hide All Hotels'}
+           
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => setShowAttractions(!showAttractions)}
+            style={{ margin: '2px',backgroundColor: '#efefd0', color: '#ffffff' ,fontWeight: 'bold'}}
+          >
+             {showAttractions ? 'Show All Attractions' : 'Hide All Attractions'}
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => setShowRestaurants(!showRestaurants)}
+            style={{ margin: '2px',backgroundColor: '#06d6a0', color: '#ffffff',fontWeight: 'bold' }}
+          >
+              {showRestaurants ? 'Show All Restaurants' : 'Hide All Restaurants'}
+             
+          </Button>
+         
+          </div>
+
+          <div style={{ maxWidth: "250px" }}>
+            <LocationSearchInput
+              placeholder="Start point "
+              value={originInput}
+              onChange={setOriginInput}
+              
+            />
+            <LocationSearchInput
+              placeholder="Destination "
+              value={destinationInput}
+              onChange={setDestinationInput}
+            />
+
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleToggleMarkers}
+              disabled={!origin || !destination}
+              style={{ marginTop: '20px',marginRight:"20px",backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
+            >
+              Toggle Markers
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleSearch}
+              disabled={!origin || !destination}
+              style={{ marginTop: '20px',backgroundColor: '#1a659e', color: '#ffffff',fontWeight: 'bold' }}
+            >
+              Search
+            </Button>
+          </div>
+          <div style={{ margin: '25px,20px',display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' ,color:"#1C2541"}}>
+          <div style={{flex:1,marginRight: '20px'}}>
+            <FormControl variant="outlined" style={{marginLeft:"25px",marginTop:"20px",width:"98px" ,height:"60px"} }>
+                <InputLabel id="mode-of-transport-label">Transport Mode</InputLabel>
+                <Select
+                  labelId="mode-of-transport-label"
+                  id="mode-of-transport"
+                  value={modeOfTransport}
+                  onChange={handleModeOfTransportChange}
+                  label="Mode of Transport"
+                >
+                  <MenuItem value="DRIVING">Driving</MenuItem>
+                  <MenuItem value="WALKING">Walking</MenuItem>
+                  <MenuItem value="BICYCLING">Cycling</MenuItem>
+                  <MenuItem value="TRANSIT">Public Transport</MenuItem>
+                </Select>
+              </FormControl>
+              </div>
+          {origin && destination && directions && (
+            <div style={{marginLeft: '2px', textAlign: 'left',marginTop:"9px" }}>
+              <p>Distance: {distanceText}</p>
+              <p>Time: {durationText}</p>
+            </div>
+          )}
+        </div>
+        </div>
+        </Draggable>
+      </div>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1.6,height:"750px" }}>
+        <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
+        </div>
+        <div>
+    
+    </div>
+        <div style={{ height: '750px', flex: "3" }}>
+    
+          {!isLoaded ? (
+            <div>Loading...</div>
+          ) : (
+        
+            <GoogleMap
+              mapContainerStyle={{ height: '100%' }}
+              center={center}
+              zoom={13}
+              mapId="MAPS_API_KEY"
+              options={{
+                styles: [
+                  {
+                    featureType: 'all',
+                    stylers: [
+                      { saturation: 0 },
+                      { hue: '#e3f2fd' },
+                    ],
+                  },
+                  {
+                    featureType: 'road',
+                    stylers: [{ saturation: -70 }],
+                  },
+                  {
+                    featureType: 'transit',
+                    stylers: [{ visibility: 'off' }],
+                  },
+                  {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }],
+                  },
+                  {
+                    featureType: 'water',
+                    stylers: [
+                      { visibility: 'simplified' },
+                      { saturation: -60 },
+                    ],
+                  },
+                ],
+              }}
+            >
+            {heatmapVisible && heatmapData && (
+             <HeatmapLayer
+             data={heatmapData.map((data) => ({
+               location: new window.google.maps.LatLng(data.lat, data.lng),
+               weight: data.weight,
+             }))}
+             options={{
+              gradient: heatmapGradient,
+            }}
+           />
+          )}
+            {showMarkers && markers
+            .filter((marker) => !marker.type) 
+            .map((marker) => (
+              // Render all markers when showMarkers is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+                
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                   <div  className="custom-info-window" >
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+        {showPolygons &&
+            polygons.map((polygonData) => (
+              <Polygon
+                key={polygonData.zoneNumber}
+                paths={polygonData.coordinates}
                 options={{
-                  origin: origin,
-                  destination: destination,
-                  travelMode: 'DRIVING',
+                  fillColor: '#ff0000', // Replace with desired fill color for polygons
+                  fillOpacity: 0.4, // Adjust the opacity as needed
+                  strokeColor: '#ff0000', // Replace with desired stroke color for polygons
+                  strokeOpacity: 0.8, // Adjust the opacity as needed
+                  strokeWeight: 2, // Adjust the stroke width as needed
                 }}
-                callback={handleDirectionsResponse}
               />
-            )}
+            ))}
+
+            {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
+              // Render googleAttractions markers when showAttractions is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                    
+                  >
+                  <div  className="custom-info-window" >
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+            {showRestaurants && markers.filter((marker) => marker.type === 'googleRestaurants').map((marker) => (
+              // Render googleRestaurants markers when showRestaurants is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                   <div  className="custom-info-window" >
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
+            {showHotels && markers.filter((marker) => marker.type === 'googleHotels').map((marker) => (
+              // Render googleHotels markers when showHotels is true
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                title={marker.title}
+                onClick={() => handleMarkerClick(marker)}
+                options={marker.options}
+                animation={marker.animation}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow
+                    position={selectedMarker.position}
+                    onCloseClick={handleInfoWindowClose}
+                  >
+                  <div className="custom-info-window" >
+                        <h3>{selectedMarker.title}</h3>
+                        {selectedMarker.info && (
+                          <div>
+                            <p>Address: {selectedMarker.info.address}</p>
+                            <p>Rating: {selectedMarker.info.rating}</p>
+                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
+                              <img
+                                src={selectedMarker.info.photos[0]}
+                                alt={selectedMarker.title}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+
             {directions && (
               <DirectionsRenderer
                 options={{
@@ -1064,46 +1502,15 @@ useEffect(() => {
                 }}
               />
             )}
-            {showMarkers &&
-              markers.map((marker) => (
-                <Marker
-                  key={marker.id}
-                  position={marker.position}
-                  title={marker.title}
-                  onClick={() => handleMarkerClick(marker)}
-                  options={marker.options}
-                  
-                >
-                  {selectedMarker === marker && (
-                    <InfoWindow
-                      position={selectedMarker.position}
-                      onCloseClick={handleInfoWindowClose}
-                    >
-                         <div>
-                        <h3>{selectedMarker.title}</h3>
-                        {selectedMarker.info && ( // Add a check for the existence of info object
-                          <div>
-                            <p>Address: {selectedMarker.info.address}</p>
-                            <p>Rating: {selectedMarker.info.rating}</p>
-                            {selectedMarker.info.photos && selectedMarker.info.photos.length > 0 && (
-                              <img
-                                src={selectedMarker.info.photos[0]} // Display the first photo in the photos array
-                                alt={selectedMarker.title}
-                              />
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </InfoWindow>
-                  )}
-                </Marker>
-              ))}
           </GoogleMap>
+      
+
+         
         )}
       </div>
-      </div>
     </div>
-  );
-}
+  </div>
+);
+};
 
 export default MapPage;

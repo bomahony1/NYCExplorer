@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
+import { Button, CardActionArea, List, ListItemButton, ListItemText, ListSubheader, Collapse ,} from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
@@ -47,7 +48,7 @@ function NestedList({ attractions }) {
     >
       <ListItemButton onClick={handleClick1} sx={{ borderTop: '1px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 0 && attractions[0].name}</span>}
+          primary={<span style={{ fontWeight: 'bold',color: 'white', fontSize: '1.1rem' }}>{attractions.length > 0 && attractions[0].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open1 ? <ExpandLess /> : <ExpandMore />}
@@ -67,6 +68,11 @@ function NestedList({ attractions }) {
               )}
             </div>
             <div>
+            <div>
+              <b>Opening Hours:</b> {attractions.length > 0 &&(attractions[0].open)} AM - {attractions.length > 0 && (attractions[0].close)} PM
+            </div>
+            </div>
+            <div>
               <Button
                 size="small"
                 style={{ color: '#477696' }}
@@ -82,7 +88,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick2} sx={{ borderTop: '1.3px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 1 && attractions[1].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 1 && attractions[1].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open2 ? <ExpandLess /> : <ExpandMore />}
@@ -102,6 +108,9 @@ function NestedList({ attractions }) {
               )}
             </div>
             <div>
+              <b>Opening Hours:</b> {attractions.length > 1 &&(attractions[1].open)} AM - {attractions.length > 1 && (attractions[1].close)} PM
+            </div>
+            <div>
               <Button
                 size="small"
                 style={{ color: '#477696' }}
@@ -117,7 +126,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick3} sx={{ borderTop: '1.6px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 2 && attractions[2].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 2 && attractions[2].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open3 ? <ExpandLess /> : <ExpandMore />}
@@ -137,6 +146,9 @@ function NestedList({ attractions }) {
               )}
             </div>
             <div>
+              <b>Opening Hours:</b> {attractions.length > 2 &&(attractions[2].open)} AM - {attractions.length > 2 && (attractions[2].close)} PM
+            </div>
+            <div>
               <Button
                 size="small"
                 style={{ color: '#477696' }}
@@ -152,7 +164,7 @@ function NestedList({ attractions }) {
   
       <ListItemButton onClick={handleClick4} sx={{ borderTop: '1.8px solid white' }}>
         <ListItemText
-          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.2rem' }}>{attractions.length > 3 && attractions[3].name}</span>}
+          primary={<span style={{ fontWeight: 'bold', color: 'white', fontSize: '1.1rem' }}>{attractions.length > 3 && attractions[3].name}</span>}
           style={{ textAlign: 'left' }}
         />
         {open4 ? <ExpandLess /> : <ExpandMore />}
@@ -170,6 +182,9 @@ function NestedList({ attractions }) {
               {attractions.length > 3 && attractions[3].photos && (
                 <img src={attractions[3].photos[0]} alt={attractions[3].name} style={{ maxWidth: '300px', maxHeight: '200px' }} />
               )}
+            </div>
+            <div>
+              <b>Opening Hours:</b> {attractions.length > 3 &&(attractions[3].open)} AM - {attractions.length > 3 && (attractions[3].close)} PM
             </div>
             <div>
               <Button
@@ -259,6 +274,8 @@ function HomePage() {
           longitude: attraction.longitude,
           rating: attraction.rating,
           photos: attraction.photos,
+          open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
+          close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',   
         }));
         setAttractions(newAttractions);
       })
@@ -268,11 +285,18 @@ function HomePage() {
       });
   }, []);
 
+
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
       <div>
         <div style={{ textAlign: 'center', marginTop: '6px' }}>
           <Carousel
+            autoPlay={true}
+            interval={5000}
+            infiniteLoop={true} // Keeps the carousel looping indefinitely
+            showStatus={false} // Hides the status indicator (e.g., slide x of y)
+            showThumbs={false} // Hides the thumbnail navigation
             selectedItem={activeSlide}
             onChange={setActiveSlide}
             renderIndicator={(onClickHandler, isSelected, index) => (

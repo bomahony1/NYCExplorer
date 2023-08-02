@@ -1,3 +1,4 @@
+
 .itinerary-page {
   --white: #fafafa;
   --lightBlue: #1C2541;
@@ -8,12 +9,12 @@
   margin: 0;
   padding: 0;
   color: var(--accent);
-  padding-bottom: 100px;
-  overflow: hidden;
   font-family: sofia-pro, sans-serif;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
-  }
+  min-height: calc(100vh - 100px); 
+}
+
   
   .itinerary-page h1,
   .itinerary-page h2,
@@ -156,14 +157,15 @@
   }
   
   #progress {
-  position: fixed;
+  position: relative;
   top: 20px;
   left: 20px;
   transform: rotate(-90deg);
   }
   
   .progress {
-  position: fixed;
+  margin-top: 10px;
+  position: relative;
   left: 0;
   right: 0;
   height: 5px;
@@ -189,11 +191,10 @@
   position: relative;
   list-style: none;
   width: 1200px;
-  height: 600px;
+  height: auto;
   padding: 10px 100px;
   flex: 0 0 30px;
   margin: 20 auto;
-  overflow-y: hidden;
   }
   
   .gallery::-webkit-scrollbar {
