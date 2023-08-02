@@ -2,30 +2,25 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders the App component', () => {
+
+test('animation is initially shown', () => {
   render(<App />);
-  const learnReactElement = screen.getByText(/Learn React/i);
-  expect(learnReactElement).toBeInTheDocument();
+  const animationElement = screen.getByTestId('animation');
+  expect(animationElement).toBeInTheDocument();
 });
 
-test('renders the Welcome component during the animation', () => {
+test('animation is hidden after completion', () => {
+  jest.useFakeTimers(); // Mock timers for the setTimeout in useEffect
   render(<App />);
-  const welcomeElement = screen.getByText('Welcome');
-  expect(welcomeElement).toBeInTheDocument();
+  jest.advanceTimersByTime(2000); // Advance timers by the animationDuration
+  const animationElement = screen.queryByTestId('animation');
+  expect(animationElement).not.toBeInTheDocument();
 });
 
-test('renders the MainMenu component after the animation', () => {
+test('MainMenu is shown after animation completes', () => {
+  jest.useFakeTimers(); // Mock timers for the setTimeout in useEffect
   render(<App />);
-  const mainMenuElement = screen.getByText('Main Menu');
+  jest.advanceTimersByTime(2000); // Advance timers by the animationDuration
+  const mainMenuElement = screen.getByTestId('main-menu');
   expect(mainMenuElement).toBeInTheDocument();
-});
-
-test('hides animation elements after the animation is completed', () => {
-  render(<App />);
-  const animationDuration = 2000; // Match the duration used in useEffect of App.js
-  jest.advanceTimersByTime(animationDuration);
-  const elements = screen.queryAllByTestId('mojs-shape');
-  elements.forEach((element) => {
-    expect(element).not.toBeVisible();
-  });
 });

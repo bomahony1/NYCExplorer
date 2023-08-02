@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Welcome from './Welcome';
 import MainMenu from './MainMenu';
@@ -28,11 +27,9 @@ const App = () => {
     <div className="App">
       {showAnimation ? (
         <div className="animation">
-          {/* <Welcome /> will handle animationFinished internally */}
           <Welcome onAnimationComplete={handleAnimationComplete} />
         </div>
       ) : (
-        // Show the MainMenu component after the animation has finished
         <MainMenu />
       )}
     </div>
