@@ -560,11 +560,12 @@ def get_heat_map(hour: float, day: float, month:float = 8):
                 144,148,151,152,158,161,162,163,164,166,170,186,202,209,211,224,229,230,231,232,233,234,236,237,238,239,243,
                 244,246,249,261,262,263]
     
-    heat_map_data = {}
+    heat_map_data = []
     zone_data = {}
     for i in value_list:
+        zone_data['zoneNumber'] = i
         zone_data['prediction'] = model.predict(prediction_data)[0]
         zone_data["coordinates"] = zone_coordinates[str(i)]
-        heat_map_data[f'zone_{i}_data'] = zone_data
+        heat_map_data.append(zone_data)
     
     return heat_map_data
