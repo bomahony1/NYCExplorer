@@ -1,29 +1,27 @@
 asgiref==3.7.2
-Brotli @ file:///Users/runner/miniforge3/conda-bld/brotli-split_1687884187023/work
 certifi==2023.7.22
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1688813409104/work
 Django==4.2.3
 django-cors-headers==4.2.0
 djangorestframework==3.14.0
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1663625384323/work
-joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1688155275339/work
-numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1688887090181/work
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1681337016113/work
-pandas==2.0.3
-platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1689538620473/work
-pooch @ file:///home/conda/feedstock_root/build_artifacts/pooch_1679580333621/work
-PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
+idna==3.2
+joblib==1.1.0
+numpy==1.21.2
+packaging==21.2
+pandas==1.3.3
+platformdirs==2.4.0
+pooch==1.5.1
+PySocks==1.7.1
 python-dateutil==2.8.2
 python-decouple==3.8
-pytz==2023.3
-redis==4.6.0
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1684774241324/work
-scikit-learn @ file:///Users/runner/miniforge3/conda-bld/scikit-learn_1688116528758/work
-scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1687995672847/work/base/dist/scipy-1.11.1-cp311-cp311-macosx_10_9_x86_64.whl#sha256=a98d68c1d8dad3fc78082be77629b2b097ae2d7c9b0626aef8b66cf2e0bae081
-shapely==2.0.1
+pytz==2021.3
+redis==3.5.3
+requests==2.26.0
+scikit-learn==0.24.2
+scipy==1.7.3
+shapely==1.7.1
 six==1.16.0
-sqlparse==0.4.4
-threadpoolctl @ file:///home/conda/feedstock_root/build_artifacts/threadpoolctl_1689261241048/work
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1688315532570/work
-tzdata==2023.3
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1689789803562/work
+sqlparse==0.4.2
+threadpoolctl==3.0.0
+typing-extensions==3.10.0.2
+tzdata==2021.5
+urllib3==1.26.7
