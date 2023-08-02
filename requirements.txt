@@ -1,47 +1,29 @@
-appnope==0.1.3
 asgiref==3.7.2
-asttokens==2.1.0
-backcall==0.2.0
-certifi==2023.5.7
-charset-normalizer==3.1.0
-debugpy==1.6.3
-decorator==5.1.1
-Django==4.2.2
-django-cors-headers==4.1.0
-django-rest-framework==0.1.0
+Brotli @ file:///Users/runner/miniforge3/conda-bld/brotli-split_1687884187023/work
+certifi==2023.7.22
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1688813409104/work
+Django==4.2.3
+django-cors-headers==4.2.0
 djangorestframework==3.14.0
-entrypoints==0.4
-executing==1.2.0
-idna==3.4
-ipykernel==6.17.0
-ipython==8.6.0
-jedi==0.18.1
-jupyter_client==7.4.4
-jupyter_core==4.11.2
-matplotlib-inline==0.1.6
-mysql-connector-python==8.0.33
-mysqlclient==2.2.0
-nest-asyncio==1.5.6
-packaging==21.3
-parso==0.8.3
-pexpect==4.8.0
-pickleshare==0.7.5
-prompt-toolkit==3.0.32
-protobuf==3.20.3
-psutil==5.9.3
-ptyprocess==0.7.0
-pure-eval==0.2.2
-Pygments==2.13.0
-pyparsing==3.0.9
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1663625384323/work
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1688155275339/work
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1688887090181/work
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1681337016113/work
+pandas==2.0.3
+platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1689538620473/work
+pooch @ file:///home/conda/feedstock_root/build_artifacts/pooch_1679580333621/work
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
 python-dateutil==2.8.2
+python-decouple==3.8
 pytz==2023.3
-pyzmq==24.0.1
-requests==2.31.0
+redis==4.6.0
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1684774241324/work
+scikit-learn @ file:///Users/runner/miniforge3/conda-bld/scikit-learn_1688116528758/work
+scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1687995672847/work/base/dist/scipy-1.11.1-cp311-cp311-macosx_10_9_x86_64.whl#sha256=a98d68c1d8dad3fc78082be77629b2b097ae2d7c9b0626aef8b66cf2e0bae081
+shapely==2.0.1
 six==1.16.0
 sqlparse==0.4.4
-stack-data==0.6.0
-tornado==6.2
-traitlets==5.5.0
-typing_extensions==4.6.3
-urllib3==2.0.3
-wcwidth==0.2.5
+threadpoolctl @ file:///home/conda/feedstock_root/build_artifacts/threadpoolctl_1689261241048/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1688315532570/work
+tzdata==2023.3
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1689789803562/work
