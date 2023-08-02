@@ -3,7 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript,Polygon} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
@@ -25,7 +25,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
-
+import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -464,6 +464,10 @@ function TemporaryDrawer({tmp}) {
       const formattedHours = hours % 12 || 12;
       return `${formattedHours}:${minutes} ${ampm}`;
     };
+
+
+  
+
   
     return (
       <div>
@@ -1133,6 +1137,19 @@ const heatmapGradient = [
 ];
 
 
+const [showPolygons, setShowPolygons] = useState(true);
+
+const handleTogglePolygons = () => {
+  setShowPolygons((prevShowPolygons) => !prevShowPolygons);
+};
+
+const polygons = zonesData.zones.map((zoneData) => ({
+  zoneNumber: zoneData.zoneNumber,
+  coordinates: zoneData.coordinates.map(([lat, lng]) => ({ lat, lng })),
+}));
+
+
+
   return (
     
     <div style={{ margin: '0 0px', color: '#1C2541' }}>
@@ -1156,6 +1173,9 @@ const heatmapGradient = [
         heatmapVisible={heatmapVisible}
         onToggleHeatmap={handleToggleHeatmap}
       />
+       <button onClick={handleTogglePolygons}>
+        {showPolygons ? 'Hide Polygons' : 'Show Polygons'}
+      </button>
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
@@ -1352,6 +1372,21 @@ const heatmapGradient = [
                   </InfoWindow>
                 )}
               </Marker>
+            ))}
+
+        {showPolygons &&
+            polygons.map((polygonData) => (
+              <Polygon
+                key={polygonData.zoneNumber}
+                paths={polygonData.coordinates}
+                options={{
+                  fillColor: '#ff0000', // Replace with desired fill color for polygons
+                  fillOpacity: 0.4, // Adjust the opacity as needed
+                  strokeColor: '#ff0000', // Replace with desired stroke color for polygons
+                  strokeOpacity: 0.8, // Adjust the opacity as needed
+                  strokeWeight: 2, // Adjust the stroke width as needed
+                }}
+              />
             ))}
 
             {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
