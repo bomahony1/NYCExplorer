@@ -514,7 +514,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
 
 def get_heat_map(hour: float, day: float, month:float = 8):
     """ Function that returns coordinates with weight for heat map"""
-    with open('api/xgb_model.pkl', 'rb') as file:
+    with open(f'xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
     if day < 5:
@@ -533,16 +533,13 @@ def get_heat_map(hour: float, day: float, month:float = 8):
             wind_speed = i['wind']['speed']
             pressure = i['main']['pressure']
             precipitation = 0 
-            weather = [temp, humidity, wind_speed, pressure, precipitation]
     except Exception as e:
-        weather = [283.5, 43, 2.28, 1012, 0]
-        return weather
+        temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
-    with open('api/taxi_zones.json') as file:
+    with open('manhattan_zones_polygons.json') as file:
         zone_coordinates = json.load(file)
 
 
-    weather += [day, month, hour]
     prediction_data = pd.DataFrame({
         'Hour': [hour],
         'is_weekday': [is_weekday],
@@ -561,11 +558,13 @@ def get_heat_map(hour: float, day: float, month:float = 8):
                 244,246,249,261,262,263]
     
     heat_map_data = []
-    zone_data = {}
     for i in value_list:
+        print(i)
+        zone_data = {}
         zone_data['zoneNumber'] = i
+        prediction_data['PULocationID'] = i
         zone_data['prediction'] = model.predict(prediction_data)[0]
-        zone_data["coordinates"] = zone_coordinates[str(i)]
+        zone_data['coordinates'] = zone_coordinates[str(i)]
         heat_map_data.append(zone_data)
     
     return heat_map_data
