@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 import pickle
 import pandas as pd
+import xgboost
 
 import re
 from shapely.geometry import MultiPolygon, Point, Polygon
