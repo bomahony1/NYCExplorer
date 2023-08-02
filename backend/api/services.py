@@ -7,10 +7,11 @@ from django.http import JsonResponse
 from django.utils import timezone
 import pickle
 import pandas as pd
+import os
+from decouple import config
 
 # OpenWeather API
-
-WEATHER_API = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Manhattan"
+WEATHER_API = os.environ.get('WEATHER_API_KEY')
 
 def get_weather():
     try:
@@ -50,7 +51,7 @@ def get_foursquare_hotels():
 
     headers = {
         "Accept": "application/json",
-        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
+        "Authorization": config('FOURSQUARE_API_KEY')
     }
 
     params = {
