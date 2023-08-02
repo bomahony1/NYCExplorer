@@ -67,14 +67,18 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
     });
 };
 
-
-    const getColor = (prediction) => {
-        // You can adjust the color range and breakpoints based on your needs
-        const colors = ['#f7f7f7', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'];
-        const breakpoints = [1, 2, 3, 4, 5];
-        return prediction === 0 ? colors[0] : colors.find((color, index) => prediction <= breakpoints[index]) || colors[colors.length - 1];
-      };
+const getColor = (prediction) => {
+    // Define your color ranges and breakpoints here
+    const colors = ['#f7f7f7', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'];
+    const breakpoints = [1, 2, 3, 4, 5];
   
+    // Find the appropriate color based on the prediction value
+    return prediction === 0
+      ? colors[0]
+      : colors.find((color, index) => prediction <= breakpoints[index]) || colors[colors.length - 1];
+  };
+  
+   
 
   return (
     <div style={{ marginTop: '20px',clor:"#1C2541"}}>
