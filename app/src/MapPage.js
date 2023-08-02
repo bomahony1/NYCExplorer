@@ -25,7 +25,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
-import zonesData from './ManhattanZones.json'; 
+// import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -38,7 +38,7 @@ function DateRangePickerComponent({ handleSelect }) {
     endDate: new Date(),
     key: 'selection'
   });
-
+ 
   
 
   const handleChange = (ranges) => {
@@ -1121,6 +1121,7 @@ const handleDirectionsResponse = (response) => {
   const handleHeatmapDataReceived = (data) => {
     setHeatmapData(data);
   };
+  
   const [heatmapVisible, setHeatmapVisible] = useState(false);
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
@@ -1137,16 +1138,23 @@ const heatmapGradient = [
 ];
 
 
-const [showPolygons, setShowPolygons] = useState(true);
+// const [showPolygons, setShowPolygons] = useState(true);
 
-const handleTogglePolygons = () => {
-  setShowPolygons((prevShowPolygons) => !prevShowPolygons);
+// const handleTogglePolygons = () => {
+//   setShowPolygons((prevShowPolygons) => !prevShowPolygons);
+// };
+
+// const polygons = zonesData.zones.map((zoneData) => ({
+//   zoneNumber: zoneData.zoneNumber,
+//   coordinates: zoneData.coordinates.map(([lat, lng]) => ({ lat, lng })),
+// }));
+const getColor = (prediction) => {
+  // You can adjust the color range and breakpoints based on your needs
+  const colors = ['#f7f7f7', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'];
+  const breakpoints = [1, 2, 3, 4, 5];
+  return prediction === 0 ? colors[0] : colors.find((color, index) => prediction <= breakpoints[index]) || colors[colors.length - 1];
 };
 
-const polygons = zonesData.zones.map((zoneData) => ({
-  zoneNumber: zoneData.zoneNumber,
-  coordinates: zoneData.coordinates.map(([lat, lng]) => ({ lat, lng })),
-}));
 
 
 
@@ -1173,9 +1181,9 @@ const polygons = zonesData.zones.map((zoneData) => ({
         heatmapVisible={heatmapVisible}
         onToggleHeatmap={handleToggleHeatmap}
       />
-       <button onClick={handleTogglePolygons}>
+       {/* <button onClick={handleTogglePolygons}>
         {showPolygons ? 'Hide Polygons' : 'Show Polygons'}
-      </button>
+      </button> */}
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
@@ -1325,17 +1333,14 @@ const polygons = zonesData.zones.map((zoneData) => ({
                 ],
               }}
             >
-            {heatmapVisible && heatmapData && (
-             <HeatmapLayer
-             data={heatmapData.map((data) => ({
-               location: new window.google.maps.LatLng(data.lat, data.lng),
-               weight: data.weight,
-             }))}
-             options={{
-              gradient: heatmapGradient,
-            }}
-           />
-          )}
+            {heatmapVisible &&
+          heatmapData.map((data, index) => (
+            <Polygon
+              key={index} // Using index as a key since there may not be a unique identifier for each polygon
+              positions={data.coordinates}
+              pathOptions={{ fillColor: getColor(data.weight) }}
+            />
+          ))}
             {showMarkers && markers
             .filter((marker) => !marker.type) 
             .map((marker) => (
@@ -1374,7 +1379,7 @@ const polygons = zonesData.zones.map((zoneData) => ({
               </Marker>
             ))}
 
-        {showPolygons &&
+        {/* {showPolygons &&
             polygons.map((polygonData) => (
               <Polygon
                 key={polygonData.zoneNumber}
@@ -1387,7 +1392,7 @@ const polygons = zonesData.zones.map((zoneData) => ({
                   strokeWeight: 2, // Adjust the stroke width as needed
                 }}
               />
-            ))}
+            ))} */}
 
             {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
               // Render googleAttractions markers when showAttractions is true

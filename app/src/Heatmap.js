@@ -3,6 +3,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import { Button} from '@mui/material';
+import { MapContainer, TileLayer, Polygon } from 'react-leaflet';
+import L from 'leaflet';
+
 
 const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -50,22 +53,27 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
     fetch(apiUrl + '?' + queryParams)
       .then((response) => response.json())
       .then((data) => {
-        // Format the backend data to an array of LatLng objects
-        const heatmapArray = Object.keys(data.prediction).map((latLng) => {
-            const [lat, lng] = latLng.split(',').map((value) => parseFloat(value));
-            const weight = data.prediction[latLng];
-            if (isNaN(lat) || isNaN(lng)) {
-              throw new Error('Invalid latLng format: ' + latLng);
-            }
-            return { lat, lng, weight };
-          });
-          onHeatmapDataReceived(heatmapArray);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+        // Process the fetched data into an array of polygons with corresponding weights
+      const polygonsWithWeights = data.prediction.map((zone) => {
+        const coordinates = zone.coordinates.map(([lat, lng]) => [lat, lng]);
+        return { coordinates, weight: zone.prediction };
       });
-  };
 
+      // Send the processed heatmap data to the parent component
+      onHeatmapDataReceived(polygonsWithWeights);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
+
+
+    const getColor = (prediction) => {
+        // You can adjust the color range and breakpoints based on your needs
+        const colors = ['#f7f7f7', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'];
+        const breakpoints = [1, 2, 3, 4, 5];
+        return prediction === 0 ? colors[0] : colors.find((color, index) => prediction <= breakpoints[index]) || colors[colors.length - 1];
+      };
   
 
   return (
