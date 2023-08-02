@@ -25,10 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-w_g4%h+%pr(&8@$@pxlz-ebn%@o9i6vz_1j3=ub$s_(7v#)8$f"
 
 
-config.read_env()
 
-FOURSQUARE_API_KEY = config('FOURSQUARE_API_KEY')
-WEATHER_API_KEY = config('WEATHER_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

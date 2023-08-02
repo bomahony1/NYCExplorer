@@ -7,18 +7,13 @@ from django.http import JsonResponse
 from django.utils import timezone
 import pickle
 import pandas as pd
-<<<<<<< HEAD
-import os
-from decouple import config
-=======
-import xgboost
 
 import re
 from shapely.geometry import MultiPolygon, Point, Polygon
->>>>>>> 2f6611645c782b6ec91f1672b8ef4499e6e7e4ac
 
 # OpenWeather API
-WEATHER_API = os.environ.get('WEATHER_API_KEY')
+
+WEATHER_API = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Manhattan"
 
 def get_weather():
     try:
@@ -58,7 +53,7 @@ def get_foursquare_hotels():
 
     headers = {
         "Accept": "application/json",
-        "Authorization": config('FOURSQUARE_API_KEY')
+        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
     }
 
     params = {
@@ -189,7 +184,7 @@ def get_foursquare_restaurants():
 def get_google_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    # api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
     params = {
         "query": "restaurants in Manhattan, New York",
         "key": api_key,
@@ -258,7 +253,7 @@ def get_google_restaurants():
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    # api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
     params = {
         "query": "tourist attractions in Manhattan, New York",
         "key": api_key,
@@ -330,7 +325,7 @@ def get_google_attractions():
 
 def get_google_hotels():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    # api_key = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
+    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
     params = {
         "query": "Hotels in Manhattan, New York",
         "key": api_key,
@@ -458,7 +453,7 @@ def is_point_inside_polygon(point, polygon_coords):
         point = Point(point)
         return polygon.contains(point)
 
-def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
+def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float, heatmap: bool = False) -> float:
     """Returns prediction of busyness in Area."""
 
     def get_location_id(latitude, longitude):
@@ -473,59 +468,44 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
                   continue
         return zone
     
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
-        is_weekday, is_weekend = 0, 1
-    
-    try:
-        WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
-        # Need to get Temperature, Wind Speed, Wind direction, Clouds 
-        text = requests.get(WEATHERAPI).text
-        forecast = json.loads(text)['list']
-        for i in forecast:
-            temp = i['main']['temp']
-            humidity = i['main']['humidity']
-            wind_speed = i['wind']['speed']
-            pressure = i['main']['pressure']
-            # Don't think this is in forecast
-            # Will double check then remove if necessary 
-            precipitation = 0 
-    
-    # Bill will need you to help with correct error handling
-    except Exception as e:
-        temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
+    def get_weather():
+        """Get weather for API call."""
+        try:
+            WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+            # Need to get Temperature, Wind Speed, Wind direction, Clouds 
+            text = requests.get(WEATHERAPI).text
+            forecast = json.loads(text)['list']
+            for i in forecast:
+                temp = i['main']['temp']
+                humidity = i['main']['humidity']
+                wind_speed = i['wind']['speed']
+                pressure = i['main']['pressure']
+                # Don't think this is in forecast
+                # Will double check then remove if necessary 
+                precipitation = 0 
+                weather = [temp, humidity, wind_speed, pressure, precipitation]
+                return weather
+        
+        # Bill will need you to help with correct error handling
+        except Exception as e:
+            weather = [283.5, 43, 2.28, 1012, 0]
+            return weather
     
     zone = get_location_id(latitude, longitude)    
-    with open('api/xgb_model.pkl', 'rb') as file:
+    with open(f'api/pickles/zone_{zone}.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    prediction_data = pd.DataFrame({
-        'Hour': [hour],
-        'is_weekday': [is_weekday],
-        'is_weekend': [is_weekend],
-        'PULocationID': [0],
-        'Temperature': [temp],
-        'Precip.': [precipitation],
-        'Pressure': [pressure],
-        'Wind Speed': [wind_speed],
-        'Humidity': [humidity],
-        'Month': [month]
-    })
+    feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
+    prediction_data = list(get_weather())
+    prediction_data += list([day, month, hour])
+    prediction_data = [prediction_data]
+    prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
 
-    prediction_data = model.predict(prediction_data)
+    prediction_data = model.predict(prediction_data_df)
     return prediction_data[0]
 
 def get_heat_map(hour: float, day: float, month:float = 8):
     """ Function that returns coordinates with weight for heat map"""
-    with open(f'api/xgb_model.pkl', 'rb') as file:
-        model = pickle.load(file)
-
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
-        is_weekday, is_weekend = 0, 1
-
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
         # Need to get Temperature, Wind Speed, Wind direction, Clouds 
@@ -537,38 +517,48 @@ def get_heat_map(hour: float, day: float, month:float = 8):
             wind_speed = i['wind']['speed']
             pressure = i['main']['pressure']
             precipitation = 0 
+            weather = [temp, humidity, wind_speed, pressure, precipitation]
     except Exception as e:
-        temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
+        return "Error in getting weather: " + str(e), 404
     
-    with open('api/taxi_zones.json') as file:
-        zone_coordinates = json.load(file)
+    # Need to get points to plot 
+    with open('api/heat_map_points.json', 'r') as file:
+        heat_points = json.load(file)
+    heat_data = {}
+
+    weather += [day, month, hour]
+    prediction_data = [weather]
 
 
-    prediction_data = pd.DataFrame({
-        'Hour': [hour],
-        'is_weekday': [is_weekday],
-        'is_weekend': [is_weekend],
-        'PULocationID': [0],
-        'Temperature': [temp],
-        'Precip.': [precipitation],
-        'Pressure': [pressure],
-        'Wind Speed': [wind_speed],
-        'Humidity': [humidity],
-        'Month': [month]
-    })
+    heat_point_flag = False
+    with open('api/taxi_zones.json', 'r') as file:
+            zone_data = json.load(file)
+    for i in heat_points:
 
-    value_list = [4,12,13,24,41,42,43,45,48,50,68,74,75,79,87,88,90,100,107,113,114,116,120,125,127,128,137,140,141,142,143,
-                144,148,151,152,158,161,162,163,164,166,170,186,202,209,211,224,229,230,231,232,233,234,236,237,238,239,243,
-                244,246,249,261,262,263]
+        if heat_point_flag == True:
+            heat_point_flag = False
+            continue
+        i[0], i[1] = round(i[0], 4), round(i[1], 4)
+        for j in range(1, len(zone_data) + 1):
+             try:
+                if is_point_inside_polygon((i[0], i[1]), zone_data[str(j)]):
+                    zone = j
+             except:
+                  continue
+
+        with open(f'api/pickles/zone_{zone}.pkl', 'rb') as file:
+            model = pickle.load(file)
+
+        coordinate = (i[0], i[1])
+        feature_names = ['temperature', 'humidity', 'wind_speed', 'pressure', 'percipitation', 'day', 'month', 'hour']
+        prediction_data_df = pd.DataFrame(prediction_data, columns=feature_names)
+        heat_data[coordinate] = model.predict(prediction_data_df)[0]
+        heat_data_str_keys = {}
+        for coordinate, value in heat_data.items():
+            # Convert coordinate tuple to string key
+            str_coordinate = ",".join(str(coord) for coord in coordinate)
+            heat_data_str_keys[str_coordinate] = value
+
+    return heat_data_str_keys
     
-    heat_map_data = []
-    for i in value_list:
-        print(i)
-        zone_data = {}
-        zone_data['zoneNumber'] = i
-        prediction_data['PULocationID'] = i
-        zone_data['prediction'] = model.predict(prediction_data)[0]
-        zone_data['coordinates'] = zone_coordinates[str(i)]
-        heat_map_data.append(zone_data)
-    
-    return heat_map_data
+
