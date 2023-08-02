@@ -458,7 +458,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
 
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
-        with open('taxi_zones.json', 'r') as file:
+        with open('api/taxi_zones.json', 'r') as file:
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
@@ -518,7 +518,7 @@ print('-' * 20)
 
 def get_heat_map(hour: float, day: float, month:float = 8):
     """ Function that returns coordinates with weight for heat map"""
-    with open(f'xgb_model.pkl', 'rb') as file:
+    with open(f'api/xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
     if day < 5:
@@ -540,7 +540,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     except Exception as e:
         temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
-    with open('manhattan_zones_polygons.json') as file:
+    with open('api/taxi_zones.json') as file:
         zone_coordinates = json.load(file)
 
 
