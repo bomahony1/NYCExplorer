@@ -1127,6 +1127,7 @@ const handleDirectionsResponse = (response) => {
   
     setPolygons(data);
   };
+  const mapRef = useRef(null)
   
 
   const [heatmapVisible, setHeatmapVisible] = useState(false);
@@ -1135,6 +1136,43 @@ const handleDirectionsResponse = (response) => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
     console.log('Toggle heatmap visibility');
   };
+
+  const [predictionNumber, setPredictionNumber] = useState(null);
+
+  const handleMapMouseOver = (event) => {
+    const latLng = event.latLng;
+    let prediction = null;
+
+    // Find the polygon that contains the mouse position
+    for (const polygonData of polygons) {
+      const polygon = new window.google.maps.Polygon({ paths: polygonData.latLngs });
+      if (window.google.maps.geometry.poly.containsLocation(latLng, polygon)) {
+        prediction = polygonData.prediction;
+        break;
+      }
+    }
+
+    // Update the state with the prediction number
+    setPredictionNumber(prediction);
+  };
+  
+ useEffect(() => {
+    const map = mapRef.current;
+    if (map) {
+      map.addListener('mousemove', handleMapMouseOver);
+    }
+
+    return () => {
+      if (map) {
+        map.removeListener('mousemove', handleMapMouseOver);
+      }
+    };
+  }, [handleMapMouseOver]);
+  // Function to handle mouseout event on the map
+  const handleMapMouseOut = () => {
+    setPredictionNumber(null);
+  };
+
 
 
 
@@ -1162,9 +1200,11 @@ const handleDirectionsResponse = (response) => {
         onToggleHeatmap={handleToggleHeatmap}
       
       />
-       {/* <button onClick={handleTogglePolygons}>
-        {showPolygons ? 'Hide Polygons' : 'Show Polygons'}
-      </button> */}
+        {predictionNumber !== null && (
+        <div style={{ position: 'absolute', top: 10, left: 10, backgroundColor: 'white' }}>
+          Prediction Number: {predictionNumber}
+        </div>
+      )}
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
@@ -1282,6 +1322,8 @@ const handleDirectionsResponse = (response) => {
               mapContainerStyle={{ height: '100%' }}
               center={center}
               zoom={13}
+              onMouseOver={handleMapMouseOver} 
+              onMouseOut={handleMapMouseOut} 
             
               mapId="MAPS_API_KEY"
               options={{
@@ -1321,6 +1363,7 @@ const handleDirectionsResponse = (response) => {
             <Polygon
               key={polygonData.zoneNumber}
               paths={polygonData.latLngs}
+              prediction={polygonData.prediction}
               options={{
                 fillColor: polygonData.color,
                 fillOpacity: 0.5,
@@ -1328,6 +1371,8 @@ const handleDirectionsResponse = (response) => {
                 strokeOpacity: 0.9,
                 strokeWeight: 2,
               }}
+              onMouseOver={() => setPredictionNumber(polygonData.prediction)} // Add the mouseover event handler for each polygon
+              onMouseOut={() => setPredictionNumber(null)} 
             />
           ))}
             {showMarkers && markers

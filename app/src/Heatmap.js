@@ -62,7 +62,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap,polygo
             const prediction = zoneData.prediction;
             const color = getColorBasedOnPrediction(prediction);
             const zoneNumber = zoneData.zoneNumber;
-            return { zoneNumber,latLngs, color };
+            return { zoneNumber,latLngs, color, prediction  };
           });
         //   setPolygons(polygonsArray); // Update the polygons state with the fetched data
           onHeatmapDataReceived(polygonsArray);// You can pass the polygons to the parent if needed.
