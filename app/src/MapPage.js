@@ -25,6 +25,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
+
+
 // import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
@@ -795,7 +797,7 @@ function MapPage() {
   const [showHotels, setShowHotels] = useState(false);
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
-  const [heatmapData, setHeatmapData] = useState([]);
+
 
 
 
@@ -1118,43 +1120,20 @@ const handleDirectionsResponse = (response) => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
 
+  const [polygons, setPolygons] = useState([]);
+
+  
   const handleHeatmapDataReceived = (data) => {
-    setHeatmapData(data);
+    console.log("Received heatmap data:", data);
+    setPolygons(data);
   };
   
+
   const [heatmapVisible, setHeatmapVisible] = useState(false);
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
+    console.log('heatmapVisible:', heatmapVisible);
   };
-  // Define the custom gradient colors for different weight ranges
-const heatmapGradient = [
-  'rgba(220, 218, 216, 0)',   // Weight 0: Transparent (#dcdad8)
-  'rgba(180, 223, 187, 1)', // Weight 1-60: Light green (#b4dfbb)
-  'rgba(216, 209, 224, 1)', // Weight 61-150: Light purple (#d8d1e0)
-  'rgba(246, 244, 198, 1)', // Weight 151-300: Light yellow (#f6f4c6)
-  'rgba(246, 217, 190,1)', // Weight 301-450: Light orange (#f6d9be)
-  'rgba(158, 185, 215, 1)', // Weight 451-600: Light blue (#9eb9d7)
-  'rgba(253, 136, 194, 1)', // Weight > 600: Light pink (#fd88c2)
-];
-
-
-// const [showPolygons, setShowPolygons] = useState(true);
-
-// const handleTogglePolygons = () => {
-//   setShowPolygons((prevShowPolygons) => !prevShowPolygons);
-// };
-
-// const polygons = zonesData.zones.map((zoneData) => ({
-//   zoneNumber: zoneData.zoneNumber,
-//   coordinates: zoneData.coordinates.map(([lat, lng]) => ({ lat, lng })),
-// }));
-const getColor = (prediction) => {
-  // You can adjust the color range and breakpoints based on your needs
-  const colors = ['#f7f7f7', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'];
-  const breakpoints = [1, 2, 3, 4, 5];
-  return prediction === 0 ? colors[0] : colors.find((color, index) => prediction <= breakpoints[index]) || colors[colors.length - 1];
-};
-
 
 
 
@@ -1176,10 +1155,12 @@ const getColor = (prediction) => {
           )}
         </div>
           {/*heat map */}
-      <Heatmap
+          <Heatmap
         onHeatmapDataReceived={handleHeatmapDataReceived}
         heatmapVisible={heatmapVisible}
         onToggleHeatmap={handleToggleHeatmap}
+        polygons={polygons}
+     
       />
        {/* <button onClick={handleTogglePolygons}>
         {showPolygons ? 'Hide Polygons' : 'Show Polygons'}
@@ -1301,6 +1282,7 @@ const getColor = (prediction) => {
               mapContainerStyle={{ height: '100%' }}
               center={center}
               zoom={13}
+            
               mapId="MAPS_API_KEY"
               options={{
                 styles: [
@@ -1333,12 +1315,19 @@ const getColor = (prediction) => {
                 ],
               }}
             >
-            {heatmapVisible &&
-          heatmapData.map((data, index) => (
+             
+             {heatmapVisible &&
+          polygons.map((polygonData) => (
             <Polygon
-              key={index} // Using index as a key since there may not be a unique identifier for each polygon
-              positions={data.coordinates}
-              pathOptions={{ fillColor: getColor(data.weight) }}
+              key={polygonData.zoneNumber}
+              paths={polygonData.latLngs}
+              options={{
+                fillColor: polygonData.color,
+                fillOpacity: 0.5,
+                strokeColor: polygonData.color,
+                strokeOpacity: 0.9,
+                strokeWeight: 2,
+              }}
             />
           ))}
             {showMarkers && markers
@@ -1378,21 +1367,6 @@ const getColor = (prediction) => {
                 )}
               </Marker>
             ))}
-
-        {/* {showPolygons &&
-            polygons.map((polygonData) => (
-              <Polygon
-                key={polygonData.zoneNumber}
-                paths={polygonData.coordinates}
-                options={{
-                  fillColor: '#ff0000', // Replace with desired fill color for polygons
-                  fillOpacity: 0.4, // Adjust the opacity as needed
-                  strokeColor: '#ff0000', // Replace with desired stroke color for polygons
-                  strokeOpacity: 0.8, // Adjust the opacity as needed
-                  strokeWeight: 2, // Adjust the stroke width as needed
-                }}
-              />
-            ))} */}
 
             {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
               // Render googleAttractions markers when showAttractions is true

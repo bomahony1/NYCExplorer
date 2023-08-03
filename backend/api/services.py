@@ -494,7 +494,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
     zone = get_location_id(latitude, longitude)    
-    with open('xgb_model.pkl', 'rb') as file:
+    with open('api/xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
     prediction_data = pd.DataFrame({
