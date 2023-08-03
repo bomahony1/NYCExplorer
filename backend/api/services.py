@@ -466,6 +466,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
                 if is_point_inside_polygon((latitude, longitude), data[str(i)]):
                     zone = i
              except:
+                  zone = 1
                   continue
         return zone
     
