@@ -1122,17 +1122,18 @@ const handleDirectionsResponse = (response) => {
 
   const [polygons, setPolygons] = useState([]);
 
-  
+
   const handleHeatmapDataReceived = (data) => {
-    console.log("Received heatmap data:", data);
+  
     setPolygons(data);
   };
   
 
   const [heatmapVisible, setHeatmapVisible] = useState(false);
+
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
-    console.log('heatmapVisible:', heatmapVisible);
+    console.log('Toggle heatmap visibility');
   };
 
 
@@ -1159,8 +1160,7 @@ const handleDirectionsResponse = (response) => {
         onHeatmapDataReceived={handleHeatmapDataReceived}
         heatmapVisible={heatmapVisible}
         onToggleHeatmap={handleToggleHeatmap}
-        polygons={polygons}
-     
+      
       />
        {/* <button onClick={handleTogglePolygons}>
         {showPolygons ? 'Hide Polygons' : 'Show Polygons'}

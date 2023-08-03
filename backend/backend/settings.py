@@ -31,9 +31,9 @@ SECRET_KEY = "django-insecure-w_g4%h+%pr(&8@$@pxlz-ebn%@o9i6vz_1j3=ub$s_(7v#)8$f
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['137.43.49.44']
 
 
 # Application definition
@@ -91,11 +91,14 @@ CORS_ALLOWED_ORIGINS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',  # This is where you put the name of the db file.
-        # If one doesn't exist, it will be created at migration time.
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'coffee',
+    'USER': 'drinker',
+    'PASSWORD': 'cup',
+    'HOST': 'localhost',
+    'PORT': ''
+  }
 }
 
 CACHES = {
@@ -141,7 +144,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
