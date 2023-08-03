@@ -801,6 +801,11 @@ function MapPage() {
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
 
+  const [nightMode, setNightMode] = useState(false);
+  const handleMapToggle = () => {
+    setNightMode((prevNightMode) => !prevNightMode);
+  };
+
 
 
 
@@ -1313,7 +1318,7 @@ const handleDirectionsResponse = (response) => {
         <div style={{ flex: 1.6,height:"450px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         <Draggable>
-        <div> <ThreeD/></div>
+        <div> <ThreeD handleMapToggle={handleMapToggle} /></div>
         </Draggable>
         </div>
         <div>
@@ -1335,7 +1340,45 @@ const handleDirectionsResponse = (response) => {
             
               mapId="MAPS_API_KEY"
               options={{
-                styles: [
+                styles: nightMode?[
+                  {
+                    featureType: 'all',
+                    stylers: [
+                      { saturation: -100 }, // Decrease saturation to make colors less vibrant
+                      { lightness: -50 }, // Decrease lightness to make colors darker
+                    ],
+                  },
+                  {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [
+                      { visibility: 'simplified' }, // Simplify road geometry
+                      { lightness: -20 }, // Decrease lightness to make roads darker
+                    ],
+                  },
+                  {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }], // Hide points of interest (POIs)
+                  },
+                  {
+                    featureType: 'transit',
+                    stylers: [{ visibility: 'off' }], // Hide transit information
+                  },
+                  {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [
+                      { visibility: 'simplified' }, // Simplify water geometry
+                      { lightness: -50 }, // Decrease lightness to make water darker
+                    ],
+                  },
+                  {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#ffffff' }], // Set water label text color to white
+                  },
+                ]:
+                [
                   {
                     featureType: 'all',
                     stylers: [
