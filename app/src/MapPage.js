@@ -1205,6 +1205,7 @@ const handleDirectionsResponse = (response) => {
           Prediction Number: {predictionNumber}
         </div>
       )}
+      
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
