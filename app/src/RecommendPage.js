@@ -464,7 +464,7 @@ return (
             setItems([...items, newItem]);
           }}
         >
-          Add Recommendations
+        <strong> Add&Show on Map</strong> 
         </motion.button>
       </div>
       <ul>
@@ -525,12 +525,12 @@ function ItineraryPage() {
               <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
                 <Window content={selectedTab}  />
             </div>
-            <div style={{display:"flex"}}>
+            <div style={{display:"flex",height:"600px"}}>
             <div className="pop" style={{flex:1.4,marginTop:"80px",}}>
             <Pop />
             </div>
           
-            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"366px",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
+            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
          
             <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white",fontSize: "20px"}}>
               {'Fotografiska NY'}
@@ -608,7 +608,7 @@ function ItineraryPage() {
             </div>
             </div>
             {/* add the scroll process */}
-            <article>
+            {/* <article>
       <motion.div className="progress" style={{ scaleX }} />
       <motion.div
         initial={{ scaleX: 1 }}
@@ -617,7 +617,7 @@ function ItineraryPage() {
         style={{ originX: true ? 0 : 1 }}
         className="privacy-screen"
       />
-    </article>
+    </article> */}
       </div>
     );
 }

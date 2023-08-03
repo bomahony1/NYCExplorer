@@ -179,7 +179,7 @@ function TemporaryDrawer({tmp}) {
     <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
       {isDrawerOpen && (
         <div style={{ display: 'flex'}}>
-          <div style={{background: 'white',border: '1px solid #1C2541', height:"100%", width: '100%', }}>
+          <div style={{background: 'white',border: '1px solid #1C2541',  height: '748px', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
@@ -198,7 +198,7 @@ function TemporaryDrawer({tmp}) {
             <div
               style={{
                 width: '90%',
-                border: '1px solid #1C2541',
+                // border: '1px solid #1C2541',
                 background: '#1C2541',
                 color:"#ffffff",
               }}
