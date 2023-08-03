@@ -25,6 +25,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
+import ThreeD from './ThreeD.js';
 
 
 // import zonesData from './ManhattanZones.json'; 
@@ -179,7 +180,7 @@ function TemporaryDrawer({tmp}) {
     <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
       {isDrawerOpen && (
         <div style={{ display: 'flex'}}>
-          <div style={{background: 'white',border: '1px solid #1C2541',  height: '748px', width: '100%', overflow: 'auto',}}>
+          <div style={{background: 'white',height: '748px', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
@@ -193,6 +194,8 @@ function TemporaryDrawer({tmp}) {
             </Button>
             <Divider />
             <CustomizedAccordions onMarkerSelect={handleMarkerSelection} />
+           
+           
           </div>
           {isWindowOpen && (
             <div
@@ -1178,7 +1181,7 @@ const handleDirectionsResponse = (response) => {
 
   return (
     
-    <div style={{ margin: '0 0px', color: '#1C2541' }}>
+    <div style={{ color: '#1C2541' }}>
       <div className='fixed-box'>
       <Draggable nodeRef={draggableRef}>
       <div id="info01" style={{ cursor: 'move' }} ref={draggableRef}>
@@ -1307,10 +1310,14 @@ const handleDirectionsResponse = (response) => {
         </Draggable>
       </div>
       <div style={{ display: "flex" }}>
-        <div style={{ flex: 1.6,height:"750px" }}>
+        <div style={{ flex: 1.6,height:"450px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
+        <Draggable>
+        <div> <ThreeD/></div>
+        </Draggable>
         </div>
         <div>
+       
     
     </div>
         <div style={{ height: '750px', flex: "3" }}>

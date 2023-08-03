@@ -448,7 +448,7 @@ return (
     <div className="example">
       <div className="controls">
         <label className="enable">
-          <code style={{color:"white"}}>POP Recommend Itinerary </code>
+          <code style={{color:"white"}}>Display on Map? Click Image  </code>
           
           <input
             type="checkbox"
@@ -463,8 +463,10 @@ return (
             const newItem = { id: count.current, text: customTexts[count.current - 1] };
             setItems([...items, newItem]);
           }}
+          style={{ width: "260px",margin:"10px",border:"1px solid white"}}
         >
-        <strong> Add&Show on Map</strong> 
+         POP Recommendations
+       
         </motion.button>
       </div>
       <ul>
@@ -518,7 +520,7 @@ function ItineraryPage() {
             <div>
               <div style={{display:"flex",alignItems: "center",justifyContent: "center",marginTop:"0px"}}>
               <h1 style={{flex:0.45,color:"white",marginBottom:"3px"}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{  color: "white",marginTop:"20px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+              <Button size="small" style={{  color: "white",marginTop:"20px",border: "none"}} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
               Book now
               </Button>
               </div>

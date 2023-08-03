@@ -10,6 +10,7 @@ export default function ThreeD() {
   const headerRef = useAnimatedText(isOn ? 0 : 9, switchTransition)
 
   return (
+    <div className="threed-page" style={{ width: "500px", height: "300px", position: "absolute", }}>
     <div className="threed-page">
     <MotionConfig transition={switchTransition}>
       <motion.div
@@ -20,12 +21,13 @@ export default function ThreeD() {
           color: isOn ? "#1C2541" : "#ffffff"
         }}
       >
-        <h1 className="open" children="<Buzzin>" />
-        <h1 className="close" children="</NYC>" />
+        <h1 className="open" children="<Switch>" />
+        <h1 className="close" children="</Mode>" />
         <motion.h1 ref={headerRef} />
         <Scene isOn={isOn} setOn={setOn} />
       </motion.div>
     </MotionConfig>
+    </div>
     </div>
   )
 }

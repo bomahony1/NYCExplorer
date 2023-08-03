@@ -105,13 +105,13 @@
   -webkit-appearance: button;
   background: var(--accent);
   color: var(--background);
-  border: none;
+  /* border: 1px solid white; */
   padding: 15px 25px;
   border-radius: 50px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  width: 150px;
+  width: 220px;
   }
   
   .itinerary-page input {
