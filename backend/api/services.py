@@ -542,7 +542,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     except Exception as e:
         temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
-    with open('api/taxi_zones.json') as file:
+    with open('api/manhattan_zones.json') as file:
         zone_coordinates = json.load(file)
 
 
