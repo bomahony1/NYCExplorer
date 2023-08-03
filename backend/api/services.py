@@ -513,10 +513,6 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
     prediction_data = model.predict(prediction_data)
     return prediction_data[0]
 
-x = get_predictions(5,6,8,40.7479925, -74.0047649)
-print('-' * 20)
-print(x)
-print('-' * 20)
 
 def get_heat_map(hour: float, day: float, month:float = 8):
     """ Function that returns coordinates with weight for heat map"""
