@@ -17,7 +17,7 @@ import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
 
 
 
@@ -186,7 +186,12 @@ export default function MainMenu() {
         <PlayButton />
       </div>
       <div>
-      <Box>{content}</Box>
+      <Routes>
+          {/* Use the Route component to specify the path and the component to render */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/recommend" element={<RecommendPage />} />
+        </Routes>
       </div>
       <Box style={{position:"relative"}}>
       <div style={{position:'absolute',bottom:'200px',padding:"20px",textAlign:"center",top:"20px",left:"35%",zIndex:"999"}}><Footer /></div>
