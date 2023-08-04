@@ -265,6 +265,7 @@ import { motion, AnimatePresence, useScroll, useSpring, useTransform} from "fram
 import { Button, Box, ButtonGroup,Link } from "@mui/material";
 import "./RecommendPage.css"
 import { removeItem } from "./array.ts";
+import {  useNavigate } from 'react-router-dom';
 
 
 
@@ -418,6 +419,29 @@ function Pop() {
     const newHeight = items.length * 220; // Adjust the height 
     setContainerHeight(newHeight);
   }, [items]);
+  const locations = [
+    { name: "Fotografiska NY", lat: 40.702523, lng: -74.014090 },
+    { name: "Downtown & Statue of Liberty", lat: 40.689249, lng: -74.044500 },
+    { name: "Madame Tussauds New York", lat: 40.756222, lng: -73.988253 },
+    { name: "Solomon R. Guggenheim Museum", lat: 40.783010, lng: -73.958465 },
+    { name: "Entertain Yourself in Times Square", lat: 40.758895, lng: -73.985131 },
+    { name: "Museum of Broadway", lat: 40.760037, lng: -73.984017 },
+    { name: "El Museo del Barrio", lat: 40.792433, lng: -73.951863 },
+    { name: "Empire State Building", lat: 40.748817, lng: -73.985428 },
+    { name: "Escape Game New York", lat: 40.744717, lng: -73.988134 },
+    { name: "St. Patrick’s Cathedral Tour", lat: 40.758446, lng: -73.976211 },
+    { name: "LoL Comedy Lounge Magic", lat: 40.760616, lng: -73.994915 },
+    { name: "Intrepid Sea, Air & Space Museum", lat: 40.764532, lng: -73.999161 },
+    { name: "One World Observatory", lat: 40.713015, lng: -74.013169 },
+    { name: "Central Park Guided Bike Tour", lat: 40.767783, lng: -73.971833 },
+    { name: "American Museum of Natural History", lat: 40.781324, lng: -73.974843 },
+    { name: "Scavenger Hunts", lat: 40.758899, lng: -73.985057 },
+    { name: "Observation Deck at Rockefeller Center", lat: 40.759145, lng: -73.979698 },
+    { name: "Whitney Museum of American Art", lat: 40.739612, lng: -74.008130 },
+    { name: "Museum of the City of New York", lat: 40.792614, lng: -73.951309 },
+    { name: "Ellis Island Roundtrip Ferry Tour", lat: 40.699663, lng: -74.039863 },
+    { name: "New York Historical Society Museum and Library", lat: 40.779442, lng: -73.973939 }
+  ];
   
 
   const customTexts = [
@@ -442,6 +466,7 @@ function Pop() {
                         "Museum of the City of New York",
                         "Ellis Island Roundtrip Ferry Tour",
                         "New York Historical Society Museum and Library"]; // Add your custom texts here
+                        const navigate = useNavigate();
 
 
 return (
@@ -492,6 +517,11 @@ return (
             src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
             style={{ width: "320px", height: "210px",alignItems:"center" }}
+            onClick={() => {
+              navigate('/map', {
+                state: { location: { lat: locations[item.id - 1].lat, lng: locations[item.id - 1].lng } },
+              });
+            }}
             />
             </div>
           ))}
