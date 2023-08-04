@@ -362,7 +362,7 @@ function HomePage() {
             </div>
           </div>
         </div>
-        <ThreeD />
+        {/* <ThreeD /> */}
       </div>
     </div>
   );

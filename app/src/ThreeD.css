@@ -11,8 +11,8 @@
   font-weight: 800;
   margin: 0;
   margin-bottom: 0.5rem;
-  font-size: 600px;
-  letter-spacing: -40px;
+  font-size: 80px; /* Adjust the font size for the h1 element */
+  letter-spacing: -12px; /* Adjust the letter spacing */
   color: inherit;
 }
 
@@ -25,11 +25,11 @@
 
 .threed-page .container > .close,
 .threed-page .container > .open {
-  margin-top: -270px;
-  letter-spacing: -10px;
-  font-size: 250px;
+  margin-top: -60px; /* Adjust the margin-top for the close and open classes */
+  letter-spacing: -6px;
+  font-size: 80px; /* Adjust the font size for the close and open classes */
 }
 
 .threed-page .container > .close {
-  margin-top: 300px;
+  margin-top: 60px; /* Adjust the margin-top for the close class */
 }

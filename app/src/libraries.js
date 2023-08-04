@@ -1,2 +1,2 @@
 // libraries.js
-export const libraries = ['places', 'visualization'];
+export const libraries = ['places', 'visualization','geometry'];

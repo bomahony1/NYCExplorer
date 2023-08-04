@@ -4,9 +4,14 @@ import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import { Button} from '@mui/material';
 
-const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => {
+
+
+const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap,polygons }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [lastSelectedDate, setLastSelectedDate] = useState(null);
+ 
+ 
+  
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -49,23 +54,44 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
     fetch(apiUrl + '?' + queryParams)
       .then((response) => response.json())
       .then((data) => {
-        // Format the backend data to an array of LatLng objects
-        const heatmapArray = Object.keys(data.prediction).map((latLng) => {
-            const [lat, lng] = latLng.split(',').map((value) => parseFloat(value));
-            const weight = data.prediction[latLng];
-            if (isNaN(lat) || isNaN(lng)) {
-              throw new Error('Invalid latLng format: ' + latLng);
-            }
-            return { lat, lng, weight };
+        const polygonsArray = data.prediction.map((zoneData) => {
+            const latLngs = zoneData.coordinates.map((coordinate) => ({
+                lat: coordinate[0],
+                lng: coordinate[1],
+              }));
+            const prediction = zoneData.prediction;
+            const color = getColorBasedOnPrediction(prediction);
+            const zoneNumber = zoneData.zoneNumber;
+            return { zoneNumber,latLngs, color, prediction  };
           });
-          onHeatmapDataReceived(heatmapArray);
+        //   setPolygons(polygonsArray); // Update the polygons state with the fetched data
+          onHeatmapDataReceived(polygonsArray);// You can pass the polygons to the parent if needed.
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
 
+
+  const getColorBasedOnPrediction = (prediction) => {
+    if (prediction === 0) {
+      return 'rgba(220, 218, 216, 0)'; // Weight 0: Transparent
+    } else if (prediction <= 50) {
+      return 'rgba(180, 223, 187, 1)'; // Weight 1-60: Light green
+    } else if (prediction <= 150) {
+      return 'rgba(216, 209, 224, 1)'; // Weight 61-150: Light purple
+    } else if (prediction <= 300) {
+      return 'rgba(246, 244, 198, 1)'; // Weight 151-300: Light yellow
+    } else if (prediction <= 450) {
+      return 'rgba(246, 217, 190, 1)'; // Weight 301-450: Light orange
+    } else if (prediction <= 600) {
+      return 'rgba(158, 185, 215, 1)'; // Weight 451-600: Light blue
+    } else {
+      return 'rgba(253, 136, 194, 1)'; // Weight > 600: Light pink
+    }
+  };
   
+   
 
   return (
     <div style={{ marginTop: '20px',clor:"#1C2541"}}>
@@ -89,6 +115,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap }) => 
             >
             {heatmapVisible ? 'Hide Heatmap' : 'Predict Busyness'}
         </Button>
+        
  
     </div>
   );

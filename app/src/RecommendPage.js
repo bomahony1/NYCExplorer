@@ -448,7 +448,7 @@ return (
     <div className="example">
       <div className="controls">
         <label className="enable">
-          <code style={{color:"white"}}>POP Recommend Itinerary </code>
+          <code style={{color:"white"}}>Display on Map? Click Image  </code>
           
           <input
             type="checkbox"
@@ -463,8 +463,10 @@ return (
             const newItem = { id: count.current, text: customTexts[count.current - 1] };
             setItems([...items, newItem]);
           }}
+          style={{ width: "260px",margin:"10px",border:"1px solid white"}}
         >
-          Add Recommendations
+         POP Recommendations
+       
         </motion.button>
       </div>
       <ul>
@@ -518,19 +520,19 @@ function ItineraryPage() {
             <div>
               <div style={{display:"flex",alignItems: "center",justifyContent: "center",marginTop:"0px"}}>
               <h1 style={{flex:0.45,color:"white",marginBottom:"3px"}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{  color: "white",marginTop:"20px" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+              <Button size="small" style={{  color: "white",marginTop:"20px",border: "none"}} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
               Book now
               </Button>
               </div>
               <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
                 <Window content={selectedTab}  />
             </div>
-            <div style={{display:"flex"}}>
-            <div className="pop" style={{flex:1.4,marginTop:"80px"}}>
+            <div style={{display:"flex",height:"600px"}}>
+            <div className="pop" style={{flex:1.4,marginTop:"80px",}}>
             <Pop />
             </div>
           
-            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"366px",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
+            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
          
             <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white",fontSize: "20px"}}>
               {'Fotografiska NY'}
@@ -608,7 +610,7 @@ function ItineraryPage() {
             </div>
             </div>
             {/* add the scroll process */}
-            <article>
+            {/* <article>
       <motion.div className="progress" style={{ scaleX }} />
       <motion.div
         initial={{ scaleX: 1 }}
@@ -617,7 +619,7 @@ function ItineraryPage() {
         style={{ originX: true ? 0 : 1 }}
         className="privacy-screen"
       />
-    </article>
+    </article> */}
       </div>
     );
 }

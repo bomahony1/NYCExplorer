@@ -1,9 +1,9 @@
-import React, { useMemo, useEffect, useState, useRef } from 'react';
+import React, { useMemo, useEffect, useState, useRef,useCallback } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow,Polygon} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
@@ -25,7 +25,12 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
+import ThreeD from './ThreeD.js';
+import ColorLegend from './ColorLegend.js';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
+
+// import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -38,7 +43,7 @@ function DateRangePickerComponent({ handleSelect }) {
     endDate: new Date(),
     key: 'selection'
   });
-
+ 
   
 
   const handleChange = (ranges) => {
@@ -69,7 +74,7 @@ function DateRangePickerDialog({ handleSelect }) {
   };
 
   return (
-    <div>
+    <div>   
        <Button
               variant="outlined"
               size="media"
@@ -85,6 +90,7 @@ function DateRangePickerDialog({ handleSelect }) {
             >
               Date Range Picker
             </Button>
+            {/* <Divider style={{border: '1px solid white',marginTop:"6px"}} /> */}
     
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Select Date Range</DialogTitle>
@@ -151,8 +157,9 @@ function TemporaryDrawer({tmp}) {
             <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" }}
+            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" ,border:"1px solid #1C2541"}}
           >
+            <PostAddIcon  sx={{ fontSize: 18,}}/>
             Drag a place here to add it
           </div>
           </div>
@@ -161,8 +168,7 @@ function TemporaryDrawer({tmp}) {
 
       return (
         <>
-          <h3>Selected Date Range</h3>
-          <p>{`${start} - ${end}`}</p>
+          <h3>{`${start} - ${end}`}</h3>
           {dateContent}
         </>
       );
@@ -172,30 +178,31 @@ function TemporaryDrawer({tmp}) {
   };
 
   return (
-    <div>
+    <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
       {isDrawerOpen && (
-        <div style={{ display: 'flex' }}>
-
-          <div style={{ width: '60%', height: '100%', background: 'white' }}>
+        <div style={{ display: 'flex'}}>
+          <div style={{background: 'white',height: '748px', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
               variant="outlined"
-              size="large"
+              size="media"
               onClick={toggleWindow}
-              endIcon={<OpenInNewIcon  sx={{ fontSize: 26,}}/>}
+              endIcon={<OpenInNewIcon  sx={{ fontSize: 28,}}/>}
               style={{ margin: '10px',backgroundColor: '#1C2541', color: '#ffffff',fontWeight: 'bold' }}
             >
               Open Day Planner
             </Button>
             <Divider />
             <CustomizedAccordions onMarkerSelect={handleMarkerSelection} />
+           
+           
           </div>
           {isWindowOpen && (
             <div
               style={{
-                width: '300px',
-                marginLeft: '10px',
+                width: '90%',
+                // border: '1px solid #1C2541',
                 background: '#1C2541',
                 color:"#ffffff",
               }}
@@ -463,6 +470,10 @@ function TemporaryDrawer({tmp}) {
       const formattedHours = hours % 12 || 12;
       return `${formattedHours}:${minutes} ${ampm}`;
     };
+
+
+  
+
   
     return (
       <div>
@@ -478,7 +489,7 @@ function TemporaryDrawer({tmp}) {
                 />
               }
             >
-              <Typography>Attractions</Typography>
+              <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Attractions</Typography>
               <div
                 className="label-circle"
                 style={{ backgroundColor: attractionsChecked ? '#fdffb6' : 'transparent' }}
@@ -556,7 +567,7 @@ function TemporaryDrawer({tmp}) {
               />
             }
             >
-            <Typography>Restaurants</Typography>
+            <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Restaurants</Typography>
             <div
               className="label-circle"
               style={{ backgroundColor: restaurantsChecked ? '#06d6a0' : 'transparent' }}
@@ -633,7 +644,7 @@ function TemporaryDrawer({tmp}) {
             />
           }
         >
-          <Typography>Hotels</Typography>
+          <Typography style={{fontSize:"18px",color:"#1C2541",fontFamily:"sans-serif",fontWeight:"bold"}}>Hotels</Typography>
           <div
             className="label-circle"
             style={{ backgroundColor: hotelsChecked ? '#ff6b35' : 'transparent' }}
@@ -790,7 +801,12 @@ function MapPage() {
   const [showHotels, setShowHotels] = useState(false);
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
-  const [heatmapData, setHeatmapData] = useState([]);
+
+  const [nightMode, setNightMode] = useState(false);
+  const handleMapToggle = () => {
+    setNightMode((prevNightMode) => !prevNightMode);
+  };
+
 
 
 
@@ -1113,28 +1129,66 @@ const handleDirectionsResponse = (response) => {
   const distanceText = directions?.routes[0]?.legs[0]?.distance?.text || '';
   const durationText = directions?.routes[0]?.legs[0]?.duration?.text || '';
 
+  const [polygons, setPolygons] = useState([]);
+
+
   const handleHeatmapDataReceived = (data) => {
-    setHeatmapData(data);
+  
+    setPolygons(data);
   };
+  const mapRef = useRef(null)
+  
+
   const [heatmapVisible, setHeatmapVisible] = useState(false);
+
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
+    console.log('Toggle heatmap visibility');
   };
-  // Define the custom gradient colors for different weight ranges
-const heatmapGradient = [
-  'rgba(220, 218, 216, 0)',   // Weight 0: Transparent (#dcdad8)
-  'rgba(180, 223, 187, 1)', // Weight 1-60: Light green (#b4dfbb)
-  'rgba(216, 209, 224, 1)', // Weight 61-150: Light purple (#d8d1e0)
-  'rgba(246, 244, 198, 1)', // Weight 151-300: Light yellow (#f6f4c6)
-  'rgba(246, 217, 190,1)', // Weight 301-450: Light orange (#f6d9be)
-  'rgba(158, 185, 215, 1)', // Weight 451-600: Light blue (#9eb9d7)
-  'rgba(253, 136, 194, 1)', // Weight > 600: Light pink (#fd88c2)
-];
+
+  const [predictionNumber, setPredictionNumber] = useState(null);
+
+  const handleMapMouseOver = useCallback((event) => {
+    const latLng = event.latLng;
+    let prediction = null;
+
+    // Find the polygon that contains the mouse position
+    for (const polygonData of polygons) {
+      const polygon = new window.google.maps.Polygon({ paths: polygonData.latLngs });
+      if (window.google.maps.geometry.poly.containsLocation(latLng, polygon)) {
+        prediction = parseInt(polygonData.prediction,10);
+        
+        break;
+      }
+    }
+
+    // Update the state with the prediction number
+    setPredictionNumber(prediction);
+  });
+  
+ useEffect(() => {
+    const map = mapRef.current;
+    if (map) {
+      map.addListener('mousemove', handleMapMouseOver);
+    }
+
+    return () => {
+      if (map) {
+        map.removeListener('mousemove', handleMapMouseOver);
+      }
+    };
+  }, [handleMapMouseOver]);
+  // Function to handle mouseout event on the map
+  const handleMapMouseOut = () => {
+    setPredictionNumber(null);
+  };
+
+
 
 
   return (
     
-    <div style={{ margin: '0 0px', color: '#1C2541' }}>
+    <div style={{ color: '#1C2541' }}>
       <div className='fixed-box'>
       <Draggable nodeRef={draggableRef}>
       <div id="info01" style={{ cursor: 'move' }} ref={draggableRef}>
@@ -1150,10 +1204,11 @@ const heatmapGradient = [
           )}
         </div>
           {/*heat map */}
-      <Heatmap
+          <Heatmap
         onHeatmapDataReceived={handleHeatmapDataReceived}
         heatmapVisible={heatmapVisible}
         onToggleHeatmap={handleToggleHeatmap}
+      
       />
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
@@ -1255,14 +1310,18 @@ const heatmapGradient = [
         </div>
         </Draggable>
       </div>
-      <div style={{ display: "flex", height: "750px" }}>
-        <div style={{ flex: 1 }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
+        <Draggable>
+        <div> <ThreeD handleMapToggle={handleMapToggle} /></div>
+        </Draggable>
         </div>
         <div>
+       
     
     </div>
-        <div style={{ height: '750px', flex: "2" }}>
+        <div style={{ height: '750px', flex: "3" }}>
     
           {!isLoaded ? (
             <div>Loading...</div>
@@ -1272,9 +1331,50 @@ const heatmapGradient = [
               mapContainerStyle={{ height: '100%' }}
               center={center}
               zoom={13}
+              onMouseOver={handleMapMouseOver} 
+              onMouseOut={handleMapMouseOut} 
+            
               mapId="MAPS_API_KEY"
               options={{
-                styles: [
+                styles: nightMode?[
+                  {
+                    featureType: 'all',
+                    stylers: [
+                      { saturation: -100 }, // Decrease saturation to make colors less vibrant
+                      { lightness: -50 }, // Decrease lightness to make colors darker
+                    ],
+                  },
+                  {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [
+                      { visibility: 'simplified' }, // Simplify road geometry
+                      { lightness: -20 }, // Decrease lightness to make roads darker
+                    ],
+                  },
+                  {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }], // Hide points of interest (POIs)
+                  },
+                  {
+                    featureType: 'transit',
+                    stylers: [{ visibility: 'off' }], // Hide transit information
+                  },
+                  {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [
+                      { visibility: 'simplified' }, // Simplify water geometry
+                      { lightness: -50 }, // Decrease lightness to make water darker
+                    ],
+                  },
+                  {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#ffffff' }], // Set water label text color to white
+                  },
+                ]:
+                [
                   {
                     featureType: 'all',
                     stylers: [
@@ -1304,17 +1404,24 @@ const heatmapGradient = [
                 ],
               }}
             >
-            {heatmapVisible && heatmapData && (
-             <HeatmapLayer
-             data={heatmapData.map((data) => ({
-               location: new window.google.maps.LatLng(data.lat, data.lng),
-               weight: data.weight,
-             }))}
-             options={{
-              gradient: heatmapGradient,
-            }}
-           />
-          )}
+             
+             {heatmapVisible &&
+          polygons.map((polygonData) => (
+            <Polygon
+              key={polygonData.zoneNumber}
+              paths={polygonData.latLngs}
+              prediction={polygonData.prediction}
+              options={{
+                fillColor: polygonData.color,
+                fillOpacity: 0.5,
+                strokeColor: polygonData.color,
+                strokeOpacity: 0.9,
+                strokeWeight: 2,
+              }}
+              onMouseOver={() => setPredictionNumber(polygonData.prediction)} // Add the mouseover event handler for each polygon
+              onMouseOut={() => setPredictionNumber(null)} 
+            />
+          ))}
             {showMarkers && markers
             .filter((marker) => !marker.type) 
             .map((marker) => (
@@ -1459,6 +1566,32 @@ const heatmapGradient = [
               </Marker>
             ))}
 
+            {heatmapVisible &&predictionNumber !== null && (
+          
+          <div style={{
+            position: 'absolute',
+            top: 100,
+            left: 100,
+            width: '140px',
+            color:"#1C2541",
+            maxWidth: 'calc(100% - 20px)',
+            borderRadius: '10px',
+            fontWeight:"bold",
+            fontFamily:"monospace",
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+            fontSize: '12px',
+          }}>
+              <div style={{margin:"6px", fontSize: '14px',}}>
+               Zoom Busyness:{Math.floor(predictionNumber)}
+               </div>
+              <div>
+               <ColorLegend/>
+               
+              </div>
+            </div>
+           
+            )}
             {directions && (
               <DirectionsRenderer
                 options={{
