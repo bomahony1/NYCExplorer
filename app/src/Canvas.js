@@ -199,7 +199,7 @@ export function Scene({ isOn, setOn }) {
       orthographic
       shadows
       dpr={[1, 2]}
-      camera={{ zoom: 60, position: [-5, 5, 5], fov: 90 }}
+      camera={{ zoom: 30, position: [-5, 5, 5], fov: 90 }}
     >
       <motion.group initial={false} animate={isOn ? "on" : "off"}>
       <ambientLight intensity={0.1} />
