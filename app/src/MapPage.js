@@ -26,6 +26,7 @@ import Draggable from 'react-draggable';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'; 
 import Heatmap from './Heatmap'; 
 import ThreeD from './ThreeD.js';
+import ColorLegend from './ColorLegend.js';
 
 
 // import zonesData from './ManhattanZones.json'; 
@@ -1155,7 +1156,8 @@ const handleDirectionsResponse = (response) => {
     for (const polygonData of polygons) {
       const polygon = new window.google.maps.Polygon({ paths: polygonData.latLngs });
       if (window.google.maps.geometry.poly.containsLocation(latLng, polygon)) {
-        prediction = polygonData.prediction;
+        prediction = parseInt(polygonData.prediction,10);
+        
         break;
       }
     }
@@ -1208,12 +1210,6 @@ const handleDirectionsResponse = (response) => {
         onToggleHeatmap={handleToggleHeatmap}
       
       />
-        {predictionNumber !== null && (
-        <div style={{ position: 'absolute', top: 10, left: 10, backgroundColor: 'white' }}>
-          Prediction Number: {predictionNumber}
-        </div>
-      )}
-      
   
         <div style={{margin: '16px 34px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '6px' }}>
         <Button
@@ -1570,6 +1566,32 @@ const handleDirectionsResponse = (response) => {
               </Marker>
             ))}
 
+            {heatmapVisible &&predictionNumber !== null && (
+          
+          <div style={{
+            position: 'absolute',
+            top: 100,
+            left: 100,
+            width: '140px',
+            color:"#1C2541",
+            maxWidth: 'calc(100% - 20px)',
+            borderRadius: '10px',
+            fontWeight:"bold",
+            fontFamily:"monospace",
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+            fontSize: '12px',
+          }}>
+              <div style={{margin:"6px", fontSize: '14px',}}>
+               Zoom Busyness:{Math.floor(predictionNumber)}
+               </div>
+              <div>
+               <ColorLegend/>
+               
+              </div>
+            </div>
+           
+            )}
             {directions && (
               <DirectionsRenderer
                 options={{

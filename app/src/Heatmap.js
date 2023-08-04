@@ -76,7 +76,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap,polygo
   const getColorBasedOnPrediction = (prediction) => {
     if (prediction === 0) {
       return 'rgba(220, 218, 216, 0)'; // Weight 0: Transparent
-    } else if (prediction <= 60) {
+    } else if (prediction <= 50) {
       return 'rgba(180, 223, 187, 1)'; // Weight 1-60: Light green
     } else if (prediction <= 150) {
       return 'rgba(216, 209, 224, 1)'; // Weight 61-150: Light purple
@@ -115,6 +115,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap,polygo
             >
             {heatmapVisible ? 'Hide Heatmap' : 'Predict Busyness'}
         </Button>
+        
  
     </div>
   );
