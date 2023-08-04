@@ -185,7 +185,7 @@ def get_foursquare_restaurants():
 def get_google_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
+    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
     params = {
         "query": "restaurants in Manhattan, New York",
         "key": api_key,
@@ -254,7 +254,7 @@ def get_google_restaurants():
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
+    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
     params = {
         "query": "tourist attractions in Manhattan, New York",
         "key": api_key,
@@ -326,7 +326,7 @@ def get_google_attractions():
 
 def get_google_hotels():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    api_key = "AIzaSyA7hHscGWZRRY8eRKIvdWs1GxhkRKcspMk"
+    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
     params = {
         "query": "Hotels in Manhattan, New York",
         "key": api_key,
