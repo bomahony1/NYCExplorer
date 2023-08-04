@@ -27,6 +27,7 @@ import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import Heatmap from './Heatmap'; 
 import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
 
 // import zonesData from './ManhattanZones.json'; 
@@ -156,8 +157,9 @@ function TemporaryDrawer({tmp}) {
             <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" }}
+            style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" ,border:"1px solid #1C2541"}}
           >
+            <PostAddIcon  sx={{ fontSize: 18,}}/>
             Drag a place here to add it
           </div>
           </div>
@@ -166,8 +168,6 @@ function TemporaryDrawer({tmp}) {
 
       return (
         <>
-     
-          {/* <h3>Selected Date Range</h3> */}
           <h3>{`${start} - ${end}`}</h3>
           {dateContent}
         </>
@@ -1311,7 +1311,7 @@ const handleDirectionsResponse = (response) => {
         </Draggable>
       </div>
       <div style={{ display: "flex" }}>
-        <div style={{ flex: 1.6,height:"450px" }}>
+        <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
         <Draggable>
         <div> <ThreeD handleMapToggle={handleMapToggle} /></div>

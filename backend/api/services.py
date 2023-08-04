@@ -9,7 +9,7 @@ import pickle
 import pandas as pd
 import xgboost
 import datetime
-import holiday
+import holidays
 
 import re
 from shapely.geometry import MultiPolygon, Point, Polygon

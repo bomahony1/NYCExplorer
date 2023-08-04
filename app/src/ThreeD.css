@@ -8,11 +8,11 @@
   transform: translate3d(-50%, -50%, 0) rotate3d(1, 0, 0, 55deg) rotate3d(0, 0, 1, 45deg);
   font-family: "Roboto", sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   margin-bottom: 0.5rem;
-  font-size: 120px; /* Adjust the font size for the h1 element */
-  letter-spacing: -20px; /* Adjust the letter spacing */
+  font-size: 80px; /* Adjust the font size for the h1 element */
+  letter-spacing: -12px; /* Adjust the letter spacing */
   color: inherit;
 }
 
@@ -25,11 +25,11 @@
 
 .threed-page .container > .close,
 .threed-page .container > .open {
-  margin-top: -100px; /* Adjust the margin-top for the close and open classes */
-  letter-spacing: -10px;
-  font-size: 120px; /* Adjust the font size for the close and open classes */
+  margin-top: -60px; /* Adjust the margin-top for the close and open classes */
+  letter-spacing: -6px;
+  font-size: 80px; /* Adjust the font size for the close and open classes */
 }
 
 .threed-page .container > .close {
-  margin-top: 100px; /* Adjust the margin-top for the close class */
+  margin-top: 60px; /* Adjust the margin-top for the close class */
 }
