@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Welcome from './Welcome';
 import MainMenu from './MainMenu';
 import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 const App = () => {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -25,6 +26,7 @@ const App = () => {
   };
 
   return (
+    <Router>
     <div className="App">
       {showAnimation ? (
         <div className="animation">
@@ -36,6 +38,7 @@ const App = () => {
         <MainMenu />
       )}
     </div>
+    </Router>
   );
 };
 

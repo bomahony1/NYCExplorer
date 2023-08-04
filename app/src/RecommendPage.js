@@ -503,13 +503,13 @@ return (
 
 
 function ItineraryPage() {
-  const { scrollYProgress } = useScroll();
+  // const { scrollYProgress } = useScroll();
   const [selectedTab, setSelectedTab] = useState(null);
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 30,
-    restDelta: 0.001
-  });
+  // const scaleX = useSpring(scrollYProgress, {
+  //   stiffness: 200,
+  //   damping: 30,
+  //   restDelta: 0.001
+  // });
   const handleButtonClick = (url) => {
     window.open(url, '_blank');
   };

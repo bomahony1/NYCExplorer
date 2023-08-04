@@ -807,7 +807,9 @@ function MapPage() {
     setNightMode((prevNightMode) => !prevNightMode);
   };
 
+ 
 
+  
 
 
   const handleMarkerSelection = (place) => {

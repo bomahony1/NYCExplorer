@@ -16,6 +16,9 @@ import useMeasure from 'react-use-measure';
 import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const handleButtonClick = (url) => {
@@ -96,7 +99,23 @@ export default function MainMenu() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    // Handle tab change and navigate to corresponding route
+    switch (newValue) {
+      case 0:
+        navigate("/");
+        break;
+      case 1:
+        navigate("/map");
+        break;
+      case 2:
+        navigate("/recommend");
+        break;
+      default:
+        break;
+    }
   };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
