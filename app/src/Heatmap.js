@@ -74,17 +74,17 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap,polygo
 
 
   const getColorBasedOnPrediction = (prediction) => {
-    if (prediction === 0) {
+    if (prediction === -1.5) {
       return 'rgba(220, 218, 216, 0)'; // Weight 0: Transparent
-    } else if (prediction <= 50) {
+    } else if (prediction <= -1) {
       return 'rgba(180, 223, 187, 1)'; // Weight 1-60: Light green
-    } else if (prediction <= 150) {
+    } else if (prediction <= -0.5) {
       return 'rgba(216, 209, 224, 1)'; // Weight 61-150: Light purple
-    } else if (prediction <= 300) {
+    } else if (prediction <= 0) {
       return 'rgba(246, 244, 198, 1)'; // Weight 151-300: Light yellow
-    } else if (prediction <= 450) {
+    } else if (prediction <= 0.5) {
       return 'rgba(246, 217, 190, 1)'; // Weight 301-450: Light orange
-    } else if (prediction <= 600) {
+    } else if (prediction <= 1) {
       return 'rgba(158, 185, 215, 1)'; // Weight 451-600: Light blue
     } else {
       return 'rgba(253, 136, 194, 1)'; // Weight > 600: Light pink

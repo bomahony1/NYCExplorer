@@ -236,7 +236,7 @@ function TemporaryDrawer({tmp}) {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, .05)'
-        : 'rgba(0, 0, 0, .03)',
+        : 'rgba(28, 37, 65, 0.01)',
     flexDirection: 'row-reverse',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
       transform: 'rotate(90deg)',
@@ -248,7 +248,7 @@ function TemporaryDrawer({tmp}) {
   
   const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
     padding: theme.spacing(2),
-    borderTop: '1px solid rgba(0, 0, 0, .125)',
+    borderTop: '1px solid rgba(0, 0, 0, .105)',
   }));
 
  
