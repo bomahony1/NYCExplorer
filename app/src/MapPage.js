@@ -1315,9 +1315,9 @@ const handleDirectionsResponse = (response) => {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
-        <Draggable>
+       
         <div> <ThreeD handleMapToggle={handleMapToggle} /></div>
-        </Draggable>
+       
         </div>
         <div>
        
