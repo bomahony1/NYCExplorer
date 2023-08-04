@@ -8,6 +8,8 @@ from django.utils import timezone
 import pickle
 import pandas as pd
 import xgboost
+import datetime
+import holiday
 
 import re
 from shapely.geometry import MultiPolygon, Point, Polygon
@@ -454,6 +456,20 @@ def is_point_inside_polygon(point, polygon_coords):
         point = Point(point)
         return polygon.contains(point)
 
+def is_us_public_holiday(day, month):
+    date_obj = datetime.date(datetime.date.today().year, month, day)
+
+    # Get the list of US public holidays for the current year
+    us_holidays = holidays.US(years=date_obj.year)
+
+    # Check if the date falls on a US public holiday
+    return date_obj in us_holidays
+
+def check_is_weekend(day, month):
+    date_obj = datetime.date(datetime.date.today().year, month, day)
+    day_of_week = date_obj.weekday()
+    return day_of_week in [5, 6]
+
 def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
     """Returns prediction of busyness in Area."""
 
@@ -470,10 +486,15 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
                   continue
         return zone
     
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
+    if check_is_weekend(day, month):
         is_weekday, is_weekend = 0, 1
+    else:
+        is_weekday, is_weekend = 1, 0
+
+    if is_us_public_holiday(day, month):
+        holiday = 1
+    else:
+        holiday = 0
     
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
@@ -507,7 +528,8 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month]
+        'Month': [month],
+        'is_public_holiday': [holiday]
     })
 
     prediction_data = model.predict(prediction_data)
@@ -519,10 +541,15 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     with open(f'api/xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
+    if check_is_weekend(day, month):
         is_weekday, is_weekend = 0, 1
+    else:
+        is_weekday, is_weekend = 1, 0
+
+    if is_us_public_holiday(day, month):
+        holiday = 1
+    else:
+        holiday = 0
 
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
@@ -552,7 +579,8 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month]
+        'Month': [month],
+        'is_public_holiday': [holiday]
     })
 
     value_list = [4,12,13,24,41,42,43,45,48,50,68,74,75,79,87,88,90,100,107,113,114,116,120,125,127,128,137,140,141,142,143,
