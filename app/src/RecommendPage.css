@@ -45,11 +45,13 @@
   width: 5px;
   background: var(--background);
   -webkit-border-radius: 1ex;
+  border-radius: 0%;
   }
   
   .itinerary-page ::-webkit-scrollbar-thumb {
   background: var(--accent);
   -webkit-border-radius: 1ex;
+  border-radius: 1%;
   }
   
   .itinerary-page ::-webkit-scrollbar-corner {
@@ -202,11 +204,13 @@
   width: 5px;
   background: #fff3;
   -webkit-border-radius: 1ex;
+  border-radius: 1%;
   }
   
   .gallery::-webkit-scrollbar-thumb {
   background: var(--accent);
   -webkit-border-radius: 1ex;
+  border-radius: 1%;
   }
   
   .gallery::-webkit-scrollbar-corner {

@@ -1,9 +1,9 @@
-import React, { useMemo, useEffect, useState, useRef } from 'react';
+import React, { useMemo, useEffect, useState, useRef,useCallback } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow,HeatmapLayer, LoadScript,Polygon} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow,Polygon} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
@@ -1147,7 +1147,7 @@ const handleDirectionsResponse = (response) => {
 
   const [predictionNumber, setPredictionNumber] = useState(null);
 
-  const handleMapMouseOver = (event) => {
+  const handleMapMouseOver = useCallback((event) => {
     const latLng = event.latLng;
     let prediction = null;
 
@@ -1162,7 +1162,7 @@ const handleDirectionsResponse = (response) => {
 
     // Update the state with the prediction number
     setPredictionNumber(prediction);
-  };
+  });
   
  useEffect(() => {
     const map = mapRef.current;
