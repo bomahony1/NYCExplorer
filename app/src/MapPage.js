@@ -1080,6 +1080,7 @@ function MapPage() {
       setDestination(marker.position);
     }
     setSelectedMarker(marker);
+    setZoomLevel(15);
     
   };
 
@@ -1212,6 +1213,11 @@ const handleDirectionsResponse = (response) => {
   const handleMapMouseOut = () => {
     setPredictionNumber(null);
   };
+
+
+
+  const [zoomLevel, setZoomLevel] = useState(13); // Set an initial zoom level
+
 
 
 
@@ -1360,7 +1366,7 @@ const handleDirectionsResponse = (response) => {
             <GoogleMap
               mapContainerStyle={{ height: '100%' }}
               center={center}
-              zoom={13}
+              zoom={zoomLevel} 
               onMouseOver={handleMapMouseOver} 
               onMouseOut={handleMapMouseOut} 
             
@@ -1464,12 +1470,14 @@ const handleDirectionsResponse = (response) => {
                 onClick={() => handleMarkerClick(marker)}
                 options={marker.options}
                 animation={marker.animation}
+                onMouseOver={() => setSelectedMarker(marker)} // Show InfoWindow on hover
+                onMouseOut={() => setSelectedMarker(null)} 
                 
               >
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
                    <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
@@ -1504,7 +1512,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                     
                   >
                   <div  className="custom-info-window" >
@@ -1540,7 +1548,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
                    <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
@@ -1578,7 +1586,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
                   <div className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
