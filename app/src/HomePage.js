@@ -11,7 +11,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-
+import LoadingIndicator from './LoadingIndicator';
 
 function NestedList({ attractions }) {
   const [open1, setOpen1] = useState(false);
@@ -233,6 +233,7 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [loading, setLoading] = useState(true); 
   const [attractions, setAttractions] = useState([]);
 
   useEffect(() => {
@@ -252,10 +253,12 @@ function HomePage() {
         } else {
           setEvents([]);
         }
+        setLoading(false); // Data loaded, set loading to false
       })
       .catch((error) => {
         console.error(error);
         setEvents([]);
+        setLoading(false); // Error occurred, set loading to false
       });
   }, []);
 
@@ -285,7 +288,38 @@ function HomePage() {
       });
   }, []);
 
+  const [loadingProgress, setLoadingProgress] = React.useState(0); // Add the loadingProgress state
 
+  useEffect(() => {
+    // Simulating the API fetch progress
+    const timer = setInterval(() => {
+      setLoadingProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+    }, 800);
+
+    // Simulating the completion of the API fetch
+    setTimeout(() => {
+      clearInterval(timer);
+      setLoadingProgress(100);
+    }, 4000);
+
+    // Clean up the interval timer when the component unmounts
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  // Simulate fetching data from API - Replace this with your actual API fetch logic
+  useEffect(() => {
+    setTimeout(() => {
+      // Simulate the completion of the data fetch
+      setLoadingProgress(100);
+    }, 4000);
+  }, []);
+
+  // If data is still loading, show the LoadingIndicator with the loading progress
+  if (loadingProgress < 100) {
+    return <LoadingIndicator loadingProgress={loadingProgress} />;
+  }
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
