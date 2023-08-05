@@ -519,7 +519,7 @@ return (
             style={{ width: "320px", height: "210px",alignItems:"center" }}
             onClick={() => {
               navigate('/map', {
-                state: { location: { lat: locations[item.id - 1].lat, lng: locations[item.id - 1].lng } },
+                state: { location: { lat: locations[item.id - 1].lat, lng: locations[item.id - 1].lng ,title:locations[item.id - 1].name} },
               });
             }}
             />
@@ -562,78 +562,80 @@ function ItineraryPage() {
             <Pop />
             </div>
           
-            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
-         
-            <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white",fontSize: "20px"}}>
+            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541",fontSize:"18px" }}>
+            <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px" ,fontFamily:"cursive"}}>
+            Recommendations Links
+             </div>
+            <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white"}}>
               {'Fotografiska NY'}
             </Link>
-            <Link href="https://www.nps.gov/stli/index.htm"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.nps.gov/stli/index.htm"   underline="hover" style={{color:"white" }}>
               {'Downtown & Statue of Liberty'}
             </Link>
-            <Link href="https://www.madametussauds.com/new-york/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.madametussauds.com/new-york/"   underline="hover" style={{color:"white" }}>
               {'Madame Tussauds New York'}
             </Link>
-            <Link href="https://www.guggenheim.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.guggenheim.org/"   underline="hover" style={{color:"white" }}>
               {'Solomon R. Guggenheim Museum'}
             </Link>
-            <Link href="https://tourscanner.com/blog/fun-things-to-do-in-times-square/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://tourscanner.com/blog/fun-things-to-do-in-times-square/"   underline="hover" style={{color:"white" }}>
               {'Entertain yourself in times square'}
             </Link>
-            <Link href="https://www.themuseumofbroadway.com/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jsyRHZy1YH050mzXWoeBxfqDuqtGLp6acv5wSRwVinSj5jb0gtE8BoCJckQAvD_BwE&gclsrc=aw.ds"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.themuseumofbroadway.com/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jsyRHZy1YH050mzXWoeBxfqDuqtGLp6acv5wSRwVinSj5jb0gtE8BoCJckQAvD_BwE&gclsrc=aw.ds"   underline="hover" style={{color:"white" }}>
               {'Museum of Broadway'}
             </Link>
-            <Link href="https://www.elmuseo.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.elmuseo.org/"   underline="hover" style={{color:"white"}}>
               {'el museo del barrio'}
             </Link>
-            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" }}>
               {'Empire State Building'}
             </Link>
-            <Link href="https://theescapegame.com/newyorkcity/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://theescapegame.com/newyorkcity/"   underline="hover" style={{color:"white"}}>
               {'Escape game new york'}
             </Link>
-            <Link href="https://www.stpatrickscathedral.ie/visit/?psafe_param=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jMGy5LGUGm8EhlMrFzsB2zEdQJQ_c9qAGlo4InSlhLofWAhflZQgRoCpCkQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.stpatrickscathedral.ie/visit/?psafe_param=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jMGy5LGUGm8EhlMrFzsB2zEdQJQ_c9qAGlo4InSlhLofWAhflZQgRoCpCkQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'st. patrick’s cathedral tour'}
             </Link>
-            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" }}>
               {'Empire State Building'}
             </Link>
-            <Link href="https://lolcomedylounge.com/magic/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://lolcomedylounge.com/magic/"   underline="hover" style={{color:"white" }}>
               {'LoL Comedy Lounge Magic'}
             </Link>
 
-            <Link href="https://www.intrepidmuseum.org/Purchase-Tickets?PartnerID=1343&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1vtjCXg-vWEAIpj2oOBDaSc8T04IzVJ_G2RLCWkiNzO-Ru3nef8X-RoCDwYQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.intrepidmuseum.org/Purchase-Tickets?PartnerID=1343&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1vtjCXg-vWEAIpj2oOBDaSc8T04IzVJ_G2RLCWkiNzO-Ru3nef8X-RoCDwYQAvD_BwE"   underline="hover" style={{color:"white"}}>
               {'Intrepid Sea, Air & Space Museum'}
             </Link>
 
-            <Link href="https://www.oneworldobservatory.com/buy-tickets/tradedoubler/?tduid=ce1a6289b3062962a332618c6cab2697"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.oneworldobservatory.com/buy-tickets/tradedoubler/?tduid=ce1a6289b3062962a332618c6cab2697"   underline="hover" style={{color:"white" }}>
               {'One World Observatory'}
             </Link>
 
-            <Link href="https://www.sightseeingpass.com/en/new-york/attractions/guided-central-park-bike-tour-by-bike-rent-nyc?aid=66&gad=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pCW29Qc5QQHJaS5_loVFY4ZPzv5KO-Jpg9u_lvDU8KyIQEHxYEOzRoCJ7cQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.sightseeingpass.com/en/new-york/attractions/guided-central-park-bike-tour-by-bike-rent-nyc?aid=66&gad=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pCW29Qc5QQHJaS5_loVFY4ZPzv5KO-Jpg9u_lvDU8KyIQEHxYEOzRoCJ7cQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'Central Park Guided Bike Tour'}
             </Link>
 
-            <Link href="https://www.amnh.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.amnh.org/"   underline="hover" style={{color:"white" }}>
               {'American Museum of Natural History'}
             </Link>
 
-            <Link href="https://www.tripadvisor.ie/Attractions-g60763-Activities-c56-t209-New_York_City_New_York.html"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.tripadvisor.ie/Attractions-g60763-Activities-c56-t209-New_York_City_New_York.html"   underline="hover" style={{color:"white" }}>
               {'Scavenger hunts new york'}
             </Link>
 
-            <Link href="https://www.rockefellercenter.com/attractions/top-of-the-rock-observation-deck/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.rockefellercenter.com/attractions/top-of-the-rock-observation-deck/"   underline="hover" style={{color:"white" }}>
               {'Observation Deck at Rockefeller Center '}
             </Link>
-            <Link href="https://whitney.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://whitney.org/"   underline="hover" style={{color:"white" }}>
               {'Whitney Museum of American Art'}
             </Link>
-            <Link href="https://www.mcny.org/about?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pgF3C_PgumehNW0S1vh0oludiOu807GgJkHCXj_xqOQMXQXo1WWkRoCjooQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.mcny.org/about?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pgF3C_PgumehNW0S1vh0oludiOu807GgJkHCXj_xqOQMXQXo1WWkRoCjooQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'Museum of the City of New York'}
             </Link>
-            <Link href="https://www.statueofliberty.org/visit/tickets/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.statueofliberty.org/visit/tickets/"   underline="hover" style={{color:"white" }}>
               {'Ellis Island Roundtrip Ferry Tour'}
             </Link>
-            <Link href="https://www.nyhistory.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.nyhistory.org/"   underline="hover" style={{color:"white" }}>
               {'Historical Society Museum and Library'}
             </Link>
 

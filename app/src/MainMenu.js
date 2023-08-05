@@ -194,7 +194,7 @@ export default function MainMenu() {
         </Routes>
       </div>
       <Box style={{position:"relative"}}>
-      <div style={{position:'absolute',bottom:'200px',padding:"20px",textAlign:"center",top:"20px",left:"35%",zIndex:"999"}}><Footer /></div>
+      <div style={{position:'absolute',bottom:'200px',padding:"5px",textAlign:"center",top:"10px",left:"35%",zIndex:"999"}}><Footer /></div>
       </Box>
     </Box>
   );

@@ -293,38 +293,44 @@ function TemporaryDrawer({tmp}) {
     
 
 
-    const getHotelSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return hotels.filter(
-        (hotel) =>
-          hotel.name.toLowerCase().includes(inputValueLowerCase) ||
-          hotel.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
+    const getHotelSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return hotels.filter(
+          (hotel) =>
+            hotel.name.toLowerCase().includes(inputValueLowerCase) ||
+            hotel.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [hotels]);
   
-    const getAttractionSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return attractions.filter(
-        (attraction) =>
-          attraction.name.toLowerCase().includes(inputValueLowerCase) ||
-          attraction.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
   
-    const getRestaurantSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return restaurants.filter(
-        (restaurant) =>
-          restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
-          restaurant.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
+    const getAttractionSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return attractions.filter(
+          (attraction) =>
+            attraction.name.toLowerCase().includes(inputValueLowerCase) ||
+            attraction.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [attractions]);
   
-    const getAttractionSuggestionValue = (suggestion) => suggestion.name;
+    const getRestaurantSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return restaurants.filter(
+          (restaurant) =>
+            restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
+            restaurant.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [restaurants]);
   
-    const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
-
-    const getHotelSuggestionValue = (suggestion) => suggestion.name;
+  
+    const getAttractionSuggestionValue = useCallback((suggestion) => suggestion.name, []);
+    const getRestaurantSuggestionValue = useCallback((suggestion) => suggestion.name, []);
+    const getHotelSuggestionValue = useCallback((suggestion) => suggestion.name, []);
 
 
     const renderHotelSuggestion = (suggestion, { isHighlighted }) => (
@@ -378,15 +384,16 @@ function TemporaryDrawer({tmp}) {
     };
     
   
-    const handleInputChange = (section) => (event, { newValue }) => {
+    const handleInputChange = useCallback((section) => (event, { newValue }) => {
       if (section === 'attractions') {
         setAttractionValue(newValue);
       } else if (section === 'restaurants') {
         setRestaurantValue(newValue);
-      } else if (section === 'hotels') { // New handler for hotels
+      } else if (section === 'hotels') {
         setHotelValue(newValue);
       }
-    };
+    }, []);
+  
 
   
   
@@ -418,6 +425,7 @@ function TemporaryDrawer({tmp}) {
       }
 
     };
+    
   
     const handleRemoveAttraction = (index) => {
       setSelectedAttractions((prevAttractions) => prevAttractions.filter((_, i) => i !== index));
@@ -808,18 +816,19 @@ function MapPage() {
 
   const location = useLocation();
   const initialMarkerPosition = location.state?.location;
+  
 
 
   useEffect(() => {
     
-  
+   console.log("initialMarkerPosition:", initialMarkerPosition);
     // Only set the markers when initialMarkerPosition is available and markers is empty
     if (initialMarkerPosition && markers.length >= 180) {
       setMarkers([
         {
           id: 1,
           position: { lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) },
-          title: 'Marker 1',
+          title:initialMarkerPosition.title,
         },
       ]);
       setShowMarkers(true);
@@ -1425,23 +1434,7 @@ const handleDirectionsResponse = (response) => {
                 ],
               }}
             >
-              {initialMarkerPosition && (
-  <Marker
-    position={{ lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) }}
-    title="Selected Location"
-    animation={window.google.maps.Animation.BOUNCE}
-    options={{
-      icon: {
-        path: window.google.maps.SymbolPath.CIRCLE,
-        fillColor: '#ff6b35',
-        fillOpacity: 0.7,
-        strokeColor: 'white',
-        strokeWeight: 1,
-        scale: 8,
-      },
-    }}
-  />
-)}
+             
              
              {heatmapVisible &&
           polygons.map((polygonData) => (
@@ -1641,7 +1634,24 @@ const handleDirectionsResponse = (response) => {
               />
             )}
 
-
+          {initialMarkerPosition && (
+            <Marker
+              key={initialMarkerPosition.id} 
+              position={{ lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) }}
+              title="Selected Location"
+              animation={window.google.maps.Animation.BOUNCE}
+              options={{
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  fillColor: '#ff6b35',
+                  fillOpacity: 0.7,
+                  strokeColor: 'white',
+                  strokeWeight: 1,
+                  scale: 8,
+                },
+              }}
+            />
+          )}
           </GoogleMap>
       
 
