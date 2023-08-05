@@ -3,6 +3,13 @@ import Welcome from './Welcome';
 import MainMenu from './MainMenu';
 import './App.css';
 
+const handleAnimationComplete = () => {
+  const elements = document.querySelectorAll('[data-name="mojs-shape"]');
+  elements.forEach((element) => {
+    element.style.display = 'none';
+  });
+};
+
 const App = () => {
   const [showAnimation, setShowAnimation] = useState(true);
 
@@ -10,18 +17,11 @@ const App = () => {
     const animationDuration = 2000;
     const timeout = setTimeout(() => {
       setShowAnimation(false);
-      handleAnimationComplete(); // Call the function when the animation is completed
+      handleAnimationComplete(); 
     }, animationDuration);
 
     return () => clearTimeout(timeout);
   }, []);
-
-  const handleAnimationComplete = () => {
-    const elements = document.querySelectorAll('[data-name="mojs-shape"]');
-    elements.forEach((element) => {
-      element.style.display = 'none';
-    });
-  };
 
   return (
     <div className="App">
@@ -37,4 +37,3 @@ const App = () => {
 };
 
 export default App;
-
