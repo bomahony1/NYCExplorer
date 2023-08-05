@@ -11,7 +11,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import ThreeD from './ThreeD.js';
+
 
 function NestedList({ attractions }) {
   const [open1, setOpen1] = useState(false);

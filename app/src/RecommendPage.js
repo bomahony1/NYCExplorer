@@ -261,10 +261,10 @@
 
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useSpring, useTransform} from "framer-motion";
+import { motion, AnimatePresence, useScroll,  useTransform} from "framer-motion";
 import { Button, Box, ButtonGroup,Link } from "@mui/material";
 import "./RecommendPage.css"
-import { removeItem } from "./array.ts";
+import { removeItem } from "./array.js";
 import {  useNavigate } from 'react-router-dom';
 
 
