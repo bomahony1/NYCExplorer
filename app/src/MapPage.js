@@ -28,6 +28,8 @@ import Heatmap from './Heatmap';
 import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import { useLocation } from 'react-router-dom';
+
 
 
 // import zonesData from './ManhattanZones.json'; 
@@ -801,20 +803,37 @@ function MapPage() {
   const [showHotels, setShowHotels] = useState(false);
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
-
   const [nightMode, setNightMode] = useState(false);
+
+
+  const location = useLocation();
+  const initialMarkerPosition = location.state?.location;
+
+
+  useEffect(() => {
+    
+  
+    // Only set the markers when initialMarkerPosition is available and markers is empty
+    if (initialMarkerPosition && markers.length >= 180) {
+      setMarkers([
+        {
+          id: 1,
+          position: { lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) },
+          title: 'Marker 1',
+        },
+      ]);
+      setShowMarkers(true);
+    }
+  }, [initialMarkerPosition, markers]);
+
   const handleMapToggle = () => {
     setNightMode((prevNightMode) => !prevNightMode);
   };
 
- 
-
-  
-
 
   const handleMarkerSelection = (place) => {
     setSelectedPlace((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
-    console.log('Updating Selected Place:', place);
+  
   };
 
   const tmp = (place) => {
@@ -1406,6 +1425,23 @@ const handleDirectionsResponse = (response) => {
                 ],
               }}
             >
+              {initialMarkerPosition && (
+  <Marker
+    position={{ lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) }}
+    title="Selected Location"
+    animation={window.google.maps.Animation.BOUNCE}
+    options={{
+      icon: {
+        path: window.google.maps.SymbolPath.CIRCLE,
+        fillColor: '#ff6b35',
+        fillOpacity: 0.7,
+        strokeColor: 'white',
+        strokeWeight: 1,
+        scale: 8,
+      },
+    }}
+  />
+)}
              
              {heatmapVisible &&
           polygons.map((polygonData) => (
@@ -1533,6 +1569,9 @@ const handleDirectionsResponse = (response) => {
               </Marker>
             ))}
 
+
+           
+
             {showHotels && markers.filter((marker) => marker.type === 'googleHotels').map((marker) => (
               // Render googleHotels markers when showHotels is true
               <Marker
@@ -1601,6 +1640,8 @@ const handleDirectionsResponse = (response) => {
                 }}
               />
             )}
+
+
           </GoogleMap>
       
 
