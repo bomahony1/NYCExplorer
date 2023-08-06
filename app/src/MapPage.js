@@ -29,7 +29,7 @@ import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useLocation } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
+
 
 
 
@@ -376,6 +376,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'hotels')} // New handler for hotels
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -390,6 +391,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -402,6 +404,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -893,7 +896,7 @@ function MapPage() {
     // Add markers on Google Map when selectedPlace changes
     if (selectedPlace && selectedPlace.length > 0) {
       const newMarkers = selectedPlace.map((place) => ({
-        id: place.id,
+        id: place.place_id,
         position: {
           lat: Number(place.latitude),
           lng: Number(place.longitude),
@@ -919,7 +922,7 @@ function MapPage() {
         },
       }));
   
-      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      setMarkers((prevMarkers) => [...newMarkers]);
     }
   }, [selectedPlace]);
   

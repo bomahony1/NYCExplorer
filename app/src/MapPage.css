@@ -86,4 +86,12 @@
   display: inline-block;
 }
 
+input[type="text" i] {
+  height: 27px !important;
+  width: 200px !important;
+}
+
+.react-autosuggest__suggestions-list{
+  list-style-type: none !important;
+}
 
