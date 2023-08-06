@@ -125,6 +125,7 @@ function TemporaryDrawer({tmp}) {
     container.style.borderRadius = '10px';
     container.style.padding = '5px';
     container.style.marginBottom = '5px';
+    container.style.marginTop = '5px';
 
     const contentElement = document.createElement('span');
     contentElement.textContent = `${placeData.name} `;
@@ -554,6 +555,7 @@ function TemporaryDrawer({tmp}) {
               getSuggestionValue={getAttractionSuggestionValue}
               renderSuggestion={renderAttractionSuggestion}
               inputProps={attractionInputProps}
+             
             />
           </AccordionDetails>
         </Accordion>
