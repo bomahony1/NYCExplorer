@@ -29,10 +29,9 @@ import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useLocation } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
 
 
-
-// import zonesData from './ManhattanZones.json'; 
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -113,15 +112,46 @@ function TemporaryDrawer({tmp}) {
   const allowDrop = (event) => {
     event.preventDefault();
   };
-
+  
   const handleDrop = (event, date) => {
     event.preventDefault();
     event.stopPropagation();
     const placeData = JSON.parse(event.dataTransfer.getData('text/plain'));
-    const content = `<div>${placeData.name} - ${placeData.rating}</div>`;
-    event.target.innerHTML += content;
+
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.justifyContent = 'space-between'; 
+    container.style.border = '1px dashed #1C2541';
+    container.style.borderRadius = '10px';
+    container.style.padding = '5px';
+    container.style.marginBottom = '5px';
+
+    const contentElement = document.createElement('span');
+    contentElement.textContent = `${placeData.name} `;
+    contentElement.style.flex = '1'; 
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '<DeleteIcon style="font-size: 13px;" />Delete';
+    deleteButton.style.backgroundColor = '#1C2541';
+    deleteButton.style.color = '#ffffff';
+    deleteButton.style.fontWeight= 'bold';
+    deleteButton.style.border = 'none';
+    deleteButton.style.borderRadius = '5px';
+    deleteButton.style.padding = '8px';
+    deleteButton.style.cursor = 'pointer';
+    deleteButton.onclick = (event) => handleDelete(event, container);
+
+    container.appendChild(contentElement);
+    container.appendChild(deleteButton);
+
+    event.target.appendChild(container);
   };
 
+  const handleDelete = (event, container) => {
+    event.preventDefault();
+    event.stopPropagation();
+    container.remove();
+  };
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -220,6 +250,8 @@ function TemporaryDrawer({tmp}) {
   );
 }
 
+
+
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
   ))(({ theme }) => ({
@@ -269,6 +301,8 @@ function TemporaryDrawer({tmp}) {
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
+
+    
    
 
     
@@ -326,6 +360,8 @@ function TemporaryDrawer({tmp}) {
         );
       };
     }, [restaurants]);
+
+    
   
   
     const getAttractionSuggestionValue = useCallback((suggestion) => suggestion.name, []);
@@ -532,7 +568,7 @@ function TemporaryDrawer({tmp}) {
                 <div className="opening-hours">
                   {attraction.opening_hours?.opening_hours ? (
                     <>
-                      <h3>Opening Hours Today:</h3>
+                      <h4 style={{color:"#1C2541",fontWeight: 'bold'}}>Opening Hours Today:</h4>
                       {getOpeningHoursForToday(attraction) ? (
                         <div>
                           {formatTime(getOpeningHoursForToday(attraction).open.time)} –{' '}
@@ -1073,6 +1109,9 @@ function MapPage() {
     }
   }, [destinationInput]);
 
+
+
+ 
   const handleMarkerClick = (marker) => {
     if (origin === null) {
       setOrigin(marker.position);
@@ -1080,14 +1119,12 @@ function MapPage() {
       setDestination(marker.position);
     }
     setSelectedMarker(marker);
+    
     setZoomLevel(15);
     
   };
 
-  const handleInfoWindowClose = () => {
-    setSelectedMarker(null);
-    
-  };
+
   
 const handleDirectionsResponse = (response) => {
     if (response !== null) {
@@ -1479,7 +1516,7 @@ const handleDirectionsResponse = (response) => {
                     position={selectedMarker.position}
                     onCloseClick={() => setSelectedMarker(null)}
                   >
-                   <div  className="custom-info-window" >
+                   <div >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
