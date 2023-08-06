@@ -33,6 +33,7 @@ import { useLocation } from 'react-router-dom';
 
 
 
+
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
 };
@@ -825,6 +826,7 @@ function LocationSearchInput({ placeholder, value, onChange }) {
     </PlacesAutocomplete>
   );
 }
+
 
 function MapPage() {
 
