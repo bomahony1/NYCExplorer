@@ -17,7 +17,7 @@ import './MainMenu.css';
 import { styled } from '@mui/system';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import {  Routes,Route } from 'react-router-dom';
 
 
 
@@ -131,42 +131,39 @@ export default function MainMenu() {
     };
   }, []);
 
-  let content;
-  if (value === 0) {
-    content = <HomePage />;
-  } else if (value === 1) {
-    content = <MapPage />;
-  } else if (value === 2) {
-    content = <RecommendPage />;
-  }
+
 
   return (
     <Box>
-      <div
-        ref={navRef} // Set the reference to the navigation bar element
-        style={{
-          position: isSticky ? 'fixed' : 'relative', // Apply 'fixed' position if sticky, 'relative' otherwise
-          top: 0, // Stick to the top of the viewport
-          zIndex: 999, // Set a higher z-index to ensure it's displayed on top of other content
-          width: '100%',
-          height:'80px',
-          display: 'flex',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
+    <div
+      ref={navRef}
+      style={{
+        position: isSticky ? 'fixed' : 'relative',
+        top: 0,
+        zIndex: 999,
+        width: '100%',
+        height: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
+      }}
+    >
+      <img src={`/slogan.jpg`} alt="Slogan" style={{ width: '13%' }} />
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        centered
+        sx={{
+          // Apply custom styles for different screen sizes
+          marginLeft: 'auto', // Move the Tabs component to the right on larger screens
+          width: 'auto', // Allow the Tabs to take as much space as needed
+          flex: 1, // Allow the Tabs to grow and occupy available space
+          maxWidth: '300px', // Limit the maximum width of Tabs on larger screens
         }}
       >
-        <img src={`/slogan.jpg`} alt="Slogan" style={{ width: '13%' }} />
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-          sx={{
-            marginLeft: '400px',
-          }}
-        >
           <Tab
             label="Home"
             icon={<StyledTabIcon><HomeOutlinedIcon /></StyledTabIcon>}

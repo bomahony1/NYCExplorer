@@ -322,8 +322,8 @@ function HomePage() {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
-      <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#1C2541', fontWeight: 'bold' }}>
+      <div style={{ width: '100%' }}>
         <div style={{ textAlign: 'center', marginTop: '6px' }}>
           <Carousel
             autoPlay={true}
@@ -396,7 +396,7 @@ function HomePage() {
             </div>
           </div>
         </div>
-        {/* <ThreeD /> */}
+       
       </div>
     </div>
   );
