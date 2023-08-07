@@ -1,12 +1,11 @@
 import React from 'react';
 import MapPage from './MapPage';
+import { BrowserRouter } from 'react-router-dom';
+import { mount } from '@cypress/react';
 
 describe('<MapPage />', () => {
+  let uncaughtException = false;
   beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-      return false;
-    });
-
     cy.intercept('GET', 'http://127.0.0.1:8000/api/googleAttractions/', {
       body: [
         {
@@ -51,13 +50,62 @@ describe('<MapPage />', () => {
         },
       ],
     }).as('getGoogleHotels');
+
+
+    mount(
+      <BrowserRouter>
+        <MapPage />
+      </BrowserRouter>
+    );
   });
 
-  it('renders', () => {
-
-    cy.mount(<MapPage />);
-    cy.wait('@getGoogleAttractions');
-    cy.wait('@getGoogleRestaurants');
-    cy.wait('@getGoogleHotels');
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // Set the flag to true if there was an uncaught exception
+    uncaughtException = true;
+    // Return false to prevent Cypress from failing the test automatically
+    return false;
   });
+});
+
+// Add an afterEach hook to check for uncaught exceptions after each test
+afterEach(() => {
+  // If there was an uncaught exception, fail the test
+  if (uncaughtException) {
+    throw new Error('Uncaught exception occurred during the test.');
+  }
+});
+
+it('renders', () => {
+  cy.wait('@getGoogleAttractions');
+  cy.wait('@getGoogleRestaurants');
+  cy.wait('@getGoogleHotels');
+});
+
+it('toggles markers visibility', () => {
+  cy.get('[data-cy="toggle-markers"]').click();
+  cy.get('[data-cy="marker"]').should('not.exist');
+  cy.get('[data-cy="toggle-markers"]').click();
+  cy.get('[data-cy="marker"]').should('exist');
+});
+
+it('selects origin and destination points', () => {
+  cy.get('[data-cy="origin-input"]').type('New York');
+  cy.get('[data-cy="destination-input"]').type('Los Angeles');
+  cy.get('[data-cy="search-button"]').click();
+  cy.get('[data-cy="directions"]').should('be.visible');
+});
+
+it('shows attractions markers', () => {
+  cy.get('[data-cy="toggle-attractions"]').click();
+  cy.get('[data-cy="attraction-marker"]').should('exist');
+});
+
+it('shows restaurants markers', () => {
+  cy.get('[data-cy="toggle-restaurants"]').click();
+  cy.get('[data-cy="restaurant-marker"]').should('exist');
+});
+
+it('shows hotels markers', () => {
+  cy.get('[data-cy="toggle-hotels"]').click();
+  cy.get('[data-cy="hotel-marker"]').should('exist');
 });

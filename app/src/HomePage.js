@@ -416,11 +416,11 @@ function HomePage() {
         <div style={{ marginTop: '10px', backgroundColor: '#1C2541', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ margin: '70px', color: 'white', textAlign: 'center', flex: '0 0 350px' }}>
             <div style={{ textAlign: 'left' }}>
-              <h3>Discover iconic landmarks</h3>
+              <h3 data-cy="recommended-attractions-heading">Discover iconic landmarks</h3>
               <h1>Immerse yourself in the vibrant energy of NYC with our recommended attractions:</h1>
               <h3>Let Buzzin New York help you create lasting memories</h3>
             </div>
-            <NestedList attractions={attractions} />
+            <NestedList attractions={attractions} data-cy="recommended-attractions" />
           </div>
           <div className="images" style={{ border: '2px solid white', flex: '1 1 200px', margin: '70px',  maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
             <div className="images-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>

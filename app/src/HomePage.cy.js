@@ -63,4 +63,27 @@ describe('<HomePage />', () => {
 
     cy.get('.Image').should('not.exist');
   });
+  it('displays the carousel with event cards', () => {
+    mount(<HomePage />);
+
+    cy.get('.carousel-root', { timeout: 8000 }).should('exist');
+
+    cy.get('.image-container', { timeout: 8000 }).should('have.length.above', 0);
+  });
+
+  it('displays recommended attractions section with heading and attractions', () => {
+    cy.intercept('GET', 'http://127.0.0.1:8000/api/googleAttractions/', {
+    }).as('getGoogleAttractions');
+
+    mount(<HomePage />);
+
+    cy.wait('@getGoogleAttractions');
+
+
+    cy.get('[data-cy="recommended-attractions-heading"]').should(
+      'contain.text',
+      'Discover iconic landmarks'
+    );
+
+  });
 });
