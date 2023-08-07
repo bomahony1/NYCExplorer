@@ -547,28 +547,29 @@ function ItineraryPage() {
   };
 
 
-    return (
-      <div className="itinerary-page" style={{ backgroundColor: "#1C2541", height: "100%" }}>
+  return (
+    <div className="itinerary-page" style={{ backgroundColor: "#1C2541", height: "100%" }}>
       <div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "0px" }}>
-  <h1 style={{ color: "white", marginBottom: "3px", width: "39%" }}>Money saving DAY Pass itineraries</h1>
-  <Button size="small" style={{ color: "white", marginTop: "10px", border: "none", width: "15%" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
-    Book now
-  </Button>
-</div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "0px" }}>
+          <h1 style={{ color: "white", marginBottom: "3px", width: "39%" }}>Money saving DAY Pass itineraries</h1>
+          <Button size="small" style={{ color: "white", marginTop: "10px", border: "none", width: "15%" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+            Book now
+          </Button>
+        </div>
 
-              <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
-                <Window content={selectedTab}  />
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: "auto" }}>
-        <div className="pop" style={{ marginTop: "80px" }}>
+        <Buttons setSelectedTab={setSelectedTab} style={{ flex: 1, marginTop: "0px", marginBottom: "0px" }} />
+        <Window content={selectedTab} />
+      </div>
+
+      <div className="flex-container">
+        <div className="pop" style={{ flex: 1.4, marginTop: "80px" }}>
           <Pop />
         </div>
 
-        <div className="info-box" style={{ border: "2px solid white", width: "90%", maxWidth: "500px", marginTop: "20px", marginBottom: "20px", padding: "10px", backgroundColor: "#1C2541", fontSize: "18px" }}>
-          <div style={{ color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
-            Recommendations Links
-          </div>
+        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "100px", marginRight: "auto", marginLeft: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
+        <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
+          Recommendations Links
+        </div>
             <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white"}}>
               {'Fotografiska NY'}
             </Link>
@@ -644,6 +645,27 @@ function ItineraryPage() {
 
             </div>
             </div>
+            <style>
+        {`
+          /* 在手机屏幕下，flex-direction设为column，即pop和recommend links在垂直方向上排列 */
+          @media (max-width: 768px) {
+            .flex-container {
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+            }
+          }
+
+          /* 在web端，flex-direction设为row，即pop在recommend links右侧 */
+          @media (min-width: 769px) {
+            .flex-container {
+              display: flex;
+
+              flex-direction: row;
+            }
+          }
+        `}
+      </style>
             {/* add the scroll process */}
             {/* <article>
       <motion.div className="progress" style={{ scaleX }} />
