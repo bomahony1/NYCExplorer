@@ -1403,7 +1403,7 @@ function MapPage() {
             cursor: 'grab',
             position: 'fixed',
             left: '30%',
-            top: '13%',
+            top: '11.5%',
             transform: 'translate(-50%, -50%)',
             zIndex: 999,
           }}
