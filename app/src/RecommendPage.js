@@ -562,11 +562,11 @@ function ItineraryPage() {
       </div>
 
       <div className="flex-container">
-        <div className="pop" style={{ flex: 1.4, marginTop: "60px",heigh:"70%" }}>
+        <div className="pop" style={{ flex: 1.4, marginTop: "60px",heigh:"70%",marginRight:"-6%" }}>
           <Pop />
         </div>
 
-        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "80px",marginBottom:"6%", marginRight: "auto", marginLeft: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
+        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "80px",marginBottom:"6%", marginRight: "10%", marginLeft: "10%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
         <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
           Recommendations Links
         </div>
