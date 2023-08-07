@@ -28,9 +28,11 @@ import Heatmap from './Heatmap';
 import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import { useLocation } from 'react-router-dom';
 
 
-// import zonesData from './ManhattanZones.json'; 
+
+
 
 const handleDragStart = (event, data) => {
   event.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -105,21 +107,53 @@ function DateRangePickerDialog({ handleSelect }) {
 }
 
 function TemporaryDrawer({tmp}) {
-  const [isDrawerOpen, setDrawerOpen] = useState(true);
+  // const [isDrawerOpen, setDrawerOpen] = useState(true);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const allowDrop = (event) => {
     event.preventDefault();
   };
-
+  
   const handleDrop = (event, date) => {
     event.preventDefault();
     event.stopPropagation();
     const placeData = JSON.parse(event.dataTransfer.getData('text/plain'));
-    const content = `<div>${placeData.name} - ${placeData.rating}</div>`;
-    event.target.innerHTML += content;
+
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.justifyContent = 'space-between'; 
+    container.style.border = '1px dashed #1C2541';
+    container.style.borderRadius = '10px';
+    container.style.padding = '5px';
+    container.style.marginBottom = '5px';
+    container.style.marginTop = '5px';
+
+    const contentElement = document.createElement('span');
+    contentElement.textContent = `${placeData.name} `;
+    contentElement.style.flex = '1'; 
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '<DeleteIcon style="font-size: 13px;" />Delete';
+    deleteButton.style.backgroundColor = '#1C2541';
+    deleteButton.style.color = '#ffffff';
+    deleteButton.style.fontWeight= 'bold';
+    deleteButton.style.border = 'none';
+    deleteButton.style.borderRadius = '5px';
+    deleteButton.style.padding = '8px';
+    deleteButton.style.cursor = 'pointer';
+    deleteButton.onclick = (event) => handleDelete(event, container);
+
+    container.appendChild(contentElement);
+    container.appendChild(deleteButton);
+
+    event.target.appendChild(container);
   };
 
+  const handleDelete = (event, container) => {
+    event.preventDefault();
+    event.stopPropagation();
+    container.remove();
+  };
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -179,7 +213,7 @@ function TemporaryDrawer({tmp}) {
 
   return (
     <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
-      {isDrawerOpen && (
+     
         <div style={{ display: 'flex'}}>
           <div style={{background: 'white',height: '748px', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
@@ -213,10 +247,12 @@ function TemporaryDrawer({tmp}) {
             </div>
           )}
         </div>
-      )}
+     
     </div>
   );
 }
+
+
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -236,7 +272,7 @@ function TemporaryDrawer({tmp}) {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, .05)'
-        : 'rgba(0, 0, 0, .03)',
+        : 'rgba(28, 37, 65, 0.01)',
     flexDirection: 'row-reverse',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
       transform: 'rotate(90deg)',
@@ -248,7 +284,7 @@ function TemporaryDrawer({tmp}) {
   
   const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
     padding: theme.spacing(2),
-    borderTop: '1px solid rgba(0, 0, 0, .125)',
+    borderTop: '1px solid rgba(0, 0, 0, .105)',
   }));
 
  
@@ -267,6 +303,8 @@ function TemporaryDrawer({tmp}) {
     const [attractionsChecked, setAttractionsChecked] = useState(false);
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
+
+    
    
 
     
@@ -291,38 +329,46 @@ function TemporaryDrawer({tmp}) {
     
 
 
-    const getHotelSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return hotels.filter(
-        (hotel) =>
-          hotel.name.toLowerCase().includes(inputValueLowerCase) ||
-          hotel.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
+    const getHotelSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return hotels.filter(
+          (hotel) =>
+            hotel.name.toLowerCase().includes(inputValueLowerCase) ||
+            hotel.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [hotels]);
   
-    const getAttractionSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return attractions.filter(
-        (attraction) =>
-          attraction.name.toLowerCase().includes(inputValueLowerCase) ||
-          attraction.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
   
-    const getRestaurantSuggestions = (inputValue) => {
-      const inputValueLowerCase = inputValue.toLowerCase();
-      return restaurants.filter(
-        (restaurant) =>
-          restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
-          restaurant.address.toLowerCase().includes(inputValueLowerCase)
-      );
-    };
+    const getAttractionSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return attractions.filter(
+          (attraction) =>
+            attraction.name.toLowerCase().includes(inputValueLowerCase) ||
+            attraction.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [attractions]);
   
-    const getAttractionSuggestionValue = (suggestion) => suggestion.name;
-  
-    const getRestaurantSuggestionValue = (suggestion) => suggestion.name;
+    const getRestaurantSuggestions = useMemo(() => {
+      return (inputValue) => {
+        const inputValueLowerCase = inputValue.toLowerCase();
+        return restaurants.filter(
+          (restaurant) =>
+            restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
+            restaurant.address.toLowerCase().includes(inputValueLowerCase)
+        );
+      };
+    }, [restaurants]);
 
-    const getHotelSuggestionValue = (suggestion) => suggestion.name;
+    
+  
+  
+    const getAttractionSuggestionValue = useCallback((suggestion) => suggestion.name, []);
+    const getRestaurantSuggestionValue = useCallback((suggestion) => suggestion.name, []);
+    const getHotelSuggestionValue = useCallback((suggestion) => suggestion.name, []);
 
 
     const renderHotelSuggestion = (suggestion, { isHighlighted }) => (
@@ -331,6 +377,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'hotels')} // New handler for hotels
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -345,6 +392,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -357,6 +405,7 @@ function TemporaryDrawer({tmp}) {
         onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
         draggable
         onDragStart={(event) => handleDragStart(event, suggestion)}
+        id={suggestion.place_id}
       >
         <div>{suggestion.name}</div>
         <div>Rating: {suggestion.rating}</div>
@@ -376,15 +425,16 @@ function TemporaryDrawer({tmp}) {
     };
     
   
-    const handleInputChange = (section) => (event, { newValue }) => {
+    const handleInputChange = useCallback((section) => (event, { newValue }) => {
       if (section === 'attractions') {
         setAttractionValue(newValue);
       } else if (section === 'restaurants') {
         setRestaurantValue(newValue);
-      } else if (section === 'hotels') { // New handler for hotels
+      } else if (section === 'hotels') {
         setHotelValue(newValue);
       }
-    };
+    }, []);
+  
 
   
   
@@ -416,6 +466,7 @@ function TemporaryDrawer({tmp}) {
       }
 
     };
+    
   
     const handleRemoveAttraction = (index) => {
       setSelectedAttractions((prevAttractions) => prevAttractions.filter((_, i) => i !== index));
@@ -508,6 +559,7 @@ function TemporaryDrawer({tmp}) {
               getSuggestionValue={getAttractionSuggestionValue}
               renderSuggestion={renderAttractionSuggestion}
               inputProps={attractionInputProps}
+             
             />
           </AccordionDetails>
         </Accordion>
@@ -522,7 +574,7 @@ function TemporaryDrawer({tmp}) {
                 <div className="opening-hours">
                   {attraction.opening_hours?.opening_hours ? (
                     <>
-                      <h3>Opening Hours Today:</h3>
+                      <h4 style={{color:"#1C2541",fontWeight: 'bold'}}>Opening Hours Today:</h4>
                       {getOpeningHoursForToday(attraction) ? (
                         <div>
                           {formatTime(getOpeningHoursForToday(attraction).open.time)} –{' '}
@@ -775,6 +827,7 @@ function LocationSearchInput({ placeholder, value, onChange }) {
   );
 }
 
+
 function MapPage() {
 
   const { isLoaded } = useJsApiLoader({
@@ -783,7 +836,7 @@ function MapPage() {
     libraries: libraries,
   });
 
-  const center = useMemo(() => ({ lat: 40.7484, lng: -73.9857 }), []);
+  const center = useMemo(() => ({ lat: 40.7309, lng: - 73.9601 }), []);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [directions, setDirections] = useState(null);
@@ -792,8 +845,8 @@ function MapPage() {
   const [originInput, setOriginInput] = useState('');
   const [destinationInput, setDestinationInput] = useState('');
   const [showMarkers, setShowMarkers] = useState(true);
-  const [distance, setDistance] = useState('');
-  const [duration, setDuration] = useState('');
+  const [, setDistance] = useState('');
+  const [, setDuration] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState([]);
   const [showAttractions, setShowAttractions] = useState(false);
@@ -801,18 +854,38 @@ function MapPage() {
   const [showHotels, setShowHotels] = useState(false);
   const [manuallyAddedMarkers, setManuallyAddedMarkers] = useState([]);
   const draggableRef = useRef(null);
-
   const [nightMode, setNightMode] = useState(false);
+
+
+  const location = useLocation();
+  const initialMarkerPosition = location.state?.location;
+  
+
+
+  useEffect(() => {
+    
+   console.log("initialMarkerPosition:", initialMarkerPosition);
+    // Only set the markers when initialMarkerPosition is available and markers is empty
+    if (initialMarkerPosition && markers.length >= 180) {
+      setMarkers([
+        {
+          id: 1,
+          position: { lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) },
+          title:initialMarkerPosition.title,
+        },
+      ]);
+      setShowMarkers(true);
+    }
+  }, [initialMarkerPosition, markers]);
+
   const handleMapToggle = () => {
     setNightMode((prevNightMode) => !prevNightMode);
   };
 
 
-
-
   const handleMarkerSelection = (place) => {
     setSelectedPlace((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
-    console.log('Updating Selected Place:', place);
+  
   };
 
   const tmp = (place) => {
@@ -825,7 +898,7 @@ function MapPage() {
     // Add markers on Google Map when selectedPlace changes
     if (selectedPlace && selectedPlace.length > 0) {
       const newMarkers = selectedPlace.map((place) => ({
-        id: place.id,
+        id: place.place_id,
         position: {
           lat: Number(place.latitude),
           lng: Number(place.longitude),
@@ -851,7 +924,7 @@ function MapPage() {
         },
       }));
   
-      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
+      setMarkers((prevMarkers) => [...newMarkers]);
     }
   }, [selectedPlace]);
   
@@ -1019,7 +1092,7 @@ function MapPage() {
 
       handleSelect(originInput);
     }
-  }, [originInput]);
+  }, [center.lat, center.lng, originInput]);
 
   useEffect(() => {
     if (destinationInput) {
@@ -1041,8 +1114,11 @@ function MapPage() {
 
       handleSelect(destinationInput);
     }
-  }, [destinationInput]);
+  }, [center.lat, center.lng, destinationInput]);
 
+
+
+ 
   const handleMarkerClick = (marker) => {
     if (origin === null) {
       setOrigin(marker.position);
@@ -1051,27 +1127,12 @@ function MapPage() {
     }
     setSelectedMarker(marker);
     
-  };
-
-  const handleInfoWindowClose = () => {
-    setSelectedMarker(null);
+    setZoomLevel(15);
     
   };
-  
-const handleDirectionsResponse = (response) => {
-    if (response !== null) {
-      setDirections(response);
 
-      const leg = response.routes[0]?.legs[0];
-      if (leg) {
-        setDistance(leg.distance?.text || '');
-        setDuration(leg.duration?.text || '');
-      } else {
-        setDistance('');
-        setDuration('');
-      }
-    }
-  };
+
+  
   const handleSearch = () => {
     if (origin && destination) {
       // Clear the previous directions before performing a new search
@@ -1148,6 +1209,7 @@ const handleDirectionsResponse = (response) => {
 
   const [predictionNumber, setPredictionNumber] = useState(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleMapMouseOver = useCallback((event) => {
     const latLng = event.latLng;
     let prediction = null;
@@ -1185,6 +1247,11 @@ const handleDirectionsResponse = (response) => {
 
 
 
+  const [zoomLevel, setZoomLevel] = useState(13); // Set an initial zoom level
+
+
+
+
 
   return (
     
@@ -1203,7 +1270,7 @@ const handleDirectionsResponse = (response) => {
             <strong>Loading weather data...</strong>
           )}
         </div>
-          {/*heat map */}
+    
           <Heatmap
         onHeatmapDataReceived={handleHeatmapDataReceived}
         heatmapVisible={heatmapVisible}
@@ -1313,9 +1380,11 @@ const handleDirectionsResponse = (response) => {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
-        <Draggable>
-        <div> <ThreeD handleMapToggle={handleMapToggle} /></div>
-        </Draggable>
+       
+        <div style={{ height: "30%", width: "100%", position: "relative" }}>
+      <ThreeD handleMapToggle={handleMapToggle} style={{ width: "100%", height: "100%" }} />
+    </div>
+       
         </div>
         <div>
        
@@ -1330,7 +1399,7 @@ const handleDirectionsResponse = (response) => {
             <GoogleMap
               mapContainerStyle={{ height: '100%' }}
               center={center}
-              zoom={13}
+              zoom={zoomLevel} 
               onMouseOver={handleMapMouseOver} 
               onMouseOut={handleMapMouseOut} 
             
@@ -1405,6 +1474,7 @@ const handleDirectionsResponse = (response) => {
               }}
             >
              
+             
              {heatmapVisible &&
           polygons.map((polygonData) => (
             <Polygon
@@ -1433,14 +1503,16 @@ const handleDirectionsResponse = (response) => {
                 onClick={() => handleMarkerClick(marker)}
                 options={marker.options}
                 animation={marker.animation}
+                onMouseOver={() => setSelectedMarker(marker)} // Show InfoWindow on hover
+                onMouseOut={() => setSelectedMarker(null)} 
                 
               >
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
-                   <div  className="custom-info-window" >
+                   <div >
                         <h3>{selectedMarker.title}</h3>
                         {selectedMarker.info && (
                           <div>
@@ -1473,7 +1545,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                     
                   >
                   <div  className="custom-info-window" >
@@ -1509,7 +1581,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
                    <div  className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
@@ -1531,6 +1603,9 @@ const handleDirectionsResponse = (response) => {
               </Marker>
             ))}
 
+
+           
+
             {showHotels && markers.filter((marker) => marker.type === 'googleHotels').map((marker) => (
               // Render googleHotels markers when showHotels is true
               <Marker
@@ -1544,7 +1619,7 @@ const handleDirectionsResponse = (response) => {
                 {selectedMarker === marker && (
                   <InfoWindow
                     position={selectedMarker.position}
-                    onCloseClick={handleInfoWindowClose}
+                    onCloseClick={() => setSelectedMarker(null)}
                   >
                   <div className="custom-info-window" >
                         <h3>{selectedMarker.title}</h3>
@@ -1599,6 +1674,25 @@ const handleDirectionsResponse = (response) => {
                 }}
               />
             )}
+
+          {initialMarkerPosition && (
+            <Marker
+              key={initialMarkerPosition.id} 
+              position={{ lat: parseFloat(initialMarkerPosition.lat), lng: parseFloat(initialMarkerPosition.lng) }}
+              title="Selected Location"
+              animation={window.google.maps.Animation.BOUNCE}
+              options={{
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  fillColor: '#ff6b35',
+                  fillOpacity: 0.7,
+                  strokeColor: 'white',
+                  strokeWeight: 1,
+                  scale: 8,
+                },
+              }}
+            />
+          )}
           </GoogleMap>
       
 

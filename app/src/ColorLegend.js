@@ -2,13 +2,13 @@ import React from 'react';
 
 const ColorLegend = () => {
   const colorLegendItems = [
-    // { color: 'rgba(220, 218, 216, 0)', label: '0 ' },
-    { color: 'rgba(180, 223, 187, 1)', label: ' 1-50 ' },
-    { color: 'rgba(216, 209, 224, 1)', label: ' 50-150 ' },
-    { color: 'rgba(246, 244, 198, 1)', label: ' 151-300 ' },
-    { color: 'rgba(246, 217, 190, 1)', label: ' 301-450 ' },
-    { color: 'rgba(158, 185, 215, 1)', label: ' 451-600' },
-    { color: 'rgba(253, 136, 194, 1)', label: ' > 600 ' },
+    // { color: 'rgba(220, 218, 216, 0)', label: '-2 ' },
+    { color: 'rgba(180, 223, 187, 1)', label: ' <-1 very quiet' },
+    { color: 'rgba(216, 209, 224, 1)', label: ' -1~-0.5 quiet' },
+    { color: 'rgba(246, 244, 198, 1)', label: ' -0.5~0 average' },
+    { color: 'rgba(246, 217, 190, 1)', label: ' 0~0.5 average' },
+    { color: 'rgba(158, 185, 215, 1)', label: ' 0.5~1 busy' },
+    { color: 'rgba(253, 136, 194, 1)', label: ' > 1 very busy ' },
   ];
 
   return (

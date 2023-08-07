@@ -24,6 +24,8 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+    max-width: 100%;
+    width: fit-content;
   }
   
   .PlayButton .shapes {
@@ -88,4 +90,10 @@
 .custom-info-window img {
   max-width: 100%; 
   height: auto; 
+}
+@media screen and (max-width: 600px) {
+  .image-container img {
+    width: 100%;
+    height: auto;
+  }
 }

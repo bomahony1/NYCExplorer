@@ -11,7 +11,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { motion } from 'framer-motion';
 import './Home.css';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import ThreeD from './ThreeD.js';
+import LoadingIndicator from './LoadingIndicator';
 
 function NestedList({ attractions }) {
   const [open1, setOpen1] = useState(false);
@@ -207,12 +207,35 @@ function NestedList({ attractions }) {
 const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
 const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
 
+// function Image({ id }) {
+//   const [isLoaded, setIsLoaded] = useState(false);
+//   const [isInView, setIsInView] = useState(false);
+
+//   return (
+//     <div className="image-container">
+//       <motion.div
+//         initial={false}
+//         animate={
+//           isLoaded && isInView
+//             ? { WebkitMaskImage: visibleMask, maskImage: visibleMask }
+//             : { WebkitMaskImage: hiddenMask, maskImage: hiddenMask }
+//         }
+//         transition={{ duration: 1, delay: 1 }}
+//         viewport={{ once: true }}
+//         onViewportEnter={() => setIsInView(true)}
+//       >
+//         <img src={`/${id}.jpg`} alt="" onLoad={() => setIsLoaded(true)} />
+//       </motion.div>
+//     </div>
+//   );
+// }
+
 function Image({ id }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
 
   return (
-    <div className="image-container">
+    <div className="image-container" style={{ maxWidth: '100%' }}>
       <motion.div
         initial={false}
         animate={
@@ -224,7 +247,17 @@ function Image({ id }) {
         viewport={{ once: true }}
         onViewportEnter={() => setIsInView(true)}
       >
-        <img src={`/${id}.jpg`} alt="" onLoad={() => setIsLoaded(true)} />
+        <img
+          src={`/${id}.jpg`}
+          alt=""
+          onLoad={() => setIsLoaded(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            margin: '5px',
+          }}
+        />
       </motion.div>
     </div>
   );
@@ -233,6 +266,8 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(true); 
   const [attractions, setAttractions] = useState([]);
 
   useEffect(() => {
@@ -252,10 +287,12 @@ function HomePage() {
         } else {
           setEvents([]);
         }
+        setLoading(false); // Data loaded, set loading to false
       })
       .catch((error) => {
         console.error(error);
         setEvents([]);
+        setLoading(false); // Error occurred, set loading to false
       });
   }, []);
 
@@ -285,12 +322,43 @@ function HomePage() {
       });
   }, []);
 
+  const [loadingProgress, setLoadingProgress] = React.useState(0); // Add the loadingProgress state
 
+  useEffect(() => {
+    // Simulating the API fetch progress
+    const timer = setInterval(() => {
+      setLoadingProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+    }, 800);
+
+    // Simulating the completion of the API fetch
+    setTimeout(() => {
+      clearInterval(timer);
+      setLoadingProgress(100);
+    }, 4000);
+
+    // Clean up the interval timer when the component unmounts
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  // Simulate fetching data from API - Replace this with your actual API fetch logic
+  useEffect(() => {
+    setTimeout(() => {
+      // Simulate the completion of the data fetch
+      setLoadingProgress(100);
+    }, 4000);
+  }, []);
+
+  // If data is still loading, show the LoadingIndicator with the loading progress
+  if (loadingProgress < 100) {
+    return <LoadingIndicator loadingProgress={loadingProgress} />;
+  }
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
-      <div>
-        <div style={{ textAlign: 'center', marginTop: '6px' }}>
+    <div style={{ width: '100%', maxWidth: '1440px' }}>
+      <div style={{ textAlign: 'center', marginTop: '6px' }}>
           <Carousel
             autoPlay={true}
             interval={5000}
@@ -345,24 +413,23 @@ function HomePage() {
             ))}
           </Carousel>
         </div>
-        <div style={{ marginTop: '10px', display: 'flex', backgroundColor: '#1C2541' }}>
-          <div style={{ flex: 1, margin: '100px' }}>
-            <div style={{ color: 'white', textAlign: 'left' }}>
-              <h3>Discover iconic landmarks </h3>
+        <div style={{ marginTop: '10px', backgroundColor: '#1C2541', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ margin: '70px', color: 'white', textAlign: 'center', flex: '0 0 350px' }}>
+            <div style={{ textAlign: 'left' }}>
+              <h3>Discover iconic landmarks</h3>
               <h1>Immerse yourself in the vibrant energy of NYC with our recommended attractions:</h1>
               <h3>Let Buzzin New York help you create lasting memories</h3>
             </div>
             <NestedList attractions={attractions} />
           </div>
-          <div className="images" style={{ border: '2px solid white', flex: 2, margin: '100px' }}>
-            <div className="images-container">
+          <div className="images" style={{ border: '2px solid white', flex: '1 1 200px', margin: '70px',  maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
+            <div className="images-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
               {[1, 2, 3, 4, 13, 14, 15, 19, 23, 24, 25, 26, 28, 29, 32].map((image) => (
                 <Image key={image} id={image} />
               ))}
             </div>
           </div>
         </div>
-        {/* <ThreeD /> */}
       </div>
     </div>
   );

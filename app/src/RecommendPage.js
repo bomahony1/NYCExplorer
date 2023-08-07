@@ -261,10 +261,13 @@
 
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useSpring, useTransform} from "framer-motion";
+import { motion, AnimatePresence, useScroll,  useTransform} from "framer-motion";
 import { Button, Box, ButtonGroup,Link } from "@mui/material";
 import "./RecommendPage.css"
-import { removeItem } from "./array.ts";
+import { removeItem } from "./array.js";
+import {  useNavigate } from 'react-router-dom';
+
+
 
 
 
@@ -272,7 +275,7 @@ function Gallery({ items }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ container: ref });
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1],);
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <>
@@ -286,17 +289,18 @@ function Gallery({ items }) {
           className="indicator"
         />
       </svg>
-      <ul ref={ref}>
+      <ul ref={ref} style={{ width: "100%" }}>
         {items.map((item) => (
           <div key={item.id}>
-           <li style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "20px" }}>{item.text}</li>
-           <img src={`/${item.id}.png`}  alt={item.imageAlt} style={{ width: "999px", height: "600px" }}/>
+            <li style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "20px" }}>{item.text}</li>
+            <img src={`/${item.id}.png`} alt={item.imageAlt} style={{ width: "100%", height: "auto" }} />
           </div>
         ))}
       </ul>
     </>
   );
 }
+
 //  photos from https://www.sightseeingpass.com
 function Window({ content }) {
   let items = [];
@@ -332,12 +336,11 @@ function Window({ content }) {
   }
 
   return (
-    <div className="window">
+    <div className="window" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div className="window-content">
         {content === "Content for 1-2 Days" && (
           <div>
-             <code>New York City 2 Day Itinerary </code>
-      
+            <code>New York City 2 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -345,7 +348,7 @@ function Window({ content }) {
         )}
         {content === "Content for 3-4 Days" && (
           <div>
-             <code>New York City 4 Day Itinerary </code>
+            <code>New York City 4 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -353,7 +356,7 @@ function Window({ content }) {
         )}
         {content === "Content for 5-7 Days" && (
           <div>
-             <code>New York City 7 Day Itinerary </code>
+            <code>New York City 7 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -418,6 +421,29 @@ function Pop() {
     const newHeight = items.length * 220; // Adjust the height 
     setContainerHeight(newHeight);
   }, [items]);
+  const locations = [
+    { name: "Fotografiska NY", lat: 40.702523, lng: -74.014090 },
+    { name: "Downtown & Statue of Liberty", lat: 40.689249, lng: -74.044500 },
+    { name: "Madame Tussauds New York", lat: 40.756222, lng: -73.988253 },
+    { name: "Solomon R. Guggenheim Museum", lat: 40.783010, lng: -73.958465 },
+    { name: "Entertain Yourself in Times Square", lat: 40.758895, lng: -73.985131 },
+    { name: "Museum of Broadway", lat: 40.760037, lng: -73.984017 },
+    { name: "El Museo del Barrio", lat: 40.792433, lng: -73.951863 },
+    { name: "Empire State Building", lat: 40.748817, lng: -73.985428 },
+    { name: "Escape Game New York", lat: 40.744717, lng: -73.988134 },
+    { name: "St. Patrick’s Cathedral Tour", lat: 40.758446, lng: -73.976211 },
+    { name: "LoL Comedy Lounge Magic", lat: 40.760616, lng: -73.994915 },
+    { name: "Intrepid Sea, Air & Space Museum", lat: 40.764532, lng: -73.999161 },
+    { name: "One World Observatory", lat: 40.713015, lng: -74.013169 },
+    { name: "Central Park Guided Bike Tour", lat: 40.767783, lng: -73.971833 },
+    { name: "American Museum of Natural History", lat: 40.781324, lng: -73.974843 },
+    { name: "Scavenger Hunts", lat: 40.758899, lng: -73.985057 },
+    { name: "Observation Deck at Rockefeller Center", lat: 40.759145, lng: -73.979698 },
+    { name: "Whitney Museum of American Art", lat: 40.739612, lng: -74.008130 },
+    { name: "Museum of the City of New York", lat: 40.792614, lng: -73.951309 },
+    { name: "Ellis Island Roundtrip Ferry Tour", lat: 40.699663, lng: -74.039863 },
+    { name: "New York Historical Society Museum and Library", lat: 40.779442, lng: -73.973939 }
+  ];
   
 
   const customTexts = [
@@ -442,11 +468,12 @@ function Pop() {
                         "Museum of the City of New York",
                         "Ellis Island Roundtrip Ferry Tour",
                         "New York Historical Society Museum and Library"]; // Add your custom texts here
+                        const navigate = useNavigate();
 
 
 return (
-    <div className="example">
-      <div className="controls">
+  <div className="example" style={{ height: "100%" }}>
+  <div className="controls">
         <label className="enable">
           <code style={{color:"white"}}>Display on Map? Click Image  </code>
           
@@ -469,7 +496,7 @@ return (
        
         </motion.button>
       </div>
-      <ul>
+      <ul style={{ flex: 1 }}>
         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
           {items.map((item) => (
             <div  key={item.id}><motion.li
@@ -491,7 +518,12 @@ return (
             <img
             src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
-            style={{ width: "320px", height: "210px",alignItems:"center" }}
+            style={{ maxWidth: "100%", height: "auto", alignItems: "center" }}
+            onClick={() => {
+              navigate('/map', {
+                state: { location: { lat: locations[item.id - 1].lat, lng: locations[item.id - 1].lng ,title:locations[item.id - 1].name} },
+              });
+            }}
             />
             </div>
           ))}
@@ -503,112 +535,137 @@ return (
 
 
 function ItineraryPage() {
-  const { scrollYProgress } = useScroll();
+  // const { scrollYProgress } = useScroll();
   const [selectedTab, setSelectedTab] = useState(null);
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 30,
-    restDelta: 0.001
-  });
+  // const scaleX = useSpring(scrollYProgress, {
+  //   stiffness: 200,
+  //   damping: 30,
+  //   restDelta: 0.001
+  // });
   const handleButtonClick = (url) => {
     window.open(url, '_blank');
   };
 
 
-    return (
-        <div className="itinerary-page" style={{backgroundColor:"#1C2541"}}>
-            <div>
-              <div style={{display:"flex",alignItems: "center",justifyContent: "center",marginTop:"0px"}}>
-              <h1 style={{flex:0.45,color:"white",marginBottom:"3px"}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{  color: "white",marginTop:"20px",border: "none"}} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
-              Book now
-              </Button>
-              </div>
-              <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
-                <Window content={selectedTab}  />
-            </div>
-            <div style={{display:"flex",height:"600px"}}>
-            <div className="pop" style={{flex:1.4,marginTop:"80px",}}>
-            <Pop />
-            </div>
-          
-            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541" }}>
-         
-            <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white",fontSize: "20px"}}>
+  return (
+    <div className="itinerary-page" style={{ backgroundColor: "#1C2541", height: "100%" }}>
+      <div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "0px" }}>
+          <h1 style={{ color: "white", marginBottom: "3px", width: "39%" }}>Money saving DAY Pass itineraries</h1>
+          <Button size="small" style={{ color: "white", marginTop: "10px", border: "none", width: "15%" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+            Book now
+          </Button>
+        </div>
+
+        <Buttons setSelectedTab={setSelectedTab} style={{ flex: 1, marginTop: "0px", marginBottom: "0px" }} />
+        <Window content={selectedTab} />
+      </div>
+
+      <div className="flex-container">
+        <div className="pop" style={{ flex: 1.4, marginTop: "60px",heigh:"70%" }}>
+          <Pop />
+        </div>
+
+        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "80px", marginRight: "auto", marginLeft: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
+        <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
+          Recommendations Links
+        </div>
+            <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white"}}>
               {'Fotografiska NY'}
             </Link>
-            <Link href="https://www.nps.gov/stli/index.htm"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.nps.gov/stli/index.htm"   underline="hover" style={{color:"white" }}>
               {'Downtown & Statue of Liberty'}
             </Link>
-            <Link href="https://www.madametussauds.com/new-york/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.madametussauds.com/new-york/"   underline="hover" style={{color:"white" }}>
               {'Madame Tussauds New York'}
             </Link>
-            <Link href="https://www.guggenheim.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.guggenheim.org/"   underline="hover" style={{color:"white" }}>
               {'Solomon R. Guggenheim Museum'}
             </Link>
-            <Link href="https://tourscanner.com/blog/fun-things-to-do-in-times-square/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://tourscanner.com/blog/fun-things-to-do-in-times-square/"   underline="hover" style={{color:"white" }}>
               {'Entertain yourself in times square'}
             </Link>
-            <Link href="https://www.themuseumofbroadway.com/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jsyRHZy1YH050mzXWoeBxfqDuqtGLp6acv5wSRwVinSj5jb0gtE8BoCJckQAvD_BwE&gclsrc=aw.ds"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.themuseumofbroadway.com/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jsyRHZy1YH050mzXWoeBxfqDuqtGLp6acv5wSRwVinSj5jb0gtE8BoCJckQAvD_BwE&gclsrc=aw.ds"   underline="hover" style={{color:"white" }}>
               {'Museum of Broadway'}
             </Link>
-            <Link href="https://www.elmuseo.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.elmuseo.org/"   underline="hover" style={{color:"white"}}>
               {'el museo del barrio'}
             </Link>
-            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" }}>
               {'Empire State Building'}
             </Link>
-            <Link href="https://theescapegame.com/newyorkcity/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://theescapegame.com/newyorkcity/"   underline="hover" style={{color:"white"}}>
               {'Escape game new york'}
             </Link>
-            <Link href="https://www.stpatrickscathedral.ie/visit/?psafe_param=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jMGy5LGUGm8EhlMrFzsB2zEdQJQ_c9qAGlo4InSlhLofWAhflZQgRoCpCkQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.stpatrickscathedral.ie/visit/?psafe_param=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1jMGy5LGUGm8EhlMrFzsB2zEdQJQ_c9qAGlo4InSlhLofWAhflZQgRoCpCkQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'st. patrick’s cathedral tour'}
             </Link>
-            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.esbnyc.com/"   underline="hover" style={{color:"white" }}>
               {'Empire State Building'}
             </Link>
-            <Link href="https://lolcomedylounge.com/magic/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://lolcomedylounge.com/magic/"   underline="hover" style={{color:"white" }}>
               {'LoL Comedy Lounge Magic'}
             </Link>
 
-            <Link href="https://www.intrepidmuseum.org/Purchase-Tickets?PartnerID=1343&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1vtjCXg-vWEAIpj2oOBDaSc8T04IzVJ_G2RLCWkiNzO-Ru3nef8X-RoCDwYQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.intrepidmuseum.org/Purchase-Tickets?PartnerID=1343&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1vtjCXg-vWEAIpj2oOBDaSc8T04IzVJ_G2RLCWkiNzO-Ru3nef8X-RoCDwYQAvD_BwE"   underline="hover" style={{color:"white"}}>
               {'Intrepid Sea, Air & Space Museum'}
             </Link>
 
-            <Link href="https://www.oneworldobservatory.com/buy-tickets/tradedoubler/?tduid=ce1a6289b3062962a332618c6cab2697"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.oneworldobservatory.com/buy-tickets/tradedoubler/?tduid=ce1a6289b3062962a332618c6cab2697"   underline="hover" style={{color:"white" }}>
               {'One World Observatory'}
             </Link>
 
-            <Link href="https://www.sightseeingpass.com/en/new-york/attractions/guided-central-park-bike-tour-by-bike-rent-nyc?aid=66&gad=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pCW29Qc5QQHJaS5_loVFY4ZPzv5KO-Jpg9u_lvDU8KyIQEHxYEOzRoCJ7cQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.sightseeingpass.com/en/new-york/attractions/guided-central-park-bike-tour-by-bike-rent-nyc?aid=66&gad=1&gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pCW29Qc5QQHJaS5_loVFY4ZPzv5KO-Jpg9u_lvDU8KyIQEHxYEOzRoCJ7cQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'Central Park Guided Bike Tour'}
             </Link>
 
-            <Link href="https://www.amnh.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.amnh.org/"   underline="hover" style={{color:"white" }}>
               {'American Museum of Natural History'}
             </Link>
 
-            <Link href="https://www.tripadvisor.ie/Attractions-g60763-Activities-c56-t209-New_York_City_New_York.html"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.tripadvisor.ie/Attractions-g60763-Activities-c56-t209-New_York_City_New_York.html"   underline="hover" style={{color:"white" }}>
               {'Scavenger hunts new york'}
             </Link>
 
-            <Link href="https://www.rockefellercenter.com/attractions/top-of-the-rock-observation-deck/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.rockefellercenter.com/attractions/top-of-the-rock-observation-deck/"   underline="hover" style={{color:"white" }}>
               {'Observation Deck at Rockefeller Center '}
             </Link>
-            <Link href="https://whitney.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://whitney.org/"   underline="hover" style={{color:"white" }}>
               {'Whitney Museum of American Art'}
             </Link>
-            <Link href="https://www.mcny.org/about?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pgF3C_PgumehNW0S1vh0oludiOu807GgJkHCXj_xqOQMXQXo1WWkRoCjooQAvD_BwE"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.mcny.org/about?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1pgF3C_PgumehNW0S1vh0oludiOu807GgJkHCXj_xqOQMXQXo1WWkRoCjooQAvD_BwE"   underline="hover" style={{color:"white" }}>
               {'Museum of the City of New York'}
             </Link>
-            <Link href="https://www.statueofliberty.org/visit/tickets/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.statueofliberty.org/visit/tickets/"   underline="hover" style={{color:"white" }}>
               {'Ellis Island Roundtrip Ferry Tour'}
             </Link>
-            <Link href="https://www.nyhistory.org/"   underline="hover" style={{color:"white" ,fontSize: "20px"}}>
+            <Link href="https://www.nyhistory.org/"   underline="hover" style={{color:"white" }}>
               {'Historical Society Museum and Library'}
             </Link>
 
             </div>
             </div>
+            <style>
+        {`
+          /* 在手机屏幕下，flex-direction设为column，即pop和recommend links在垂直方向上排列 */
+          @media (max-width: 768px) {
+            .flex-container {
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+            }
+          }
+
+          /* 在web端，flex-direction设为row，即pop在recommend links右侧 */
+          @media (min-width: 769px) {
+            .flex-container {
+              display: flex;
+
+              flex-direction: row;
+            }
+          }
+        `}
+      </style>
             {/* add the scroll process */}
             {/* <article>
       <motion.div className="progress" style={{ scaleX }} />

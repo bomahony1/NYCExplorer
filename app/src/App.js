@@ -12,6 +12,8 @@ const handleAnimationComplete = () => {
 
 const App = () => {
   const [showAnimation, setShowAnimation] = useState(true);
+  
+
 
   useEffect(() => {
     const animationDuration = 2000;
@@ -24,6 +26,8 @@ const App = () => {
   }, []);
 
   return (
+   
+      
     <div className="App">
       {showAnimation ? (
         <div className="animation">
@@ -33,6 +37,7 @@ const App = () => {
         <MainMenu />
       )}
     </div>
+    
   );
 };
 
