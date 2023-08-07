@@ -12,7 +12,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
+
+@media screen and (max-width: 600px) {
+  #info01 {
+    margin-top: 20px; /* 调整合适的值 */
+    max-width: 90%; /* 调整合适的值 */
+  }
+}
+
+
 
 .fixed-box {
   align-items: center;

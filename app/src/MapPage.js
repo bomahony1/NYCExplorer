@@ -957,7 +957,7 @@ function MapPage() {
       ])
         .then(([attractionsData, hotelsData, restaurantsData]) => {
           const attractionsMarkers = attractionsData.map((attraction) => ({
-            id: attraction.id,
+            id: attraction.place_id,
             position: {
               lat: attraction.latitude,
               lng: attraction.longitude,
@@ -984,7 +984,7 @@ function MapPage() {
           }));
   
           const hotelsMarkers = hotelsData.map((hotel) => ({
-            id: hotel.id,
+            id: hotel.place_id,
             position: {
               lat: hotel.latitude,
               lng: hotel.longitude,
@@ -1009,7 +1009,7 @@ function MapPage() {
           }));
   
           const restaurantsMarkers = restaurantsData.map((restaurant) => ({
-            id: restaurant.id,
+            id: restaurant.place_id,
             position: {
               lat: restaurant.latitude,
               lng: restaurant.longitude,
@@ -1391,7 +1391,7 @@ function MapPage() {
             cursor: 'grab',
             position: 'fixed',
             left: '30%',
-            top: '11.5%',
+            top: '13%',
             transform: 'translate(-50%, -50%)',
             zIndex: 999,
           }}
