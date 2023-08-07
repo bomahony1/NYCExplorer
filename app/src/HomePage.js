@@ -207,12 +207,35 @@ function NestedList({ attractions }) {
 const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
 const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
 
+// function Image({ id }) {
+//   const [isLoaded, setIsLoaded] = useState(false);
+//   const [isInView, setIsInView] = useState(false);
+
+//   return (
+//     <div className="image-container">
+//       <motion.div
+//         initial={false}
+//         animate={
+//           isLoaded && isInView
+//             ? { WebkitMaskImage: visibleMask, maskImage: visibleMask }
+//             : { WebkitMaskImage: hiddenMask, maskImage: hiddenMask }
+//         }
+//         transition={{ duration: 1, delay: 1 }}
+//         viewport={{ once: true }}
+//         onViewportEnter={() => setIsInView(true)}
+//       >
+//         <img src={`/${id}.jpg`} alt="" onLoad={() => setIsLoaded(true)} />
+//       </motion.div>
+//     </div>
+//   );
+// }
+
 function Image({ id }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
 
   return (
-    <div className="image-container">
+    <div className="image-container" style={{ maxWidth: '100%' }}>
       <motion.div
         initial={false}
         animate={
@@ -224,7 +247,17 @@ function Image({ id }) {
         viewport={{ once: true }}
         onViewportEnter={() => setIsInView(true)}
       >
-        <img src={`/${id}.jpg`} alt="" onLoad={() => setIsLoaded(true)} />
+        <img
+          src={`/${id}.jpg`}
+          alt=""
+          onLoad={() => setIsLoaded(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            margin: '5px',
+          }}
+        />
       </motion.div>
     </div>
   );
@@ -322,9 +355,9 @@ function HomePage() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#1C2541', fontWeight: 'bold' }}>
-      <div style={{ width: '100%' }}>
-        <div style={{ textAlign: 'center', marginTop: '6px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', color: '#1C2541', fontWeight: 'bold' }}>
+    <div style={{ width: '100%', maxWidth: '1440px' }}>
+      <div style={{ textAlign: 'center', marginTop: '6px' }}>
           <Carousel
             autoPlay={true}
             interval={5000}
@@ -379,24 +412,23 @@ function HomePage() {
             ))}
           </Carousel>
         </div>
-        <div style={{ marginTop: '10px', display: 'flex', backgroundColor: '#1C2541' }}>
-          <div style={{ flex: 1, margin: '100px' }}>
-            <div style={{ color: 'white', textAlign: 'left' }}>
-              <h3>Discover iconic landmarks </h3>
+        <div style={{ marginTop: '10px', backgroundColor: '#1C2541', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ margin: '40px', color: 'white', textAlign: 'center', flex: '0 0 350px' }}>
+            <div style={{ textAlign: 'left' }}>
+              <h3>Discover iconic landmarks</h3>
               <h1>Immerse yourself in the vibrant energy of NYC with our recommended attractions:</h1>
               <h3>Let Buzzin New York help you create lasting memories</h3>
             </div>
             <NestedList attractions={attractions} />
           </div>
-          <div className="images" style={{ border: '2px solid white', flex: 2, margin: '100px' }}>
-            <div className="images-container">
+          <div className="images" style={{ border: '2px solid white', flex: '1 1 200px', margin: '40px',  maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
+            <div className="images-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
               {[1, 2, 3, 4, 13, 14, 15, 19, 23, 24, 25, 26, 28, 29, 32].map((image) => (
                 <Image key={image} id={image} />
               ))}
             </div>
           </div>
         </div>
-       
       </div>
     </div>
   );

@@ -135,7 +135,7 @@ export default function MainMenu() {
 
   return (
     <Box>
-    <div
+  <div
       ref={navRef}
       style={{
         position: isSticky ? 'fixed' : 'relative',
@@ -145,25 +145,25 @@ export default function MainMenu() {
         height: '80px',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         backgroundColor: '#fff',
         boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
       }}
     >
-      <img src={`/slogan.jpg`} alt="Slogan" style={{ width: '13%' }} />
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-        sx={{
-          // Apply custom styles for different screen sizes
-          marginLeft: 'auto', // Move the Tabs component to the right on larger screens
-          width: 'auto', // Allow the Tabs to take as much space as needed
-          flex: 1, // Allow the Tabs to grow and occupy available space
-          maxWidth: '300px', // Limit the maximum width of Tabs on larger screens
-        }}
-      >
+      <img src={`/slogan.jpg`} alt="Slogan" style={{ width: '13%', marginLeft: '5%', flex: '0 0 auto' }} />
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          sx={{
+            // Apply custom styles for different screen sizes
+            flex: 1, // Allow the Tabs to grow and occupy available space
+            maxWidth: '300px', // Limit the maximum width of Tabs on larger screens
+          }}
+        >
           <Tab
             label="Home"
             icon={<StyledTabIcon><HomeOutlinedIcon /></StyledTabIcon>}
@@ -180,8 +180,10 @@ export default function MainMenu() {
             sx={{ color: '#1C2541', fontWeight: 'bold', fontSize: '0.8rem', '&.Mui-selected': { color: '#477696' } }}
           />
         </Tabs>
-        <PlayButton />
+       
       </div>
+      <PlayButton style={{ marginRight: '5%', flex: '0 0 auto' }} />
+    </div>
       <div>
       <Routes>
           {/* Use the Route component to specify the path and the component to render */}
@@ -190,7 +192,7 @@ export default function MainMenu() {
           <Route path="/recommend" element={<RecommendPage />} />
         </Routes>
       </div>
-      <Box style={{position:"relative"}}>
+      <Box style={{ position: "relative", display: "flex", justifyContent: "center" }}>
       <div style={{position:'absolute',bottom:'200px',padding:"5px",textAlign:"center",top:"10px",left:"35%",zIndex:"999"}}><Footer /></div>
       </Box>
     </Box>

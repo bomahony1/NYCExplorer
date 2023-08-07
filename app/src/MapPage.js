@@ -1283,7 +1283,7 @@ const handleDirectionsResponse = (response) => {
             <strong>Loading weather data...</strong>
           )}
         </div>
-          {/*heat map */}
+    
           <Heatmap
         onHeatmapDataReceived={handleHeatmapDataReceived}
         heatmapVisible={heatmapVisible}
@@ -1394,7 +1394,9 @@ const handleDirectionsResponse = (response) => {
         <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
        
-        <div> <ThreeD handleMapToggle={handleMapToggle} /></div>
+        <div style={{ height: "100%", width: "100%", position: "relative" }}>
+      <ThreeD handleMapToggle={handleMapToggle} style={{ width: "100%", height: "100%" }} />
+    </div>
        
         </div>
         <div>

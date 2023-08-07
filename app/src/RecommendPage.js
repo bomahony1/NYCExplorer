@@ -269,11 +269,13 @@ import {  useNavigate } from 'react-router-dom';
 
 
 
+
+
 function Gallery({ items }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ container: ref });
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1],);
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <>
@@ -287,17 +289,18 @@ function Gallery({ items }) {
           className="indicator"
         />
       </svg>
-      <ul ref={ref}>
+      <ul ref={ref} style={{ width: "100%" }}>
         {items.map((item) => (
           <div key={item.id}>
-           <li style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "20px" }}>{item.text}</li>
-           <img src={`/${item.id}.png`}  alt={item.imageAlt} style={{ width: "999px", height: "600px" }}/>
+            <li style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "20px" }}>{item.text}</li>
+            <img src={`/${item.id}.png`} alt={item.imageAlt} style={{ width: "100%", height: "auto" }} />
           </div>
         ))}
       </ul>
     </>
   );
 }
+
 //  photos from https://www.sightseeingpass.com
 function Window({ content }) {
   let items = [];
@@ -333,12 +336,11 @@ function Window({ content }) {
   }
 
   return (
-    <div className="window">
+    <div className="window" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div className="window-content">
         {content === "Content for 1-2 Days" && (
           <div>
-             <code>New York City 2 Day Itinerary </code>
-      
+            <code>New York City 2 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -346,7 +348,7 @@ function Window({ content }) {
         )}
         {content === "Content for 3-4 Days" && (
           <div>
-             <code>New York City 4 Day Itinerary </code>
+            <code>New York City 4 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -354,7 +356,7 @@ function Window({ content }) {
         )}
         {content === "Content for 5-7 Days" && (
           <div>
-             <code>New York City 7 Day Itinerary </code>
+            <code>New York City 7 Day Itinerary</code>
             <div className="gallery">
               <Gallery items={items} />
             </div>
@@ -470,8 +472,8 @@ function Pop() {
 
 
 return (
-    <div className="example">
-      <div className="controls">
+  <div className="example" style={{ height: "100%" }}>
+  <div className="controls">
         <label className="enable">
           <code style={{color:"white"}}>Display on Map? Click Image  </code>
           
@@ -494,7 +496,7 @@ return (
        
         </motion.button>
       </div>
-      <ul>
+      <ul style={{ flex: 1 }}>
         <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
           {items.map((item) => (
             <div  key={item.id}><motion.li
@@ -516,7 +518,7 @@ return (
             <img
             src={`/${item.id + 11}.jpg`} // Use index + 12 as the file name
             alt={item.imageAlt}
-            style={{ width: "320px", height: "210px",alignItems:"center" }}
+            style={{ maxWidth: "100%", height: "auto", alignItems: "center" }}
             onClick={() => {
               navigate('/map', {
                 state: { location: { lat: locations[item.id - 1].lat, lng: locations[item.id - 1].lng ,title:locations[item.id - 1].name} },
@@ -546,26 +548,27 @@ function ItineraryPage() {
 
 
     return (
-        <div className="itinerary-page" style={{backgroundColor:"#1C2541"}}>
-            <div>
-              <div style={{display:"flex",alignItems: "center",justifyContent: "center",marginTop:"0px"}}>
-              <h1 style={{flex:0.45,color:"white",marginBottom:"3px"}}>Money saving DAY Pass itineraries</h1>
-              <Button size="small" style={{  color: "white",marginTop:"20px",border: "none"}} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
-              Book now
-              </Button>
-              </div>
+      <div className="itinerary-page" style={{ backgroundColor: "#1C2541", height: "100%" }}>
+      <div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "0px" }}>
+  <h1 style={{ color: "white", marginBottom: "3px", width: "39%" }}>Money saving DAY Pass itineraries</h1>
+  <Button size="small" style={{ color: "white", marginTop: "10px", border: "none", width: "15%" }} onClick={() => handleButtonClick("https://www.sightseeingpass.com/en/new-york/day-pass/itineraries/7-days-in-nyc")}>
+    Book now
+  </Button>
+</div>
+
               <Buttons setSelectedTab={setSelectedTab} style={{flex:1,marginTop:"0px",marginBottom:"0PX"}} />
                 <Window content={selectedTab}  />
             </div>
-            <div style={{display:"flex",height:"600px"}}>
-            <div className="pop" style={{flex:1.4,marginTop:"80px",}}>
-            <Pop />
-            </div>
-          
-            <div  className="info-box" style={{ border:"2px solid white",flex: 2,height:"65%",width:"150px",marginTop:"100px",marginRight:"160px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px",backgroundColor:"#1C2541",fontSize:"18px" }}>
-            <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px" ,fontFamily:"cursive"}}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: "auto" }}>
+        <div className="pop" style={{ marginTop: "80px" }}>
+          <Pop />
+        </div>
+
+        <div className="info-box" style={{ border: "2px solid white", width: "90%", maxWidth: "500px", marginTop: "20px", marginBottom: "20px", padding: "10px", backgroundColor: "#1C2541", fontSize: "18px" }}>
+          <div style={{ color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
             Recommendations Links
-             </div>
+          </div>
             <Link href="https://www.fotografiska.com/nyc/exhibitions/terry-oneill/?gclid=CjwKCAjw5MOlBhBTEiwAAJ8e1noSR8twV9Ka83hIecqPsBg7LL7OyAVq5AOZKr6uoRNROASJobHt7xoCPtsQAvD_BwE" underline="hover" style={{color:"white"}}>
               {'Fotografiska NY'}
             </Link>
