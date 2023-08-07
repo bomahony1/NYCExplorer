@@ -558,7 +558,11 @@ function TemporaryDrawer({tmp}) {
               }}
               getSuggestionValue={getAttractionSuggestionValue}
               renderSuggestion={renderAttractionSuggestion}
-              inputProps={attractionInputProps}
+              inputProps={{
+                ...attractionInputProps,
+                value: attractionValue,
+                onChange: (event, { newValue }) => handleInputChange('attractions')(event, { newValue }),
+              }}
              
             />
           </AccordionDetails>
@@ -636,7 +640,11 @@ function TemporaryDrawer({tmp}) {
               }}
               getSuggestionValue={getRestaurantSuggestionValue}
               renderSuggestion={renderRestaurantSuggestion}
-              inputProps={restaurantInputProps}
+              inputProps={{
+                ...restaurantInputProps,
+                value: restaurantValue,
+                onChange: (event, { newValue }) => handleInputChange('restaurants')(event, { newValue }),
+              }}
             />
           </AccordionDetails>
         </Accordion>
@@ -713,7 +721,11 @@ function TemporaryDrawer({tmp}) {
             }}
             getSuggestionValue={getHotelSuggestionValue}
             renderSuggestion={renderHotelSuggestion}
-            inputProps={hotelInputProps}
+            inputProps={{
+              ...hotelInputProps,
+              value: hotelValue,
+              onChange: (event, { newValue }) => handleInputChange('hotels')(event, { newValue }),
+            }}
           />
         </AccordionDetails>
       </Accordion>

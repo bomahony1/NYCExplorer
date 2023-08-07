@@ -366,7 +366,7 @@ function HomePage() {
             showStatus={false} // Hides the status indicator (e.g., slide x of y)
             showThumbs={false} // Hides the thumbnail navigation
             selectedItem={activeSlide}
-            onChange={setActiveSlide}
+            value={{ on: 'change', callback: setActiveSlide }}
             renderIndicator={(onClickHandler, isSelected, index) => (
               <button
                 type="button"

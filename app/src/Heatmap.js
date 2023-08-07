@@ -130,6 +130,7 @@ import TextField from '@mui/material/TextField';
 import { Button, Alert, IconButton, Collapse } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap, polygons }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [lastSelectedDate, setLastSelectedDate] = useState(null);
@@ -221,7 +222,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap, polyg
           label="Select month,day,hour"
           value={selectedDate}
           onChange={handleDateChange}
-          renderInput={(params) => <TextField {...params} />}
+          textField={TextField}
           ampm={false} // Use 24-hour format
           minutes={false} // Hide the minutes component
           seconds={false} // Hide the seconds component
