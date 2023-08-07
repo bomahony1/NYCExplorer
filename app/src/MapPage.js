@@ -1394,7 +1394,7 @@ const handleDirectionsResponse = (response) => {
         <div style={{ flex: 1.6,height:"540px" }}>
         <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
        
-        <div style={{ height: "100%", width: "100%", position: "relative" }}>
+        <div style={{ height: "30%", width: "100%", position: "relative" }}>
       <ThreeD handleMapToggle={handleMapToggle} style={{ width: "100%", height: "100%" }} />
     </div>
        
