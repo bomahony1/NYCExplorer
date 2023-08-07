@@ -12,7 +12,7 @@ export function useAnimatedText(target, transition) {
       ref.current.innerText = v.toFixed(2)
     })
   })
-  useEffect(() => value.set(target), [target])
+  useEffect(() => value.set(target), [target, value])
 
   return ref
 }

@@ -44,14 +44,13 @@ function useMenuAnimation(isOpen) {
       ],
       ...menuAnimations
     ]);
-  }, [isOpen]);
+  }, [animate, isOpen]);
 
   return scope;
 }
 
 function MapItinerary() {
   const [isOpen, setIsOpen] = useState(false);
-   const [count, setCount] = useState(0);
 
   const scope = useMenuAnimation(isOpen);
 
@@ -64,7 +63,7 @@ function MapItinerary() {
 }
 
 export default function ShowItinerary(){
-    const [count, setCount] = useState(0);
+    const [count] = useState(0);
     return(
         <MapItinerary key={count}/>
     );

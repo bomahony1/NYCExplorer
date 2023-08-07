@@ -412,7 +412,7 @@ function Buttons({ setSelectedTab }) {
 
 
 function Pop() {
-  const [containerHeight, setContainerHeight] = useState(0);
+  const [, setContainerHeight] = useState(0);
   const count = useRef(0);
   const [items, setItems] = useState([]);
   const [popLayout, setPopLayout] = useState(false);
@@ -566,7 +566,7 @@ function ItineraryPage() {
           <Pop />
         </div>
 
-        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "80px", marginRight: "auto", marginLeft: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
+        <div className="info-box" style={{ border: "2px solid white", flex: 2, height: "65%", width: "80%", marginTop: "80px",marginBottom:"6%", marginRight: "auto", marginLeft: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", backgroundColor: "#1C2541", fontSize: "18px", justifyContent: "center" }}>
         <div style={{ gridColumn: "1 / span 2", color: "white", fontSize: "24px", textAlign: "center", marginBottom: "10px", fontFamily: "cursive" }}>
           Recommendations Links
         </div>
