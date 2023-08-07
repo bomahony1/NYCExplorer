@@ -836,7 +836,7 @@ function MapPage() {
     libraries: libraries,
   });
 
-  const center = useMemo(() => ({ lat: 40.7309, lng: - 73.9601 }), []);
+  const center = useMemo(() => ({ lat:40.7422, lng: - 73.9880 }), []);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [directions, setDirections] = useState(null);
