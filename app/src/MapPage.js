@@ -924,7 +924,7 @@ function MapPage() {
         },
       }));
   
-      setMarkers((prevMarkers) => [...newMarkers]);
+      setMarkers((prevMarkers) => [...newMarkers,...prevMarkers]);
     }
   }, [selectedPlace]);
   
