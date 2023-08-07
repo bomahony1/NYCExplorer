@@ -95,15 +95,45 @@ input[type="text" i] {
   list-style-type: none !important;
 }
 
-/* 根据不同的屏幕宽度和高度设置地图容器的高度 */
 @media (max-width: 600px) {
   div[style*='height: 70vh'] {
-    height: 50vh;
+    height: 40vh; /* Adjust the height as needed */
   }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
   div[style*='height: 70vh'] {
-    height: 60vh;
+    height: 50vh; /* Adjust the height as needed */
+  }
+}
+/* Keep the original styling for #info01 and .fixed-box */
+
+
+
+/* Add media queries for different screen sizes */
+@media (max-width: 600px) {
+  .map-container {
+    height: calc(50vh - 120px); /* Adjust the 120px based on your design */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .map-container {
+    height: calc(60vh - 120px); /* Adjust the 120px based on your design */
+  }
+}
+.map-container {
+  flex: 3;
+  height: 100%;
+}
+
+/* Add media queries for different screen sizes */
+@media (max-width: 1024px) {
+  .fixed-box {
+    display: none;
+  }
+
+  .map-container {
+    flex: 4;
   }
 }

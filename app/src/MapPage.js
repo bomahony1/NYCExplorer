@@ -1251,11 +1251,11 @@ function MapPage() {
 
 
 
-
+  const [componentsVisible, setComponentsVisible] = useState(true);
 
   return (
     
-    <div style={{ color: '#1C2541' }}>
+    <div style={{ color: '#1C2541', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div className='fixed-box'>
       <Draggable nodeRef={draggableRef}>
       <div id="info01" style={{ cursor: 'move' }} ref={draggableRef}>
@@ -1377,27 +1377,59 @@ function MapPage() {
         </div>
         </Draggable>
       </div>
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1.6,height:"540px" }}>
-        <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp}/>
-       
-        <div style={{ height: "30%", width: "100%", position: "relative" }}>
-      <ThreeD handleMapToggle={handleMapToggle} style={{ width: "100%", height: "100%" }} />
-    </div>
-       
+       <Draggable nodeRef={draggableRef}>
+       <div
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            backgroundColor: '#1C2541',
+           
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'grab',
+            position: 'fixed',
+            left: '30%',
+            top: '11.5%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 999,
+          }}
+        >
+          <button
+            onClick={() => setComponentsVisible(!componentsVisible)}
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#ffffff',
+              width: '100%',
+              height: '100%',
+              fontWeight:'bold',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {componentsVisible ? 'Hide' : 'Show'}
+          </button>
         </div>
-        <div>
-       
-    
-    </div>
-        <div style={{ height: '750px', flex: "3" }}>
-    
+      </Draggable>
+      <div style={{ display: 'flex', flex: '1' }}>
+        {componentsVisible && (
+          <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column' }}>
+            <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp} />
+            <div style={{ position: 'relative', height: '50vh' }}>
+              <ThreeD handleMapToggle={handleMapToggle} style={{ width: '100%', height: '100%' }} />
+            </div>
+          </div>
+        )}
+        <div style={{ flex: '3', display: 'flex', flexDirection: 'column' }}>
           {!isLoaded ? (
             <div>Loading...</div>
           ) : (
-        
             <GoogleMap
-              mapContainerStyle={{ height: '100%' }}
+              mapContainerStyle={{ flex: '1', height: '100%' }}
               center={center}
               zoom={zoomLevel} 
               onMouseOver={handleMapMouseOver} 
