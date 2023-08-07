@@ -107,7 +107,7 @@ function DateRangePickerDialog({ handleSelect }) {
 }
 
 function TemporaryDrawer({tmp}) {
-  const [isDrawerOpen, setDrawerOpen] = useState(true);
+  // const [isDrawerOpen, setDrawerOpen] = useState(true);
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const allowDrop = (event) => {
@@ -213,7 +213,7 @@ function TemporaryDrawer({tmp}) {
 
   return (
     <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
-      {isDrawerOpen && (
+     
         <div style={{ display: 'flex'}}>
           <div style={{background: 'white',height: '748px', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
@@ -247,7 +247,7 @@ function TemporaryDrawer({tmp}) {
             </div>
           )}
         </div>
-      )}
+     
     </div>
   );
 }
@@ -845,8 +845,8 @@ function MapPage() {
   const [originInput, setOriginInput] = useState('');
   const [destinationInput, setDestinationInput] = useState('');
   const [showMarkers, setShowMarkers] = useState(true);
-  const [distance, setDistance] = useState('');
-  const [duration, setDuration] = useState('');
+  const [, setDistance] = useState('');
+  const [, setDuration] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState([]);
   const [showAttractions, setShowAttractions] = useState(false);
@@ -1092,7 +1092,7 @@ function MapPage() {
 
       handleSelect(originInput);
     }
-  }, [originInput]);
+  }, [center.lat, center.lng, originInput]);
 
   useEffect(() => {
     if (destinationInput) {
@@ -1114,7 +1114,7 @@ function MapPage() {
 
       handleSelect(destinationInput);
     }
-  }, [destinationInput]);
+  }, [center.lat, center.lng, destinationInput]);
 
 
 
@@ -1133,20 +1133,6 @@ function MapPage() {
 
 
   
-const handleDirectionsResponse = (response) => {
-    if (response !== null) {
-      setDirections(response);
-
-      const leg = response.routes[0]?.legs[0];
-      if (leg) {
-        setDistance(leg.distance?.text || '');
-        setDuration(leg.duration?.text || '');
-      } else {
-        setDistance('');
-        setDuration('');
-      }
-    }
-  };
   const handleSearch = () => {
     if (origin && destination) {
       // Clear the previous directions before performing a new search
@@ -1223,6 +1209,7 @@ const handleDirectionsResponse = (response) => {
 
   const [predictionNumber, setPredictionNumber] = useState(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleMapMouseOver = useCallback((event) => {
     const latLng = event.latLng;
     let prediction = null;

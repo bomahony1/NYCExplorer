@@ -266,6 +266,7 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true); 
   const [attractions, setAttractions] = useState([]);
 
