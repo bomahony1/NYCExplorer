@@ -53,7 +53,7 @@ export default function ThreeD({ handleMapToggle }) {
       className="threed-page"
       style={{
         width: "510px",
-        height: "210px",
+        height: "329px",
         position: "absolute",
       }}
     >

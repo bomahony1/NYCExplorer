@@ -31,6 +31,8 @@
   right: 2px;
   max-width: 330px;
   z-index: 1;
+  transform: scale(1);
+  transition: transform 0.3s ease;
 }
 
 
@@ -140,7 +142,7 @@ input[type="text" i] {
 /* Add media queries for different screen sizes */
 @media (max-width: 1024px) {
   .fixed-box {
-    display: none;
+    transform: scale(0.8); /* 调整缩放比例 */
   }
 
   .map-container {

@@ -11,7 +11,7 @@ function Switch({ isOn, setOn }) {
   const { nodes, materials } = useGLTF("/switch.glb");
   const texture = useTexture("/cross.jpg");
 
-  const onClick = useCallback(() => setOn(!isOn), [isOn]);
+  const onClick = useCallback(() => setOn(!isOn), [isOn, setOn]);
 
   const lightVariants = {
     on: { color: "#888" },

@@ -212,10 +212,10 @@ function TemporaryDrawer({tmp}) {
   };
 
   return (
-    <div  style={{ height: '100%', width:'100%',overflow: 'auto'}}>
+    <div  style={{  width:'100%',overflow: 'auto'}}>
      
         <div style={{ display: 'flex'}}>
-          <div style={{background: 'white',height: '748px', width: '100%', overflow: 'auto',}}>
+          <div style={{background: 'white',height:'60vh', width: '100%', overflow: 'auto',}}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
@@ -1419,8 +1419,8 @@ function MapPage() {
         {componentsVisible && (
           <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column' }}>
             <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp} />
-            <div style={{ position: 'relative', height: '50vh' }}>
-              <ThreeD handleMapToggle={handleMapToggle} style={{ width: '100%', height: '100%' }} />
+            <div style={{ position: 'relative', height: '32vh', }}>
+              <ThreeD handleMapToggle={handleMapToggle} style={{ width: '100%',height:"100%" }} />
             </div>
           </div>
         )}
