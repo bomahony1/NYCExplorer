@@ -266,9 +266,10 @@ function Image({ id }) {
 function HomePage() {
   const [events, setEvents] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(true); 
+  const [, setLoading] = useState(true);
   const [attractions, setAttractions] = useState([]);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [dataLoaded, setDataLoaded] = useState(false); // Add this state
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/events/')
@@ -287,12 +288,12 @@ function HomePage() {
         } else {
           setEvents([]);
         }
-        setLoading(false); // Data loaded, set loading to false
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
         setEvents([]);
-        setLoading(false); // Error occurred, set loading to false
+        setLoading(false);
       });
   }, []);
 
@@ -311,8 +312,8 @@ function HomePage() {
           longitude: attraction.longitude,
           rating: attraction.rating,
           photos: attraction.photos,
-          open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '', 
-          close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',   
+          open: attraction.opening_hours?.opening_hours?.periods[0]?.open?.time || '',
+          close: attraction.opening_hours?.opening_hours?.periods[0]?.close?.time || '',
         }));
         setAttractions(newAttractions);
       })
@@ -322,36 +323,23 @@ function HomePage() {
       });
   }, []);
 
-  const [loadingProgress, setLoadingProgress] = React.useState(0); // Add the loadingProgress state
-
   useEffect(() => {
-    // Simulating the API fetch progress
     const timer = setInterval(() => {
       setLoadingProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
     }, 800);
 
-    // Simulating the completion of the API fetch
     setTimeout(() => {
       clearInterval(timer);
       setLoadingProgress(100);
-    }, 4000);
+      setDataLoaded(true); // Mark data as loaded
+    }, 6000);
 
-    // Clean up the interval timer when the component unmounts
     return () => {
       clearInterval(timer);
     };
   }, []);
 
-  // Simulate fetching data from API - Replace this with your actual API fetch logic
-  useEffect(() => {
-    setTimeout(() => {
-      // Simulate the completion of the data fetch
-      setLoadingProgress(100);
-    }, 4000);
-  }, []);
-
-  // If data is still loading, show the LoadingIndicator with the loading progress
-  if (loadingProgress < 100) {
+  if (!dataLoaded) { // Check if data is loaded
     return <LoadingIndicator loadingProgress={loadingProgress} />;
   }
 

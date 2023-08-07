@@ -171,7 +171,7 @@ const Welcome = ({ onAnimationComplete }) => {
         timeline.reset();
         animationRef.current = null;
       };
-    }, []);
+    }, [onAnimationComplete]);
     
     
 
