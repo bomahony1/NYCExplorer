@@ -162,6 +162,7 @@ export default function MainMenu() {
             // Apply custom styles for different screen sizes
             flex: 1, // Allow the Tabs to grow and occupy available space
             maxWidth: '300px', // Limit the maximum width of Tabs on larger screens
+            
           }}
         >
           <Tab
