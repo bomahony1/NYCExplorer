@@ -95,3 +95,15 @@ input[type="text" i] {
   list-style-type: none !important;
 }
 
+/* 根据不同的屏幕宽度和高度设置地图容器的高度 */
+@media (max-width: 600px) {
+  div[style*='height: 70vh'] {
+    height: 50vh;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  div[style*='height: 70vh'] {
+    height: 60vh;
+  }
+}

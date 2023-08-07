@@ -413,7 +413,7 @@ function HomePage() {
           </Carousel>
         </div>
         <div style={{ marginTop: '10px', backgroundColor: '#1C2541', display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap' }}>
-          <div style={{ margin: '40px', color: 'white', textAlign: 'center', flex: '0 0 350px' }}>
+          <div style={{ margin: '70px', color: 'white', textAlign: 'center', flex: '0 0 350px' }}>
             <div style={{ textAlign: 'left' }}>
               <h3>Discover iconic landmarks</h3>
               <h1>Immerse yourself in the vibrant energy of NYC with our recommended attractions:</h1>
@@ -421,7 +421,7 @@ function HomePage() {
             </div>
             <NestedList attractions={attractions} />
           </div>
-          <div className="images" style={{ border: '2px solid white', flex: '1 1 200px', margin: '40px',  maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div className="images" style={{ border: '2px solid white', flex: '1 1 200px', margin: '70px',  maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
             <div className="images-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
               {[1, 2, 3, 4, 13, 14, 15, 19, 23, 24, 25, 26, 28, 29, 32].map((image) => (
                 <Image key={image} id={image} />
