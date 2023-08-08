@@ -288,7 +288,7 @@ function TemporaryDrawer({tmp}) {
   }));
 
  
-  function CustomizedAccordions({ onMarkerSelect }) {
+function CustomizedAccordions({ onMarkerSelect }) {
     const [expanded, setExpanded] = useState('attractions');
     const [attractions, setAttractions] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
