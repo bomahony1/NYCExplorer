@@ -570,15 +570,15 @@ function TemporaryDrawer({tmp}) {
         <div >
           {selectedAttractions.map((attraction, index) => (
             <div key={index} className="attraction-item">
-              <div className="attraction-name">{attraction.name}</div>
-              <div>Rating: {attraction.rating}</div>
+              <div className="attraction-name">{attraction.name} Rating:{attraction.rating}</div>
+              {/* <div>Rating: {attraction.rating}</div> */}
               <div className="photo-container">
                 <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
                 </div>
                 <div className="opening-hours">
                   {attraction.opening_hours?.opening_hours ? (
                     <>
-                      <h4 style={{color:"#1C2541",fontWeight: 'bold'}}>Opening Hours Today:</h4>
+                      <h4 style={{color:"#1C2541",fontWeight: 'bold',margin:"5px"}}>Opening Hours Today:</h4>
                       {getOpeningHoursForToday(attraction) ? (
                         <div>
                           {formatTime(getOpeningHoursForToday(attraction).open.time)} –{' '}
