@@ -1,133 +1,131 @@
-from rest_framework import generics, views
+from rest_framework import generics, views, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 import requests
-from .services import get_foursquare_restaurants, get_foursquare_hotels, get_weather, get_events, get_google_restaurants, get_google_attractions, get_google_hotels, get_predictions, get_heat_map
+import json
+from .services import (
+    get_weather,
+    get_events,
+    get_google_restaurants,
+    get_predictions,
+    get_heat_map,
+)
+from .models import Attraction, Hotel
+from .serializers import AttractionSerializer, HotelSerializer
 
-class WeatherAPIView(generics.GenericAPIView):
-    @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
+class CachedAPIView(views.APIView):
+    cache_timeout = 15 * 60  # 15 minutes cache time
+
+    def get_cached_data(self, cache_key):
+        cached_data = cache.get(cache_key)
+        if cached_data is not None:
+            return Response(cached_data)
+        return None
+
+    def cache_data(self, cache_key, data, timeout):
+        cache.set(cache_key, data, timeout=timeout)
+        return Response(data)
+
+class WeatherAPIView(CachedAPIView):
     def get(self, request, format=None):
+        weather_data = self.get_cached_data('weather_data')
+        if weather_data is not None:
+            return weather_data
+
         weather_data = get_weather()
-        return Response(weather_data)
+        return self.cache_data('weather_data', weather_data, self.cache_timeout)
 
-class RestaurantAPIView(APIView):
-    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
-    def get(self, request, format=None):
-        restaurant_data = get_foursquare_restaurants()
-        if restaurant_data:
-            return Response(restaurant_data)
-        else:
-            return Response({"error": "An error occurred while fetching restaurant data."}, status=500)
-
-class HotelsAPIView(APIView):
-    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
-    def get(self, request, format=None):
-        hotel_data = get_foursquare_hotels()
-        if hotel_data:
-            return Response(hotel_data)
-        else:
-            return Response({"error": "An error occurred while fetching hotel data."}, status=500)
-
-
-class GoogleRestaurantAPIView(generics.ListAPIView):
-    queryset = []  # Add your queryset here if you have one
-    cache_key = 'google_restaurant_data'
-
-    def get_queryset(self):
-        # You can implement custom queryset logic here if needed
-        return self.queryset
-
+class GoogleDataAPIView(CachedAPIView):
     def get(self, request, *args, **kwargs):
-        # Check if the data is already cached
-        cached_data = cache.get(self.cache_key)
+        cache_key = self.get_cache_key()
+        cached_data = self.get_cached_data(cache_key)
         if cached_data is not None:
-            return Response(cached_data)
+            return cached_data
 
-        # If not cached, fetch the data and cache it
-        google_restaurant_data = get_google_restaurants()
-        cache.set(self.cache_key, google_restaurant_data, timeout=3600)  # Cache for 1 hour
+        data = self.get_data()
+        return self.cache_data(cache_key, data, self.cache_timeout)
 
-        return Response(google_restaurant_data)
+    def get_cache_key(self):
+        raise NotImplementedError("Subclasses must provide cache key logic.")
 
-class GoogleHotelsAPIView(generics.ListAPIView):
-    queryset = []  # Add your queryset here if you have one
-    cache_key = 'google_hotel_data'
+    def get_data(self):
+        raise NotImplementedError("Subclasses must provide data retrieval logic.")
 
-    def get_queryset(self):
-        # You can implement custom queryset logic here if needed
-        return self.queryset
+class GoogleRestaurantAPIView(GoogleDataAPIView):
+    def get_cache_key(self):
+        return 'google_restaurant_data'
 
-    def get(self, request, *args, **kwargs):
-        # Check if the data is already cached
-        cached_data = cache.get(self.cache_key)
-        if cached_data is not None:
-            return Response(cached_data)
+    def get_data(self):
+        return get_google_restaurants()
 
-        # If not cached, fetch the data and cache it
-        google_hotel_data = get_google_hotels()
-        cache.set(self.cache_key, google_hotel_data, timeout=3600)  # Cache for 1 hour
+class AttractionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Attraction.objects.all()
+    serializer_class = AttractionSerializer
 
-        return Response(google_hotel_data)
+class HotelViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
 
-class GoogleAttractionsAPIView(generics.ListAPIView):
-    queryset = []  # Add your queryset here if you have one
-    cache_key = 'google_attraction_data'
-
-    def get_queryset(self):
-        return self.queryset
-
-    def get(self, request, *args, **kwargs):
-        cached_data = cache.get(self.cache_key)
-        if cached_data is not None:
-            return Response(cached_data)
-
-        google_attraction_data = get_google_attractions()
-        cache.set(self.cache_key, google_attraction_data, timeout=3600)  # Cache for 1 hour
-
-        return Response(google_attraction_data)
-
-
-class EventsAPIView(views.APIView):
-    # @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes
+class EventsAPIView(CachedAPIView):
     def get(self, request, format=None):
+        event_data = self.get_cached_data('event_data')
+        if event_data is not None:
+            return event_data
+
         event_data = get_events()
-        return Response(event_data)
-
+        return self.cache_data('event_data', event_data, self.cache_timeout)
 
 class PredictionAPIView(APIView):
     def get(self, request):
-        hour = request.query_params.get('hour')
-        day = request.query_params.get('day')
-        month = request.query_params.get('month')
-        latitude = request.query_params.get('latitude')
-        longitude = request.query_params.get('longitude')
-        
-        try:
-            hour = int(hour)
-            day = int(day)
-            month = int(month)
-            latitude = float(latitude)
-            longitude = float(longitude)
-        except (ValueError, TypeError):
+        hour, day, month, latitude, longitude = self.extract_params(request)
+
+        if None in (hour, day, month, latitude, longitude):
             return Response({'error': 'Invalid parameter values'}, status=400)
-        
+
         prediction = get_predictions(hour, day, month, latitude, longitude)
         return Response({'prediction': prediction}, status=200)
 
+    def extract_params(self, request):
+        hour = self.parse_int(request.query_params.get('hour'))
+        day = self.parse_int(request.query_params.get('day'))
+        month = self.parse_int(request.query_params.get('month'))
+        latitude = self.parse_float(request.query_params.get('latitude'))
+        longitude = self.parse_float(request.query_params.get('longitude'))
+        return hour, day, month, latitude, longitude
+
+    def parse_int(self, value):
+        try:
+            return int(value)
+        except (ValueError, TypeError):
+            return None
+
+    def parse_float(self, value):
+        try:
+            return float(value)
+        except (ValueError, TypeError):
+            return None
+
 class HeatMapAPIView(APIView):
     def get(self, request):
-        hour = request.query_params.get('hour')
-        day = request.query_params.get('day')
-        month = request.query_params.get('month')
-        try:
-            hour = int(hour)
-            day = int(day)
-            month = int(month)
-        except (ValueError, TypeError):
+        hour, day, month = self.extract_params(request)
+
+        if None in (hour, day, month):
             return Response({'error': 'Invalid parameter values'}, status=400)
-        
+
         heat_map = get_heat_map(hour, day, month)
-        return Response({'prediction': heat_map}, status=200)
+        return Response({'heat_map': heat_map}, status=200)
+
+    def extract_params(self, request):
+        hour = self.parse_int(request.query_params.get('hour'))
+        day = self.parse_int(request.query_params.get('day'))
+        month = self.parse_int(request.query_params.get('month'))
+        return hour, day, month
+
+    def parse_int(self, value):
+        try:
+            return int(value)
+        except (ValueError, TypeError):
+            return None

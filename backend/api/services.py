@@ -1,18 +1,15 @@
 import requests
-import json
 import time
 from datetime import date, timedelta, datetime
-import datetime 
 from django.http import JsonResponse
 from django.utils import timezone
-import pickle
 import pandas as pd
 import xgboost
-import datetime
-import holidays
-
-import re
+from .models import Hotel
 from shapely.geometry import MultiPolygon, Point, Polygon
+import json
+import pickle
+import re
 
 # OpenWeather API
 
@@ -49,145 +46,13 @@ def get_weather():
         print("Error in get_weather:", e)
         return None
 
-# Foursquare API
-
-def get_foursquare_hotels():
-    url = "https://api.foursquare.com/v3/places/search"
-
-    headers = {
-        "Accept": "application/json",
-        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
-    }
-
-    params = {
-        "query": "hotels",
-        "ll": "40.7831,-73.9712",  # Manhattan coordinates
-        "open_now": "true",
-        "categoryId": "4bf58dd8d48988d1fa931735",  # Category ID for Food (Restaurants)
-        "limit": 50,  # Number of results to retrieve per request
-    }
-
-    try:
-        response = requests.get(url, params=params, headers=headers)
-        response.raise_for_status()
-        data = response.json()
-        results = data.get("results", [])
-
-        extracted_data = []
-
-        for result in results:
-            fsq_id = result.get("fsq_id")
-            name = result.get("name")
-            categories = [category.get("name") for category in result.get("categories", [])]
-            location = result.get("location", {})
-            geocodes = result.get("geocodes", {}).get("main", {})
-
-            url = f"https://api.foursquare.com/v3/places/{fsq_id}"
-
-            r_headers = {
-                "accept": "application/json",
-                "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
-            }
-
-            params = {
-                "fields": "rating",
-                "fields": "hours",
-                "fields": "photos",
-            }
-
-            r_response = requests.get(url, params=params, headers=r_headers)
-            r_response.raise_for_status()
-            r_data = r_response.json()
-            rating = r_data.get("rating")
-            hours = r_data.get("hours")
-            phtots = r_data.get("photos")
-
-            extracted_data.append({
-                "fsq_id": fsq_id,
-                "name": name,
-                "categories": categories,
-                "location": location,
-                "geocodes": geocodes,
-                "rating": rating,
-                "hours": hours,
-                "photos": phtots,
-            })
-        return extracted_data
-
-    except requests.exceptions.RequestException as e:
-        print("Error:", e)
-        return None
-
-
-def get_foursquare_restaurants():
-    url = "https://api.foursquare.com/v3/places/search"
-    headers = {
-        "Accept": "application/json",
-        "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
-    }
-    params = {
-        "query": "restaurants",
-        "ll": "40.7831,-73.9712",  # Manhattan coordinates
-        "open_now": "true",
-        "categoryId": "4d4b7105d754a06374d81259",  # Category ID for Food (Restaurants)
-        "limit": 50,  # Number of results to retrieve per request
-    }
-
-    try:
-        response = requests.get(url, params=params, headers=headers)
-        response.raise_for_status()
-        data = response.json()
-        results = data.get("results", [])
-
-        extracted_data = []
-
-        for result in results:
-            fsq_id = result.get("fsq_id")
-            name = result.get("name")
-            categories = [category.get("name") for category in result.get("categories", [])]
-            location = result.get("location", {})
-            geocodes = result.get("geocodes", {}).get("main", {})
-
-            # Additional API call to get rating, hours, and photos for each restaurant
-            r_url = f"https://api.foursquare.com/v3/places/{fsq_id}"
-            r_headers = {
-                "accept": "application/json",
-                "Authorization": "fsq3YJj6mpB8MvstI7T9B/Z74vyD/AuUXD48pI8OJbs7U70="
-            }
-            r_params = {
-                "fields": "rating,hours,photos",
-            }
-            r_response = requests.get(r_url, params=r_params, headers=r_headers)
-            r_response.raise_for_status()
-            r_data = r_response.json()
-            rating = r_data.get("rating")
-            hours = r_data.get("hours")
-            photos = r_data.get("photos")
-
-            extracted_data.append({
-                "fsq_id": fsq_id,
-                "name": name,
-                "categories": categories,
-                "location": location,
-                "geocodes": geocodes,
-                "rating": rating,
-                "hours": hours,
-                "photos": photos,
-            })
-
-        return extracted_data
-
-    except requests.exceptions.RequestException as e:
-        print("Error:", e)
-        return None
-
 
 # Google Places API
 
 def get_google_restaurants():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
+    api_key = "AIzaSyBRYIfKjAvimx8V1gihtKnCaMRKPDOCm1w"
     params = {
         "query": "restaurants in Manhattan, New York",
         "key": api_key,
@@ -256,7 +121,7 @@ def get_google_restaurants():
 def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
+    api_key = "AIzaSyBRYIfKjAvimx8V1gihtKnCaMRKPDOCm1w"
     params = {
         "query": "tourist attractions in Manhattan, New York",
         "key": api_key,
@@ -324,11 +189,9 @@ def get_google_attractions():
     return attraction_data
 
 
-
-
 def get_google_hotels():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-    api_key = "AIzaSyBNMhSlQuwLCTxkfw5Q859YubrpHW8s4RA"
+    api_key = "AIzaSyBRYIfKjAvimx8V1gihtKnCaMRKPDOCm1w"
     params = {
         "query": "Hotels in Manhattan, New York",
         "key": api_key,
@@ -378,8 +241,9 @@ def get_google_hotels():
 
     except requests.exceptions.RequestException as e:
         print("Error in get_google_hotels:", e)
-        
+
     return hotel_data
+
 
 
 # Ticketmaster API
@@ -456,20 +320,6 @@ def is_point_inside_polygon(point, polygon_coords):
         point = Point(point)
         return polygon.contains(point)
 
-def is_us_public_holiday(day, month):
-    date_obj = datetime.date(datetime.date.today().year, month, day)
-
-    # Get the list of US public holidays for the current year
-    us_holidays = holidays.US(years=date_obj.year)
-
-    # Check if the date falls on a US public holiday
-    return date_obj in us_holidays
-
-def check_is_weekend(day, month):
-    date_obj = datetime.date(datetime.date.today().year, month, day)
-    day_of_week = date_obj.weekday()
-    return day_of_week in [5, 6]
-
 def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
     """Returns prediction of busyness in Area."""
 
@@ -486,15 +336,10 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
                   continue
         return zone
     
-    if check_is_weekend(day, month):
-        is_weekday, is_weekend = 0, 1
-    else:
+    if day < 5:
         is_weekday, is_weekend = 1, 0
-
-    if is_us_public_holiday(day, month):
-        holiday = 1
     else:
-        holiday = 0
+        is_weekday, is_weekend = 0, 1
     
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
@@ -528,8 +373,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month],
-        'is_public_holiday': [holiday]
+        'Month': [month]
     })
 
     prediction_data = model.predict(prediction_data)
@@ -541,15 +385,10 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     with open(f'api/xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    if check_is_weekend(day, month):
-        is_weekday, is_weekend = 0, 1
-    else:
+    if day < 5:
         is_weekday, is_weekend = 1, 0
-
-    if is_us_public_holiday(day, month):
-        holiday = 1
     else:
-        holiday = 0
+        is_weekday, is_weekend = 0, 1
 
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
@@ -579,8 +418,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month],
-        'is_public_holiday': [holiday]
+        'Month': [month]
     })
 
     value_list = [4,12,13,24,41,42,43,45,48,50,68,74,75,79,87,88,90,100,107,113,114,116,120,125,127,128,137,140,141,142,143,
