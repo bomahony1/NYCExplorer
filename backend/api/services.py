@@ -336,6 +336,11 @@ def is_us_public_holiday(day, month):
     # Check if the date falls on a US public holiday
     return date_obj in us_holidays
 
+def min_max_scaling(old_value, old_min, old_max, new_min, new_max):
+    new_value = (old_value - old_min) * (new_max - new_min) / (old_max - old_min) + new_min
+    return new_value
+
+
 def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
     """Returns prediction of busyness in Area."""
 
@@ -398,6 +403,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
     })
 
     prediction_data = model.predict(prediction_data)
+    prediction_data = min_max_scaling(prediction_data, -2.3, 4.5, 0, 10)
     return prediction_data[0]
 
 
@@ -457,8 +463,14 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         zone_data = {}
         zone_data['zoneNumber'] = i
         prediction_data['PULocationID'] = i
-        zone_data['prediction'] = model.predict(prediction_data)[0]
+        original_prediction = model.predict(prediction_data)[0]
+        zone_data['prediction'] = min_max_scaling(original_prediction, -2.3, 4.47, 0, 10)
         zone_data['coordinates'] = zone_coordinates[str(i)]
         heat_map_data.append(zone_data)
     
     return heat_map_data
+
+def min_max_scaling(old_value, old_min, old_max, new_min, new_max):
+    new_value = (old_value - old_min) * (new_max - new_min) / (old_max - old_min) + new_min
+    return new_value
+
