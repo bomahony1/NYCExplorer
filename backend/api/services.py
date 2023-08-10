@@ -11,6 +11,7 @@ import json
 import pickle
 import re
 import datetime
+import holidays
 
 # OpenWeather API
 
@@ -321,27 +322,45 @@ def is_point_inside_polygon(point, polygon_coords):
         point = Point(point)
         return polygon.contains(point)
 
+def check_is_weekend(day, month):
+    date_obj = datetime.date(datetime.date.today().year, month, day)
+    day_of_week = date_obj.weekday()
+    return day_of_week in [5, 6]
+
+def is_us_public_holiday(day, month):
+    date_obj = datetime.date(datetime.date.today().year, month, day)
+
+    # Get the list of US public holidays for the current year
+    us_holidays = holidays.US(years=date_obj.year)
+
+    # Check if the date falls on a US public holiday
+    return date_obj in us_holidays
+
 def get_predictions(hour: float, day: float, month: float, latitude: float, longitude: float) -> float:
     """Returns prediction of busyness in Area."""
 
     def get_location_id(latitude, longitude):
         """Returns location ID given coordinates"""
-        with open('api/taxi_zones.json', 'r') as file:
+        with open('taxi_zones.json', 'r') as file:
             data = json.load(file)
         for i in range(1, len(data) + 1):
              try:
                 if is_point_inside_polygon((latitude, longitude), data[str(i)]):
                     zone = i
              except:
-                  zone = 1
                   continue
         return zone
     
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
+    if check_is_weekend(day, month):
         is_weekday, is_weekend = 0, 1
+    else:
+        is_weekday, is_weekend = 1, 0
+
     
+    if is_us_public_holiday(day, month):
+        holiday = 1
+    else:
+        holiday = 0
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
         # Need to get Temperature, Wind Speed, Wind direction, Clouds 
@@ -361,7 +380,7 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
     zone = get_location_id(latitude, longitude)    
-    with open('api/xgb_model.pkl', 'rb') as file:
+    with open('xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
     prediction_data = pd.DataFrame({
@@ -374,7 +393,8 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month]
+        'Month': [month],
+        'is_public_holiday': [holiday]
     })
 
     prediction_data = model.predict(prediction_data)
@@ -383,13 +403,18 @@ def get_predictions(hour: float, day: float, month: float, latitude: float, long
 
 def get_heat_map(hour: float, day: float, month:float = 8):
     """ Function that returns coordinates with weight for heat map"""
-    with open(f'api/xgb_model.pkl', 'rb') as file:
+    with open(f'xgb_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    if day < 5:
-        is_weekday, is_weekend = 1, 0
-    else:
+    if check_is_weekend(day, month):
         is_weekday, is_weekend = 0, 1
+    else:
+        is_weekday, is_weekend = 1, 0
+
+    if is_us_public_holiday(day, month):
+        holiday = 1
+    else:
+        holiday = 0
 
     try:
         WEATHERAPI = f"http://api.openweathermap.org/data/2.5/forecast?lat=40.6958&lon=74.184&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
@@ -405,7 +430,7 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     except Exception as e:
         temp, humidity, wind_speed, pressure, precipitation = 60, 49, 8, 2988, 0
     
-    with open('api/manhattan_zones.json') as file:
+    with open('manhattan_zones_polygons.json') as file:
         zone_coordinates = json.load(file)
 
 
@@ -419,7 +444,8 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         'Pressure': [pressure],
         'Wind Speed': [wind_speed],
         'Humidity': [humidity],
-        'Month': [month]
+        'Month': [month],
+        'is_public_holiday': [holiday]
     })
 
     value_list = [4,12,13,24,41,42,43,45,48,50,68,74,75,79,87,88,90,100,107,113,114,116,120,125,127,128,137,140,141,142,143,
@@ -428,7 +454,6 @@ def get_heat_map(hour: float, day: float, month:float = 8):
     
     heat_map_data = []
     for i in value_list:
-        print(i)
         zone_data = {}
         zone_data['zoneNumber'] = i
         prediction_data['PULocationID'] = i
@@ -437,5 +462,3 @@ def get_heat_map(hour: float, day: float, month:float = 8):
         heat_map_data.append(zone_data)
     
     return heat_map_data
-    
-
