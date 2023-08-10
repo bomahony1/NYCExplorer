@@ -36,6 +36,7 @@ function PlayButton() {
     mouseX.set(0);
     mouseY.set(0);
   };
+  
 
   return (
     <MotionConfig transition={transitions}>
@@ -65,6 +66,7 @@ function PlayButton() {
           mouseX.set(e.clientX - bounds.x - bounds.width / 2);
           mouseY.set(e.clientY - bounds.y - bounds.height / 2);
         }}
+        
       >
         <motion.div
           className="shapes"

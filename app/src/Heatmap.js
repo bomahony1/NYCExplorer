@@ -234,7 +234,7 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap, polyg
         onClick={handleSubmit}
         style={{ marginTop: '20px', backgroundColor: '#E0d5ec', color: '#ffffff', fontWeight: 'bold' }}
       >
-        {heatmapVisible ? 'Hide Heatmap' : 'Predict Busyness'}
+        {heatmapVisible ? 'Lighten Heatmap' : 'Predict Busyness'}
       </Button>
 
       <Collapse in={showAlert}>

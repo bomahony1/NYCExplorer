@@ -2,8 +2,8 @@ import React, { useMemo, useEffect, useState, useRef,useCallback } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { MAPS_API_KEY } from './login.js';
-import { GoogleMap, Marker, useJsApiLoader, InfoWindow,Polygon} from "@react-google-maps/api";
+// import { MAPS_API_KEY } from './login.js';
+import { GoogleMap, Marker, InfoWindow,Polygon} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Dialog, DialogTitle, DialogContent,Paper,Button} from '@mui/material';
@@ -13,7 +13,7 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { libraries } from './libraries'; 
+// import { libraries } from './libraries'; 
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
@@ -842,11 +842,11 @@ function LocationSearchInput({ placeholder, value, onChange }) {
 
 function MapPage() {
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: MAPS_API_KEY,
-    libraries: libraries,
-  });
+  // const { isLoaded } = useJsApiLoader({
+  //   id: 'google-map-script',
+  //   googleMapsApiKey: MAPS_API_KEY,
+  //   libraries: libraries,
+  // });
 
   const center = useMemo(() => ({ lat:40.7422, lng: - 73.9880 }), []);
   const [markers, setMarkers] = useState([]);
@@ -875,8 +875,7 @@ function MapPage() {
 
 
   useEffect(() => {
-    
-   console.log("initialMarkerPosition:", initialMarkerPosition);
+
     // Only set the markers when initialMarkerPosition is available and markers is empty
     if (initialMarkerPosition && markers.length >= 180) {
       setMarkers([
@@ -936,7 +935,7 @@ function MapPage() {
         },
       }));
   
-      setMarkers((prevMarkers) => [...newMarkers,...prevMarkers]);
+      setMarkers((prevMarkers) => [...newMarkers]);
     }
   }, [selectedPlace]);
   
@@ -958,7 +957,7 @@ function MapPage() {
 
 
   useEffect(() => {
-    if (isLoaded) {
+    // if (isLoaded) {
       Promise.all([
         fetch('http://127.0.0.1:8000/api/googleAttractions/')
           .then((response) => response.json()),
@@ -1054,8 +1053,8 @@ function MapPage() {
           console.error(error);
           setMarkers([]);
         });
-    }
-  }, [isLoaded]);
+    // }
+  }, []);
   
   const getImageUrl = (weatherType) => {
     if (weatherType === 'Thunderstorm') {
@@ -1216,7 +1215,7 @@ function MapPage() {
 
   const handleToggleHeatmap = () => {
     setHeatmapVisible((prevHeatmapVisible) => !prevHeatmapVisible);
-    console.log('Toggle heatmap visibility');
+   
   };
 
   const [predictionNumber, setPredictionNumber] = useState(null);
@@ -1437,9 +1436,9 @@ function MapPage() {
           </div>
         )}
         <div style={{ flex: '3', display: 'flex', flexDirection: 'column' }}>
-          {!isLoaded ? (
+          {/* {!isLoaded ? (
             <div>Loading...</div>
-          ) : (
+          ) : ( */}
             <GoogleMap
               mapContainerStyle={{ flex: '1', height: '100%' }}
               center={center}
@@ -1741,7 +1740,7 @@ function MapPage() {
       
 
          
-        )}
+        {/* )} */}
       </div>
     </div>
   </div>
