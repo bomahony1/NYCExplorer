@@ -153,6 +153,7 @@ function Camera({ mouseX, mouseY, ...props }) {
     return cameraX.onChange(() => camera.lookAt(scene.position));
   }, [camera, cameraX, scene.position]);
 
+  
   return (
     <motion.perspectiveCamera
       ref={cameraRef}
