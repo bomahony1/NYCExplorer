@@ -243,7 +243,7 @@ function TemporaryDrawer({tmp}) {
             >
              <h2> Itinerary</h2>
               <DateRangePickerDialog handleSelect={handleSelectRange} />
-              <div>{renderDateRangeContent()}</div>
+              <div  style={{ maxHeight: '45vh', overflow: 'auto' }}>{renderDateRangeContent()}</div>
             </div>
           )}
         </div>
