@@ -171,6 +171,7 @@ function TemporaryDrawer({tmp}) {
     await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
     tmp([...selectedPlaces, place]);
   };
+  
 
   const renderDateRangeContent = () => {
     if (selectedRange) {
@@ -373,6 +374,7 @@ function TemporaryDrawer({tmp}) {
 
     const renderHotelSuggestion = (suggestion, { isHighlighted }) => (
       <div
+      key={suggestion.place_id}
         className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
         onClick={() => handleSelectSuggestion(suggestion, 'hotels')} // New handler for hotels
         draggable
@@ -388,6 +390,7 @@ function TemporaryDrawer({tmp}) {
 
     const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
       <div
+       key={suggestion.place_id} 
         className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
         onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
         draggable
@@ -401,6 +404,7 @@ function TemporaryDrawer({tmp}) {
     
     const renderRestaurantSuggestion = (suggestion, { isHighlighted }) => (
       <div
+      key={suggestion.place_id}
         className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
         onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
         draggable
@@ -571,7 +575,7 @@ function TemporaryDrawer({tmp}) {
         </Accordion>
         <div >
           {selectedAttractions.map((attraction, index) => (
-            <div key={index} className="attraction-item">
+             <div key={`attraction-${index}`} className="attraction-item">
               <div className="attraction-name">{attraction.name} Rating:{attraction.rating}</div>
               {/* <div>Rating: {attraction.rating}</div> */}
               <div className="photo-container">
@@ -652,7 +656,7 @@ function TemporaryDrawer({tmp}) {
         </Accordion>
         <div>
           {selectedRestaurants.map((restaurant, index) => (
-            <div key={index} className="restaurant-item">
+            <div key={`restaurant-${index}`} className="restaurant-item">
               <div className="restaurant-name">{restaurant.name}</div>
               <div>Rating: {restaurant.rating}</div>
               <div className="photo-container">
@@ -733,7 +737,7 @@ function TemporaryDrawer({tmp}) {
       </Accordion>
       <div>
         {selectedHotels.map((hotel, index) => (
-          <div key={index} className="hotel-item">
+       <div key={`hotel-${index}`} className="hotel-item">
             <div className="hotel-name">{hotel.name}</div>
             <div>Rating: {hotel.rating}</div>
             <div className="photo-container">
@@ -937,7 +941,13 @@ function MapPage() {
         },
       }));
   
-      setMarkers((prevMarkers) => [...prevMarkers,...newMarkers]);
+      setMarkers((prevMarkers) => {
+        // Remove markers with duplicate ids
+        const updatedMarkers = prevMarkers.filter((marker) =>
+          newMarkers.every((newMarker) => newMarker.id !== marker.id)
+        );
+        return [...updatedMarkers, ...newMarkers];
+      });
     }
   }, [selectedPlace]);
   
@@ -1542,7 +1552,7 @@ function MapPage() {
             .map((marker) => (
               // Render all markers when showMarkers is true
               <Marker
-                key={marker.id}
+              key={`marker-${marker.id}`} 
                 position={marker.position}
                 title={marker.title}
                 onClick={() => handleMarkerClick(marker)}
@@ -1580,7 +1590,7 @@ function MapPage() {
             {showAttractions && markers.filter((marker) => marker.type === 'googleAttractions').map((marker) => (
               // Render googleAttractions markers when showAttractions is true
               <Marker
-                key={marker.id}
+              key={`marker-${marker.id}`} 
                 position={marker.position}
                 title={marker.title}
                 onClick={() => handleMarkerClick(marker)}
@@ -1616,7 +1626,7 @@ function MapPage() {
             {showRestaurants && markers.filter((marker) => marker.type === 'googleRestaurants').map((marker) => (
               // Render googleRestaurants markers when showRestaurants is true
               <Marker
-                key={marker.id}
+              key={`marker-${marker.id}`} 
                 position={marker.position}
                 title={marker.title}
                 onClick={() => handleMarkerClick(marker)}
@@ -1654,7 +1664,7 @@ function MapPage() {
             {showHotels && markers.filter((marker) => marker.type === 'googleHotels').map((marker) => (
               // Render googleHotels markers when showHotels is true
               <Marker
-                key={marker.id}
+              key={`marker-${marker.id}`} 
                 position={marker.position}
                 title={marker.title}
                 onClick={() => handleMarkerClick(marker)}
@@ -1738,6 +1748,7 @@ function MapPage() {
               }}
             />
           )}
+          
           </GoogleMap>
       
 
