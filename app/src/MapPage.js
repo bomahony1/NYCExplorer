@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useEffect, useState, useRef,useCallback } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-// import { MAPS_API_KEY } from './login.js';
+
 import { GoogleMap, Marker, InfoWindow,Polygon} from "@react-google-maps/api";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -13,11 +14,11 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-// import { libraries } from './libraries'; 
+
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Import the styles
 import 'react-date-range/dist/theme/default.css'; // Import the theme
-import Autosuggest from 'react-autosuggest';
+
 import './MapPage.css';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,14 +30,16 @@ import ThreeD from './ThreeD.js';
 import ColorLegend from './ColorLegend.js';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useLocation } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+
+import Autocomplete from '@mui/material/Autocomplete';
 
 
-
-
-
-const handleDragStart = (event, data) => {
-  event.dataTransfer.setData('text/plain', JSON.stringify(data));
+const handleDragStart = (event, name, section) => {
+  event.dataTransfer.setData('text/plain', JSON.stringify({ name, section }));
 };
+
+
 
 
 function DateRangePickerComponent({ handleSelect }) {
@@ -114,10 +117,11 @@ function TemporaryDrawer({tmp}) {
     event.preventDefault();
   };
   
-  const handleDrop = (event, date) => {
+  const handleDrop = (event,  sectionName) => {
     event.preventDefault();
     event.stopPropagation();
     const placeData = JSON.parse(event.dataTransfer.getData('text/plain'));
+   
 
     const container = document.createElement('div');
     container.style.display = 'flex';
@@ -127,6 +131,7 @@ function TemporaryDrawer({tmp}) {
     container.style.padding = '5px';
     container.style.marginBottom = '5px';
     container.style.marginTop = '5px';
+    container.className = 'dropped-section-container';
 
     const contentElement = document.createElement('span');
     contentElement.textContent = `${placeData.name} `;
@@ -167,11 +172,11 @@ function TemporaryDrawer({tmp}) {
     setSelectedRange(range);
   };
   const [selectedPlaces, setSelectedPlaces] = useState([]);
-  const handleMarkerSelection = async (place) => {
-    await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, place]);
-    tmp([...selectedPlaces, place]);
+
+  const handleMarkerSelection = async (place, sectionName) => {
+    await setSelectedPlaces((prevSelectedPlaces) => [...prevSelectedPlaces, { ...place, section: sectionName }]);
+    tmp([...selectedPlaces, { ...place, section: sectionName }]);
   };
-  
 
   const renderDateRangeContent = () => {
     if (selectedRange) {
@@ -190,7 +195,9 @@ function TemporaryDrawer({tmp}) {
           <div key={i} className="day-container" onDrop={(event) => handleDrop(event, currentDate)} onDragOver={allowDrop}>
             <h4>{dayString}</h4>
             <div
-            onDrop={handleDrop}
+            
+            onDrop={(event) => handleDrop(event, currentDate)}
+            className="drop-section"
             onDragOver={handleDragOver}
             style={{ background: "#ffffff", padding: "10px", marginTop: "10px",color:"#1C2541" ,border:"1px solid #1C2541"}}
           >
@@ -292,12 +299,13 @@ function TemporaryDrawer({tmp}) {
   function CustomizedAccordions({ onMarkerSelect }) {
     const [expanded, setExpanded] = useState('attractions');
     const [attractions, setAttractions] = useState([]);
-    const [restaurants, setRestaurants] = useState([]);
-    const [hotels, setHotels] = useState([]); 
+    // eslint-disable-next-line no-unused-vars
+    const [, setRestaurants] = useState([]);
+    const [, setHotels] = useState([]); 
     const [attractionValue, setAttractionValue] = useState('');
     const [restaurantValue, setRestaurantValue] = useState('');
     const [hotelValue, setHotelValue] = useState(''); 
-    const [suggestions, setSuggestions] = useState([]);
+
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [selectedRestaurants, setSelectedRestaurants] = useState([]);
     const [selectedHotels, setSelectedHotels] = useState([]); 
@@ -305,116 +313,40 @@ function TemporaryDrawer({tmp}) {
     const [restaurantsChecked, setRestaurantsChecked] = useState(false);
     const [hotelsChecked, setHotelsChecked] = useState(false); 
 
-    
-   
+    const [attractionSuggestions, setAttractionSuggestions] = useState([]);
+    const [restaurantSuggestions, setRestaurantSuggestions] = useState([]);
+    const [hotelSuggestions, setHotelSuggestions] = useState([]);
 
     
     useEffect(() => {
       fetch('http://127.0.0.1:8000/api/googleAttractions/')
         .then((response) => response.json())
-        .then((data) => setAttractions(data))
+        .then((data) => {
+          setAttractions(data);
+          setAttractionSuggestions(data);
+        })
         .catch((error) => console.error(error));
-  
+    
       fetch('http://127.0.0.1:8000/api/googleRestaurants/')
         .then((response) => response.json())
-        .then((data) => setRestaurants(data))
+        .then((data) => {
+          setRestaurants(data);
+          setRestaurantSuggestions(data);
+        })
         .catch((error) => console.error(error));
-
+    
       fetch('http://127.0.0.1:8000/api/googleHotels/')
         .then((response) => response.json())
-        .then((data) => setHotels(data))
+        .then((data) => {
+          setHotels(data);
+          setHotelSuggestions(data);
+        })
         .catch((error) => console.error(error));
-
     }, []);
-
+    
     
 
 
-    const getHotelSuggestions = useMemo(() => {
-      return (inputValue) => {
-        const inputValueLowerCase = inputValue.toLowerCase();
-        return hotels.filter(
-          (hotel) =>
-            hotel.name.toLowerCase().includes(inputValueLowerCase) ||
-            hotel.address.toLowerCase().includes(inputValueLowerCase)
-        );
-      };
-    }, [hotels]);
-  
-  
-    const getAttractionSuggestions = useMemo(() => {
-      return (inputValue) => {
-        const inputValueLowerCase = inputValue.toLowerCase();
-        return attractions.filter(
-          (attraction) =>
-            attraction.name.toLowerCase().includes(inputValueLowerCase) ||
-            attraction.address.toLowerCase().includes(inputValueLowerCase)
-        );
-      };
-    }, [attractions]);
-  
-    const getRestaurantSuggestions = useMemo(() => {
-      return (inputValue) => {
-        const inputValueLowerCase = inputValue.toLowerCase();
-        return restaurants.filter(
-          (restaurant) =>
-            restaurant.name.toLowerCase().includes(inputValueLowerCase) ||
-            restaurant.address.toLowerCase().includes(inputValueLowerCase)
-        );
-      };
-    }, [restaurants]);
-
-    
-  
-  
-    const getAttractionSuggestionValue = useCallback((suggestion) => suggestion.name, []);
-    const getRestaurantSuggestionValue = useCallback((suggestion) => suggestion.name, []);
-    const getHotelSuggestionValue = useCallback((suggestion) => suggestion.name, []);
-
-
-    const renderHotelSuggestion = (suggestion, { isHighlighted }) => (
-      <div
-      key={suggestion.place_id}
-        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
-        onClick={() => handleSelectSuggestion(suggestion, 'hotels')} // New handler for hotels
-        draggable
-        onDragStart={(event) => handleDragStart(event, suggestion)}
-        id={suggestion.place_id}
-      >
-        <div>{suggestion.name}</div>
-        <div>Rating: {suggestion.rating}</div>
-      </div>
-    );
-    
-
-
-    const renderAttractionSuggestion = (suggestion, { isHighlighted }) => (
-      <div
-       key={suggestion.place_id} 
-        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
-        onClick={() => handleSelectSuggestion(suggestion, 'attractions')}
-        draggable
-        onDragStart={(event) => handleDragStart(event, suggestion)}
-        id={suggestion.place_id}
-      >
-        <div>{suggestion.name}</div>
-        <div>Rating: {suggestion.rating}</div>
-      </div>
-    );
-    
-    const renderRestaurantSuggestion = (suggestion, { isHighlighted }) => (
-      <div
-      key={suggestion.place_id}
-        className={`suggestion ${isHighlighted ? 'suggestion-hover' : ''}`}
-        onClick={() => handleSelectSuggestion(suggestion, 'restaurants')}
-        draggable
-        onDragStart={(event) => handleDragStart(event, suggestion)}
-        id={suggestion.place_id}
-      >
-        <div>{suggestion.name}</div>
-        <div>Rating: {suggestion.rating}</div>
-      </div>
-    );
     
   
     const handleChange = (panel) => (event, newExpanded) => {
@@ -429,49 +361,63 @@ function TemporaryDrawer({tmp}) {
     };
 
     
-    
-  
-    const handleInputChange = useCallback((section) => (event, { newValue }) => {
+    const handleInputChange = useCallback((section) => (event, newValue) => {
       if (section === 'attractions') {
         setAttractionValue(newValue);
+  
+        if (!newValue) {
+          setAttractionSuggestions([]);
+        }
       } else if (section === 'restaurants') {
         setRestaurantValue(newValue);
+  
+        if (!newValue) {
+          setRestaurantSuggestions([]);
+        }
       } else if (section === 'hotels') {
         setHotelValue(newValue);
+  
+        if (!newValue) {
+          setHotelSuggestions([]);
+        }
       }
     }, []);
-  
+
+    const [, setSelectedSuggestion] = useState(null);
 
   
-  
-    const handleSelectSuggestion = (suggestion, section) => {
-      if (section === 'attractions') {
-        const isAlreadySelected = selectedAttractions.some((attraction) => attraction.name === suggestion.name);
-        if (!isAlreadySelected) {
-          setSelectedAttractions((prevAttractions) => [...prevAttractions, suggestion]);
-          setAttractionValue('');
-          onMarkerSelect(suggestion);
-        }
 
-      } else if (section === 'restaurants') {
-        const isAlreadySelected = selectedRestaurants.some((restaurant) => restaurant.name === suggestion.name);
-        if (!isAlreadySelected) {
-          setSelectedRestaurants((prevRestaurants) => [...prevRestaurants, suggestion]);
-          setRestaurantValue('');
-          onMarkerSelect(suggestion);
+    const handleSelectSuggestion = useCallback((suggestion, section) => {
+      if (suggestion && suggestion.name) {
+        if (section === 'attractions') {
+          const isAlreadySelected = selectedAttractions.some(
+            (attraction) => attraction.name === suggestion.name
+          );
+          if (!isAlreadySelected) {
+            setSelectedAttractions((prevAttractions) => [...prevAttractions, suggestion]);
+            setAttractionValue('');
+            onMarkerSelect(suggestion);
+          }
+        } else if (section === 'restaurants') {
+          const isAlreadySelected = selectedRestaurants.some(
+            (restaurant) => restaurant.name === suggestion.name
+          );
+          if (!isAlreadySelected) {
+            setSelectedRestaurants((prevRestaurants) => [...prevRestaurants, suggestion]);
+            setRestaurantValue('');
+            onMarkerSelect(suggestion);
+          }
+        } else if (section === 'hotels') {
+          const isAlreadySelected = selectedHotels.some((hotel) => hotel.name === suggestion.name);
+          if (!isAlreadySelected) {
+            setSelectedHotels((prevHotels) => [...prevHotels, suggestion]);
+            setHotelValue('');
+            onMarkerSelect(suggestion);
+          }
         }
       }
-
-      else if (section === 'hotels') {
-        const isAlreadySelected = selectedRestaurants.some((hotel) => hotel.name === suggestion.name);
-        if (!isAlreadySelected) {
-          setSelectedHotels((prevHotels) => [...prevHotels, suggestion]);
-          setHotelValue('');
-          onMarkerSelect(suggestion);
-        }
-      }
-
-    };
+       setSelectedSuggestion(suggestion);
+    }, [onMarkerSelect, selectedAttractions, selectedRestaurants, selectedHotels]);
     
   
     const handleRemoveAttraction = (index) => {
@@ -529,7 +475,7 @@ function TemporaryDrawer({tmp}) {
     };
 
 
-  
+
 
   
     return (
@@ -554,28 +500,32 @@ function TemporaryDrawer({tmp}) {
             </AccordionSummary>
 
           <AccordionDetails>
-            <Autosuggest
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={({ value }) => {
-                setSuggestions(getAttractionSuggestions(value));
-              }}
-              onSuggestionsClearRequested={() => {
-                setSuggestions([]);
-              }}
-              getSuggestionValue={getAttractionSuggestionValue}
-              renderSuggestion={renderAttractionSuggestion}
-              inputProps={{
-                ...attractionInputProps,
-                value: attractionValue,
-                onChange: (event, { newValue }) => handleInputChange('attractions')(event, { newValue }),
-              }}
-             
-            />
+          <Autocomplete
+  options={attractionSuggestions}
+  getOptionLabel={(option) => option.name}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Search attractions"
+      variant="outlined"
+    />
+  )}
+  onChange={(_, newValue) => {
+    handleSelectSuggestion(newValue, 'attractions');
+  }}
+  
+/>
           </AccordionDetails>
         </Accordion>
-        <div >
+        <div 
+       
+        >
           {selectedAttractions.map((attraction, index) => (
-             <div key={`attraction-${index}`} className="attraction-item">
+             <div key={`attraction-${index}`} className="attraction-item"
+          
+            
+             onDragStart={(event) => handleDragStart(event, attraction.name, attractions)}
+             draggable>
               <div className="attraction-name">{attraction.name} Rating:{attraction.rating}</div>
               {/* <div>Rating: {attraction.rating}</div> */}
               <div className="photo-container">
@@ -636,27 +586,33 @@ function TemporaryDrawer({tmp}) {
             ></div>
           </AccordionSummary>
           <AccordionDetails>
-            <Autosuggest
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={({ value }) => {
-                setSuggestions(getRestaurantSuggestions(value));
-              }}
-              onSuggestionsClearRequested={() => {
-                setSuggestions([]);
-              }}
-              getSuggestionValue={getRestaurantSuggestionValue}
-              renderSuggestion={renderRestaurantSuggestion}
-              inputProps={{
-                ...restaurantInputProps,
-                value: restaurantValue,
-                onChange: (event, { newValue }) => handleInputChange('restaurants')(event, { newValue }),
-              }}
-            />
+          <Autocomplete
+  options={restaurantSuggestions}
+  getOptionLabel={(option) => option.name}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Search restaurants"
+      variant="outlined"
+      {...restaurantInputProps}
+    />
+  )}
+  onChange={(_, newValue) => {
+    handleSelectSuggestion(newValue, 'restaurants');
+  }}
+/>
+
           </AccordionDetails>
         </Accordion>
-        <div>
+        <div
+       
+        >
           {selectedRestaurants.map((restaurant, index) => (
-            <div key={`restaurant-${index}`} className="restaurant-item">
+            <div key={`restaurant-${index}`} className="restaurant-item"
+           
+           
+            onDragStart={(event) => handleDragStart(event, restaurant.name)}
+            draggable>
               <div className="restaurant-name">{restaurant.name}</div>
               <div>Rating: {restaurant.rating}</div>
               <div className="photo-container">
@@ -717,27 +673,32 @@ function TemporaryDrawer({tmp}) {
           ></div>
         </AccordionSummary>
         <AccordionDetails>
-          <Autosuggest
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={({ value }) => {
-              setSuggestions(getHotelSuggestions(value));
-            }}
-            onSuggestionsClearRequested={() => {
-              setSuggestions([]);
-            }}
-            getSuggestionValue={getHotelSuggestionValue}
-            renderSuggestion={renderHotelSuggestion}
-            inputProps={{
-              ...hotelInputProps,
-              value: hotelValue,
-              onChange: (event, { newValue }) => handleInputChange('hotels')(event, { newValue }),
-            }}
-          />
+        <Autocomplete
+  options={hotelSuggestions}
+  getOptionLabel={(option) => option.name}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Search hotels"
+      variant="outlined"
+      {...hotelInputProps}
+    />
+  )}
+  onChange={(_, newValue) => {
+    handleSelectSuggestion(newValue, 'hotels');
+  }}
+/>
+
         </AccordionDetails>
       </Accordion>
-      <div>
+      <div
+    
+      >
         {selectedHotels.map((hotel, index) => (
-       <div key={`hotel-${index}`} className="hotel-item">
+       <div key={`hotel-${index}`} className="hotel-item"
+      
+       onDragStart={(event) => handleDragStart(event, hotel.name)}
+       draggable>
             <div className="hotel-name">{hotel.name}</div>
             <div>Rating: {hotel.rating}</div>
             <div className="photo-container">
