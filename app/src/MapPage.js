@@ -1711,7 +1711,7 @@ function MapPage() {
               options={{
                 icon: {
                   path: window.google.maps.SymbolPath.CIRCLE,
-                  fillColor: '#ff6b35',
+                  fillColor: '#e63946',
                   fillOpacity: 0.7,
                   strokeColor: 'white',
                   strokeWeight: 1,
