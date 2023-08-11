@@ -9,8 +9,8 @@ class Attraction(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     rating = models.FloatField(null=True, blank=True)
-    opening_hours = models.TextField(null=True, blank=True)
-    photo_urls = models.JSONField(null=True, blank=True)
+    opening_hours = models.JSONField(null=True, blank=True)
+    photos = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,7 +22,7 @@ class Hotel(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     rating = models.FloatField(null=True, blank=True)
-    photo_urls = models.JSONField(null=True, blank=True)
+    photos = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.name

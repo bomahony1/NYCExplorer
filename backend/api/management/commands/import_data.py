@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 latitude=data["latitude"],
                 longitude=data["longitude"],
                 rating=data["rating"],
-                photo_urls=data["photos"]
+                photos=data["photos"]
             )
             for data in hotel_data
         ]
@@ -40,7 +40,7 @@ class Command(BaseCommand):
                 longitude=data["longitude"],
                 rating=data["rating"],
                 opening_hours = data["opening_hours"],
-                photo_urls=data["photos"]
+                photos=data["photos"]
             )
             for data in attraction_data
         ]

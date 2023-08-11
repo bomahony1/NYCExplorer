@@ -159,7 +159,9 @@ def get_google_attractions():
                 details_data = details_response.json()
 
                 # Get the opening hours if available, or an empty list if not present
-                opening_hours = details_data["result"]
+                # Get the opening hours if available, or an empty list if not present
+                opening_hours = details_data.get("result", {})
+
 
                 photo_urls = []
                 if photos:

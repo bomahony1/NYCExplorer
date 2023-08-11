@@ -1,15 +1,16 @@
+import time 
 import requests
-import time
 
-def get_google_hotels():
+def get_google_attractions():
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    details_url = "https://maps.googleapis.com/maps/api/place/details/json"
     api_key = "AIzaSyBRYIfKjAvimx8V1gihtKnCaMRKPDOCm1w"
     params = {
-        "query": "Restauraunts in Manhattan, New York",
+        "query": "tourist attractions in Manhattan, New York",
         "key": api_key,
-        "fields": "place_id,name,formatted_address,geometry/location,rating,photos"
+        "fields": "place_id,name,formatted_address,geometry/location,rating,photos,opening_hours"
     }
-    hotel_data = []
+    attraction_data = []
 
     try:
         while True:
@@ -28,6 +29,20 @@ def get_google_hotels():
                 rating = result.get("rating")
                 photos = result.get("photos")
 
+                # Make a separate API call to get details
+                details_params = {
+                    "place_id": place_id,
+                    "fields": "opening_hours",
+                    "key": api_key
+                }
+                details_response = requests.get(details_url, params=details_params)
+                details_response.raise_for_status()
+                details_data = details_response.json()
+
+                # Get the opening hours if available, or an empty list if not present
+                # Get the opening hours if available, or an empty list if not present
+                opening_hours = details_data.get("result")
+
                 photo_urls = []
                 if photos:
                     for photo in photos:
@@ -35,14 +50,15 @@ def get_google_hotels():
                         photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}"
                         photo_urls.append(photo_url)
 
-                hotel_data.append({
+                attraction_data.append({
                     "place_id": place_id,
                     "name": name,
                     "address": address,
                     "latitude": lat,
                     "longitude": lng,
                     "rating": rating,
-                    "photos": photo_urls
+                    "photos": photo_urls,
+                    "opening_hours": opening_hours
                 })
 
             if "next_page_token" not in data:
@@ -52,8 +68,8 @@ def get_google_hotels():
             time.sleep(2)  # Delay between API calls as per Google's guidelines
 
     except requests.exceptions.RequestException as e:
-        print("Error in get_google_hotels:", e)
-    print(hotel_data)
-    return hotel_data
+        print("Error in get_google_attractions:", e)
+    print(attraction_data)
+    return attraction_data
 
-get_google_hotels()
+get_google_attractions()
