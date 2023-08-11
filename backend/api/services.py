@@ -90,7 +90,7 @@ def get_google_restaurants():
                 details_data = details_response.json()
                 
                 # Get the opening hours if available, or an empty list if not present
-                opening_hours = details_data.get("opening_hours", {})
+                opening_hours = details_data["result"]
                 
                 photo_urls = []
                 for photo in photos:
