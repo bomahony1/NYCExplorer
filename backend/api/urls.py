@@ -15,8 +15,8 @@ from .views import (
 app_name = "api"
 
 router = DefaultRouter()
-router.register(r'googleAttractions', AttractionViewSet)
-router.register(r'googleHotels', HotelViewSet)
+router.register(r'googleAttractions', AttractionViewSet, basename='google-attractions')
+router.register(r'googleHotels', HotelViewSet, basename='google-hotels')
 
 urlpatterns = [
     path('', include(router.urls)),
