@@ -149,3 +149,12 @@ input[type="text" i] {
     flex: 4;
   }
 }
+/* Hide the div on mobile devices */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+  .hidebutton{
+    display: none;
+  }
+}

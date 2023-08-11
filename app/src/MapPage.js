@@ -223,7 +223,7 @@ function TemporaryDrawer({tmp}) {
     <div  style={{  width:'100%',overflow: 'auto'}}>
      
         <div style={{ display: 'flex'}}>
-          <div style={{background: 'white',height:'60vh', width: '100%', overflow: 'auto',}}>
+          <div style={{background: 'white',height:'60vh', width: '100%', overflow: 'auto'}}>
             <h2>New York Trip</h2>
             <Divider />
             <Button
@@ -1361,8 +1361,10 @@ function MapPage() {
         </div>
         </Draggable>
       </div>
+      <div className='hidebutton'>
        <Draggable nodeRef={draggableRef}>
        <div
+       
           style={{
             width: '40px',
             height: '40px',
@@ -1379,9 +1381,12 @@ function MapPage() {
             transform: 'translate(-50%, -50%)',
             zIndex: 999,
           }}
+         
         >
+          
           <button
             onClick={() => setComponentsVisible(!componentsVisible)}
+            className="button-mobile-hidden"
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -1399,7 +1404,9 @@ function MapPage() {
           </button>
         </div>
       </Draggable>
-      <div style={{ display: 'flex', flex: '1' }}>
+      </div>
+      <div style={{ display: 'flex', flex: '1' }} >
+        <div className="mobile-hidden">
         {componentsVisible && (
           <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column' }}>
             <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp} />
@@ -1408,6 +1415,7 @@ function MapPage() {
             </div>
           </div>
         )}
+        </div>
         <div style={{ flex: '3', display: 'flex', flexDirection: 'column' }}>
           {/* {!isLoaded ? (
             <div>Loading...</div>

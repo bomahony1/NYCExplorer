@@ -563,7 +563,7 @@ function ItineraryPage() {
       </div>
 
       <div className="flex-container">
-        <div className="pop" style={{ flex: 1.4, marginTop: "60px",heigh:"70%",marginRight:"-6%" }}>
+        <div className="pop" style={{ flex: 1.4, marginTop: "60px",heigh:"70%", }}>
           <Pop />
         </div>
 
