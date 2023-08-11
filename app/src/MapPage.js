@@ -1692,7 +1692,6 @@ function MapPage() {
                
               </div>
             </div>
-           
             )}
             {directions && (
               <DirectionsRenderer
