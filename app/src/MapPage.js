@@ -129,6 +129,7 @@ function TemporaryDrawer({tmp}) {
     container.style.border = '1px dashed #1C2541';
     container.style.borderRadius = '10px';
     container.style.padding = '5px';
+
     container.style.marginBottom = '5px';
     container.style.marginTop = '5px';
     container.className = 'dropped-section-container';
@@ -1406,16 +1407,18 @@ function MapPage() {
       </Draggable>
       </div>
       <div style={{ display: 'flex', flex: '1' }} >
-        <div className="mobile-hidden">
+      
         {componentsVisible && (
+          <div className="mobile-hidden" style={{width:"500px"}}>
           <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column' }}>
             <TemporaryDrawer onMarkerSelect={handleMarkerSelection} tmp={tmp} />
             <div style={{ position: 'relative', height: '32vh', }}>
               <ThreeD handleMapToggle={handleMapToggle} style={{ width: '100%',height:"100%" }} />
             </div>
           </div>
+          </div>
         )}
-        </div>
+       
         <div style={{ flex: '3', display: 'flex', flexDirection: 'column' }}>
           {/* {!isLoaded ? (
             <div>Loading...</div>
