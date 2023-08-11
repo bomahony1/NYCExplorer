@@ -218,20 +218,36 @@ const Heatmap = ({ onHeatmapDataReceived, heatmapVisible, onToggleHeatmap, polyg
   return (
     <div style={{ marginTop: '20px', clor: '#1C2541' }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateTimePicker
-          label="Select month,day,hour"
-          value={selectedDate}
-          onChange={handleDateChange}
-          textField={TextField}
-          ampm={false} // Use 24-hour format
-          minutes={false} // Hide the minutes component
-          seconds={false} // Hide the seconds component
-        />
+        {/* Conditionally render the appropriate DateTimePicker */}
+        {/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? (
+          // Render MobileDateTimePicker for mobile devices
+          <DateTimePicker
+            label="Select month, day, hour"
+            value={selectedDate}
+            onChange={handleDateChange}
+            renderInput={(props) => <TextField {...props} />}
+            ampm={false}
+            minutes={false}
+            seconds={false}
+          />
+        ) : (
+          // Render DesktopDateTimePicker for desktop devices
+          <DateTimePicker
+            label="Select month, day, hour"
+            value={selectedDate}
+            onChange={handleDateChange}
+            renderInput={(props) => <TextField {...props} />}
+            ampm={false}
+            minutes={false}
+            seconds={false}
+          />
+        )}
       </LocalizationProvider>
       <Button
         variant="contained"
         size="media"
         onClick={handleSubmit}
+        onTouchStart={handleSubmit}
         style={{ marginTop: '20px', backgroundColor: '#E0d5ec', color: '#ffffff', fontWeight: 'bold' }}
       >
         {heatmapVisible ? 'Lighten Heatmap' : 'Predict Busyness'}

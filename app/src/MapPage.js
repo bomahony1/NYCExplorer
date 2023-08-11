@@ -1268,6 +1268,7 @@ function MapPage() {
        variant="contained"
         size="small"
         onClick={handleToggleMarkers}
+        onTouchStart={handleToggleMarkers}
         style={{ margin: '2px',backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
       >
         {showMarkers ? 'Show Select Plan' : 'Hide Select Plan'}
@@ -1277,6 +1278,7 @@ function MapPage() {
             variant="contained"
             size="small"
             onClick={() => setShowHotels(!showHotels)}
+            onTouchStart={() => setShowHotels(!showHotels)}
             style={{ margin: '2px' ,backgroundColor: '#ff6b35', color: '#ffffff' ,fontWeight: 'bold'}}
           >
             {showHotels ? 'Show All Hotels' : 'Hide All Hotels'}
@@ -1286,6 +1288,7 @@ function MapPage() {
             variant="contained"
             size="small"
             onClick={() => setShowAttractions(!showAttractions)}
+            onTouchStart={() => setShowAttractions(!showAttractions)}
             style={{ margin: '2px',backgroundColor: '#efefd0', color: '#ffffff' ,fontWeight: 'bold'}}
           >
              {showAttractions ? 'Show All Attractions' : 'Hide All Attractions'}
@@ -1293,6 +1296,7 @@ function MapPage() {
           <Button
             variant="contained"
             size="small"
+            onTouchStart={() => setShowRestaurants(!showRestaurants)}
             onClick={() => setShowRestaurants(!showRestaurants)}
             style={{ margin: '2px',backgroundColor: '#06d6a0', color: '#ffffff',fontWeight: 'bold' }}
           >
@@ -1319,6 +1323,7 @@ function MapPage() {
               variant="contained"
               size="small"
               onClick={handleToggleMarkers}
+              onTouchStart ={handleToggleMarkers}
               disabled={!origin || !destination}
               style={{ marginTop: '20px',marginRight:"20px",backgroundColor: '#1a659e', color: '#ffffff' ,fontWeight: 'bold'}}
             >
@@ -1328,6 +1333,7 @@ function MapPage() {
               variant="contained"
               size="small"
               onClick={handleSearch}
+              onTouchStart ={handleSearch}
               disabled={!origin || !destination}
               style={{ marginTop: '20px',backgroundColor: '#1a659e', color: '#ffffff',fontWeight: 'bold' }}
             >
