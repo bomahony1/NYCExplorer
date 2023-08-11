@@ -579,7 +579,7 @@ function TemporaryDrawer({tmp}) {
               <div className="attraction-name">{attraction.name} Rating:{attraction.rating}</div>
               {/* <div>Rating: {attraction.rating}</div> */}
               <div className="photo-container">
-                <img src={attraction.photo_urls[0]} alt={attraction.name} className="attraction-photo" />
+                <img src={attraction.photos[0]} alt={attraction.name} className="attraction-photo" />
                 </div>
                 <div className="opening-hours">
                   {attraction.opening_hours?.opening_hours ? (
@@ -741,7 +741,7 @@ function TemporaryDrawer({tmp}) {
             <div className="hotel-name">{hotel.name}</div>
             <div>Rating: {hotel.rating}</div>
             <div className="photo-container">
-              <img src={hotel.photo_urls[0]} alt={hotel.name} className="hotel-photo" />
+              <img src={hotel.photos[0]} alt={hotel.name} className="hotel-photo" />
             </div>
             <div>
             <Button
