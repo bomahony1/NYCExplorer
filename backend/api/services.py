@@ -70,7 +70,7 @@ def get_google_restaurants():
             results = data["results"]
 
             for result in results:
-                place_id = result["place_id"]  # Add place ID
+                place_id = result["place_id"]  
                 name = result["name"]
                 address = result["formatted_address"]
                 location = result["geometry"]["location"]
@@ -158,8 +158,6 @@ def get_google_attractions():
                 details_response.raise_for_status()
                 details_data = details_response.json()
 
-                # Get the opening hours if available, or an empty list if not present
-                # Get the opening hours if available, or an empty list if not present
                 opening_hours = details_data.get("result", {})
 
 
@@ -262,9 +260,9 @@ def get_events():
     params = {
         "apikey": API_KEY,
         "latlong": "40.7831,-73.9712",  # Manhattan coordinates (latitude, longitude)
-        "radius": "5",  # Radius in miles around the specified coordinates
-        "size": 200,  # Number of events per API response (maximum allowed)
-        "page": 0,  # Start with the first page
+        "radius": "5",  
+        "size": 200,  
+        "page": 0,  
     }
 
     while True:
