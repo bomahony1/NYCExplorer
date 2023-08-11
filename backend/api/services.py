@@ -160,7 +160,10 @@ def get_google_attractions():
 
                 # Get the opening hours if available, or an empty list if not present
                 # Get the opening hours if available, or an empty list if not present
-                opening_hours = details_data.get("result", {})
+                opening_hours = details_data.get("result", {}).get("opening_hours", {})
+                opening_hours_data = {
+                    "opening_hours": opening_hours   # opening_hours should already be a dictionary
+                }
 
 
                 photo_urls = []
