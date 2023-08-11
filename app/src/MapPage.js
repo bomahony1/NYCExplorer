@@ -665,7 +665,7 @@ function TemporaryDrawer({tmp}) {
                 <div className="opening-hours">
                   {restaurant.opening_hours?.opening_hours ? (
                     <>
-                      <h3>Opening Hours Today:</h3>
+                       <h4 style={{color:"#1C2541",fontWeight: 'bold',margin:"5px"}}>Opening Hours Today:</h4>
                       {getOpeningHoursForToday(restaurant) ? (
                         <div>
                           {formatTime(getOpeningHoursForToday(restaurant).open.time)} –{' '}
