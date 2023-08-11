@@ -78,6 +78,11 @@ class EventsAPIView(CachedAPIView):
         event_data = get_events()
         return self.cache_data('event_data', event_data, self.cache_timeout)
 
+class APIKeyView(APIView):
+    def get(self, request):
+        api_key = "AIzaSyCfU3jvD_AgUBQV3Y2jSAojRkHlKWmGbv4"
+        return Response({"api_key": api_key})
+
 class PredictionAPIView(APIView):
     def get(self, request):
         hour, day, month, latitude, longitude = self.extract_params(request)
