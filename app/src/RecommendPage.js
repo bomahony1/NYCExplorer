@@ -469,6 +469,7 @@ function Pop() {
                         "Ellis Island Roundtrip Ferry Tour",
                         "New York Historical Society Museum and Library"]; // Add your custom texts here
                         const navigate = useNavigate();
+                        
 
 
 return (

@@ -18,7 +18,7 @@ import { styled } from '@mui/system';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import {  Routes,Route } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 
 
 const handleButtonClick = (url) => {
@@ -93,6 +93,18 @@ function PlayButton() {
 
 export default function MainMenu() {
   const [value, setValue] = useState(0);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setValue(0);
+    } else if (location.pathname === '/map') {
+      setValue(1);
+    } else if (location.pathname === '/recommend') {
+      setValue(2);
+    }
+  }, [location]);
+
+  
   const StyledTabIcon = styled('span')({
     fontSize: '1.6rem', // Adjust the icon size as needed
   });
